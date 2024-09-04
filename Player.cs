@@ -86,8 +86,16 @@ public partial class Player : AbstractCharacter
 	
 	private void OnBodyEntered(Node2D body)
 	{
-		Hide();
-		EmitSignal(SignalName.Hit);
-		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+
+		Health -= 10;
+		EmitSignal(SignalName.Hit, Health);
+		
+		if(Health <= 0)
+		{
+			Hide();
+			EmitSignal(SignalName.Dead);
+			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		}
+
 	}
 }
