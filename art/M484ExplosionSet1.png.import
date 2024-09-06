@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbfp3dy65s6tq"
-path="res://.godot/imported/sprite_2.png-b95fba4796df742f279fdf3272eb9add.ctex"
+uid="uid://dfqnoikigo21e"
+path="res://.godot/imported/M484ExplosionSet1.png-9a68e41ceaa22854b092257dee5fdc9f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/torpedo/sprite_2.png"
-dest_files=["res://.godot/imported/sprite_2.png-b95fba4796df742f279fdf3272eb9add.ctex"]
+source_file="res://art/M484ExplosionSet1.png"
+dest_files=["res://.godot/imported/M484ExplosionSet1.png-9a68e41ceaa22854b092257dee5fdc9f.ctex"]
 
 [params]
 

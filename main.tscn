@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=4 uid="uid://drsuxuxgu4k2d"]
+[gd_scene load_steps=11 format=4 uid="uid://drsuxuxgu4k2d"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_2tfk1"]
 [ext_resource type="PackedScene" uid="uid://cyeogkpnbj3i4" path="res://Player/player.tscn" id="2_82ew5"]
+[ext_resource type="PackedScene" uid="uid://bwm1jj86ns8e4" path="res://Levels/Level.tscn" id="2_u4y0v"]
 [ext_resource type="PackedScene" uid="uid://cfbcfklat3idu" path="res://Projectile/projectile_spawner.tscn" id="4_nwcrd"]
 [ext_resource type="PackedScene" uid="uid://c3c53jgagoo5e" path="res://hud.tscn" id="4_vtvkl"]
 [ext_resource type="AudioStream" uid="uid://86peh4ll5lty" path="res://art/gameover.wav" id="5_15hdg"]
@@ -25,13 +26,8 @@ loop = true
 [node name="Main" type="Node"]
 script = ExtResource("1_2tfk1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0.717647, 1, 1)
+[node name="Node2D" parent="." instance=ExtResource("2_u4y0v")]
+position = Vector2(400, 100)
 
 [node name="Player" parent="." instance=ExtResource("2_82ew5")]
 

@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://b8m2c4si62tk3"]
+
+[ext_resource type="Script" path="res://World/Bubbles/Bubbles.cs" id="1_klbgk"]
+[ext_resource type="Texture2D" uid="uid://bsit0e4o88mwc" path="res://art/BubbleSpritesheet.png" id="1_nhp3j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wi86"]
+atlas = ExtResource("1_nhp3j")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usqa8"]
+atlas = ExtResource("1_nhp3j")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56xgg"]
+atlas = ExtResource("1_nhp3j")
+region = Rect2(0, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_622u5"]
+atlas = ExtResource("1_nhp3j")
+region = Rect2(96, 96, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uoeg1"]
+atlas = ExtResource("1_nhp3j")
+region = Rect2(0, 192, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l2ww3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wi86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usqa8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56xgg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_622u5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uoeg1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="Bubbles" type="Node2D"]
+script = ExtResource("1_klbgk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_l2ww3")
+frame_progress = 0.06644
