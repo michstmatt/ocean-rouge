@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://drsuxuxgu4k2d"]
+[gd_scene load_steps=10 format=4 uid="uid://drsuxuxgu4k2d"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_2tfk1"]
-[ext_resource type="PackedScene" uid="uid://c3wpylb6xotfn" path="res://player.tscn" id="2_82ew5"]
-[ext_resource type="PackedScene" uid="uid://cfqs63cvvbag1" path="res://mob.tscn" id="2_p6hmo"]
+[ext_resource type="PackedScene" uid="uid://cyeogkpnbj3i4" path="res://Player/player.tscn" id="2_82ew5"]
+[ext_resource type="PackedScene" uid="uid://cfbcfklat3idu" path="res://Projectile/projectile_spawner.tscn" id="4_nwcrd"]
 [ext_resource type="PackedScene" uid="uid://c3c53jgagoo5e" path="res://hud.tscn" id="4_vtvkl"]
 [ext_resource type="AudioStream" uid="uid://86peh4ll5lty" path="res://art/gameover.wav" id="5_15hdg"]
+[ext_resource type="PackedScene" uid="uid://rwxaxpr8ic6n" path="res://Enemies/Tracking/tracking_mob_spawner.tscn" id="6_kn53c"]
 
 [sub_resource type="Curve2D" id="Curve2D_k88dd"]
 _data = {
@@ -23,7 +24,6 @@ loop = true
 
 [node name="Main" type="Node"]
 script = ExtResource("1_2tfk1")
-MobScene = ExtResource("2_p6hmo")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -35,8 +35,7 @@ color = Color(0, 0.717647, 1, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_82ew5")]
 
-[node name="MobTimer" type="Timer" parent="."]
-wait_time = 0.5
+[node name="ProjectileSpawner" parent="Player" instance=ExtResource("4_nwcrd")]
 
 [node name="ScoreTimer" type="Timer" parent="."]
 
@@ -62,9 +61,13 @@ stream = SubResource("AudioStreamOggVorbis_7cpl4")
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_15hdg")
 
+[node name="TrackingMobSpawner" parent="." instance=ExtResource("6_kn53c")]
+
+[connection signal="GameStart" from="." to="Player/ProjectileSpawner" method="UpdateTimer"]
+[connection signal="GameStart" from="." to="TrackingMobSpawner" method="UpdateTimer"]
 [connection signal="Dead" from="Player" to="." method="GameOver"]
 [connection signal="Hit" from="Player" to="HUD" method="UpdateHealth"]
-[connection signal="timeout" from="MobTimer" to="." method="OnMobTimerTimeout"]
+[connection signal="StartStop" from="Player" to="Player/ProjectileSpawner" method="UpdateTimer"]
 [connection signal="timeout" from="ScoreTimer" to="." method="OnScoreTimerTimeout"]
 [connection signal="timeout" from="StartTimer" to="." method="OnStartTimerTimeout"]
 [connection signal="StartGame" from="HUD" to="." method="NewGame"]

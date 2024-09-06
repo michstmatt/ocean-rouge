@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1ejpbysmibm5"]
+
+[ext_resource type="Script" path="res://Projectile/Projectile.cs" id="1_5noxu"]
+[ext_resource type="Texture2D" uid="uid://nmbi60ro02hm" path="res://art/torpedo/sprite_0.png" id="2_4nnra"]
+[ext_resource type="Texture2D" uid="uid://n5r22npp7mwq" path="res://art/torpedo/sprite_1.png" id="3_pdhsj"]
+[ext_resource type="Texture2D" uid="uid://bbfp3dy65s6tq" path="res://art/torpedo/sprite_2.png" id="4_fwg5i"]
+[ext_resource type="Texture2D" uid="uid://dgm2wccis33pe" path="res://art/torpedo/sprite_3.png" id="5_q06l5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gjsuw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4nnra")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pdhsj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fwg5i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_q06l5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1xdyn"]
+radius = 6.0
+height = 66.0
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_5noxu")
+Speed = 800
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_gjsuw")
+frame_progress = 0.759847
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1xdyn")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

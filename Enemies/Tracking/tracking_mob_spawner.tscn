@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://rwxaxpr8ic6n"]
+
+[ext_resource type="Script" path="res://Enemies/Tracking/TrackingMobSpawner.cs" id="1_ln24w"]
+[ext_resource type="PackedScene" uid="uid://di6o7no50fhi5" path="res://Enemies/Tracking/tracking_mob.tscn" id="2_y44sm"]
+
+[node name="TrackingMobSpawner" type="Node"]
+script = ExtResource("1_ln24w")
+MobScene = ExtResource("2_y44sm")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="SpawnTimer" to="." method="SpawnMob"]

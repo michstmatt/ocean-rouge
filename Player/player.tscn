@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://c3wpylb6xotfn"]
+[gd_scene load_steps=8 format=3 uid="uid://cyeogkpnbj3i4"]
 
-[ext_resource type="Script" path="res://Player.cs" id="1_21rrp"]
+[ext_resource type="Script" path="res://Player/Player.cs" id="1_21rrp"]
 [ext_resource type="Texture2D" uid="uid://bq4hbg0uo0p5r" path="res://art/playerGrey_up1.png" id="1_v4gok"]
 [ext_resource type="Texture2D" uid="uid://crb48rqpxpx2l" path="res://art/playerGrey_up2.png" id="2_7cc27"]
 [ext_resource type="Texture2D" uid="uid://cgveqxi10l84a" path="res://art/playerGrey_walk1.png" id="3_omyen"]
@@ -36,6 +36,8 @@ radius = 27.0
 height = 68.3877
 
 [node name="Player" type="Area2D"]
+collision_layer = 2
+collision_mask = 6
 script = ExtResource("1_21rrp")
 metadata/_edit_group_ = true
 

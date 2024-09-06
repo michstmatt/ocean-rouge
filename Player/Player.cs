@@ -1,23 +1,18 @@
 using Godot;
 using System;
 
-public partial class Player : AbstractCharacter
+public partial class Player : CharacterArea2D 
 {
-	public Vector2 ScreenSize; // Size of the game window.
 	
+	public Vector2 ScreenSize; // Size of the game window.
+	public Vector2 LastMove = new Vector2(1,0);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
-		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		Character.Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Hide();
-	}
-	
-	public void Start(Vector2 position)
-	{
-		Position = position;
-		Show();
-		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
 	}
 	
 	private Vector2 GetInput()
@@ -42,6 +37,11 @@ public partial class Player : AbstractCharacter
 		{
 			velocity.Y -= 1;
 		}
+
+		if(Input.IsAnythingPressed())
+		{
+			LastMove = velocity;
+		}
 		
 		return velocity;
 	}
@@ -50,18 +50,18 @@ public partial class Player : AbstractCharacter
 	{
 		if (velocity.X != 0)
 		{
-			sprite.Animation = "walk";
-			sprite.FlipV = false;
+			Character.Sprite.Animation = "walk";
+			Character.Sprite.FlipV = false;
 			// See the note below about the following boolean assignment.
-			sprite.FlipH = velocity.X < 0;
+			Character.Sprite.FlipH = velocity.X < 0;
 		}
 		else if (velocity.Y != 0)
 		{
-			sprite.Animation = "up";
-			sprite.FlipV = velocity.Y > 0;
+			Character.Sprite.Animation = "up";
+			Character.Sprite.FlipV = velocity.Y > 0;
 		}
 		
-		if(velocity.Length() > 0) {sprite.Play();} else{sprite.Stop();}
+		if(velocity.Length() > 0) {Character.Sprite.Play();} else{Character.Sprite.Stop();}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -71,7 +71,7 @@ public partial class Player : AbstractCharacter
 
 		if (velocity.Length() > 0)
 		{
-			velocity = velocity.Normalized() * Speed;
+			velocity = velocity.Normalized() * Character.Speed;
 		}
 		
 		Position += velocity * (float)delta;
@@ -84,18 +84,13 @@ public partial class Player : AbstractCharacter
 		Animate(velocity);
 	}
 	
-	private void OnBodyEntered(Node2D body)
+	public override void OnHit(int damage)
 	{
-
-		Health -= 10;
-		EmitSignal(SignalName.Hit, Health);
-		
-		if(Health <= 0)
+		base.OnHit(damage);
+		if (Character.Health <= 0)
 		{
-			Hide();
-			EmitSignal(SignalName.Dead);
 			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 		}
-
 	}
+
 }
