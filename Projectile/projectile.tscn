@@ -45,8 +45,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1xdyn"]
-radius = 6.0
-height = 66.0
+radius = 8.0
+height = 84.0
 
 [node name="Projectile" type="Area2D"]
 collision_layer = 8
@@ -56,7 +56,7 @@ Speed = 800
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.33, 0.33)
 sprite_frames = SubResource("SpriteFrames_gjsuw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

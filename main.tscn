@@ -27,7 +27,6 @@ loop = true
 script = ExtResource("1_2tfk1")
 
 [node name="Node2D" parent="." instance=ExtResource("2_u4y0v")]
-position = Vector2(400, 100)
 
 [node name="Player" parent="." instance=ExtResource("2_82ew5")]
 
