@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Godot;
 
 public partial class TrackingMobSpawner : Node
@@ -9,27 +10,61 @@ public partial class TrackingMobSpawner : Node
 	
 	[Export]
 	public int MaxEnemies = 10;
-	
-	[Export]
-	public PathFollow2D MobSpawnLocation;
 
+	[Export]
+	float distanceFrom = 500f;
+
+	float velocity = 80f;
+	float rate;
+
+	[Export]
+	public float MinSpeed = 1.0f;
+
+	int time = 0;
+	
 	IEnumerable<Player> Players;
+	Timer SpawnTimer;
+
+	EnemyStateManager enemyStateManager = new EnemyStateManager();
+	void Init()
+	{
+		velocity = 100f;
+		SpawnTimer.WaitTime = 1;
+		MaxEnemies = 20;
+	}
 	
 	public void UpdateTimer(bool start)
 	{
-		var timer = GetNode<Timer>("SpawnTimer");
+		SpawnTimer = GetNode<Timer>("SpawnTimer");
 		if(start)
 		{
-			timer.Start();
+			Init();
+			SpawnTimer.Start();
 		}
 		else
 		{
-			timer.Stop();
+			SpawnTimer.Stop();
+		}
+	}
+
+	public void UpdateFrequency(int time)
+	{
+		if (time % 10 == 0)
+		{
+			velocity += 20;
+			MaxEnemies += 5;
+			if (SpawnTimer.WaitTime > MinSpeed)
+			{
+				SpawnTimer.WaitTime -= .1;
+			}
 		}
 	}
 
 	public void SpawnMob()
 	{
+		
+		UpdateFrequency(time++);
+
 		var enemyCount = GetTree().GetNodesInGroup(Constants.MobGroup).Count;
 		
 		if(enemyCount >= MaxEnemies)
@@ -38,31 +73,22 @@ public partial class TrackingMobSpawner : Node
 		}
 		
 		Players = GetTree().GetNodesInGroup(Constants.PlayerGroup).Select(p => p as Player);
+
+		var selectedPlayer = Players.ElementAt((int)(GD.Randi() % Players.Count()));
 		
 		// Create a new instance of the Mob scene.
 		TrackingMob mob = MobScene.Instantiate<TrackingMob>();
-		MobSpawnLocation.ProgressRatio = GD.Randf();
 
-		// Set the mob's direction perpendicular to the path direction.
-		float direction = MobSpawnLocation.Rotation + Mathf.Pi / 2;
+		float angle = GD.Randf() * 2 * Mathf.Pi;
 
-		// Set the mob's position to a random location.
-		mob.Position = MobSpawnLocation.Position;
+		var pos = Godot.Vector2.FromAngle(angle) * distanceFrom;
 
-		Player nearest = Players.FirstOrDefault();
-		float min = float.PositiveInfinity;
+		mob.Position = selectedPlayer.Position + pos;
+		mob.Target = selectedPlayer;
 
-		foreach(Player player in Players)
-		{
-			var distance = mob.Position.DistanceTo(player.Position);
-			if (distance < min)
-			{
-				min = distance;
-				nearest = player;
-			}
-		}
+		EnemyType random = enemyStateManager.GetRandomEnemy();
 
-		mob.Target = nearest;
+		mob.EnemyType = random;
 
 		// Spawn the mob by adding it to the Main scene.
 		AddChild(mob);

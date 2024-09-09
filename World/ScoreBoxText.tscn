@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://6np3hx3rbcob"]
+
+[ext_resource type="Script" path="res://World/ScoreBoxText.cs" id="1_l6owg"]
+[ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="2_jr451"]
+
+[node name="ScoreBoxText" type="Node2D"]
+script = ExtResource("1_l6owg")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 11
+theme_override_fonts/font = ExtResource("2_jr451")
+theme_override_font_sizes/font_size = 70
+text = "10"
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="TimerTimeout"]
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

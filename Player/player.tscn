@@ -1,53 +1,76 @@
-[gd_scene load_steps=8 format=3 uid="uid://cyeogkpnbj3i4"]
+[gd_scene load_steps=9 format=3 uid="uid://cyeogkpnbj3i4"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_21rrp"]
-[ext_resource type="Texture2D" uid="uid://bq4hbg0uo0p5r" path="res://art/playerGrey_up1.png" id="1_v4gok"]
-[ext_resource type="Texture2D" uid="uid://crb48rqpxpx2l" path="res://art/playerGrey_up2.png" id="2_7cc27"]
-[ext_resource type="Texture2D" uid="uid://cgveqxi10l84a" path="res://art/playerGrey_walk1.png" id="3_omyen"]
-[ext_resource type="Texture2D" uid="uid://c8u26aoqbi002" path="res://art/playerGrey_walk2.png" id="4_a610w"]
+[ext_resource type="Texture2D" uid="uid://cesllxw6wdjtn" path="res://art/PlayerSpritesheet.png" id="2_2pip3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekygj"]
+atlas = ExtResource("2_2pip3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1225"]
+atlas = ExtResource("2_2pip3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb3vy"]
+atlas = ExtResource("2_2pip3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqydm"]
+atlas = ExtResource("2_2pip3")
+region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_lxtni"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_v4gok")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_7cc27")
+"texture": SubResource("AtlasTexture_ekygj")
 }],
 "loop": true,
-"name": &"up",
+"name": &"Default",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_omyen")
+"texture": SubResource("AtlasTexture_h1225")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_a610w")
+"texture": SubResource("AtlasTexture_tb3vy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dqydm")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"Swim",
 "speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qexb0"]
-radius = 27.0
-height = 68.3877
+radius = 14.0
+height = 126.718
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 6
+collision_mask = 22
 script = ExtResource("1_21rrp")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_lxtni")
-animation = &"up"
+animation = &"Swim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
 scale = Vector2(1, 0.994332)
 shape = SubResource("CapsuleShape2D_qexb0")
 
-[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -6)
+scale = Vector2(1, 0.994332)
+shape = SubResource("CapsuleShape2D_qexb0")
+
+[connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]

@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7rbm3t25v0kg"]
+
+[ext_resource type="Script" path="res://HitBox.cs" id="1_kgfug"]
+[ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="2_d74f4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3i18n"]
+font = ExtResource("2_d74f4")
+font_size = 70
+font_color = Color(1, 0, 0, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4grk0"]
+font = ExtResource("2_d74f4")
+font_size = 70
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_g2lk4"]
+font = ExtResource("2_d74f4")
+font_size = 70
+font_color = Color(1, 0.654902, 0.0431373, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[node name="HitBox" type="Node2D"]
+script = ExtResource("1_kgfug")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="HitText" type="Label" parent="."]
+offset_left = -160.0
+offset_top = -87.0
+offset_right = -61.0
+offset_bottom = -2.0
+text = "10"
+label_settings = SubResource("LabelSettings_3i18n")
+
+[node name="HealthText" type="Label" parent="."]
+offset_left = 167.0
+offset_top = -85.0
+offset_right = 266.0
+text = "10"
+label_settings = SubResource("LabelSettings_4grk0")
+
+[node name="CoinsText" type="Label" parent="."]
+offset_left = -6.0
+offset_top = -85.0
+offset_right = 93.0
+text = "10"
+label_settings = SubResource("LabelSettings_g2lk4")
+
+[connection signal="timeout" from="Timer" to="." method="TimerTimeout"]

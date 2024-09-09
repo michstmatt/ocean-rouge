@@ -36,9 +36,10 @@ public partial class Hud : CanvasLayer
 		GetNode<Label>("ScoreLabel").Text = score.ToString();
 	}
 	
-	public void UpdateHealth(int health)
+	public void UpdateHealthAndCoins(int health, int coins)
 	{
-		GetNode<Label>("HealthLabel").Text = health.ToString();
+		GetNode<Label>("Health/HealthLabel").Text = health.ToString();
+		GetNode<Label>("Coins/CoinLabel").Text = coins.ToString();
 	}
 	
 	// We also specified this function name in PascalCase in the editor's connection window.

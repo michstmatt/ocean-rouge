@@ -1,18 +1,42 @@
 using Godot;
 using System;
 
-public partial class Player : CharacterArea2D 
+public partial class Player : CharacterBody2D, IKillable
 {
 	
-	public Vector2 ScreenSize; // Size of the game window.
 	public Vector2 LastMove = new Vector2(1,0);
+
+	public int Coins = 0;
+
+	public AnimatedSprite2D Sprite;
+
+	[Export]
+	public int Health = 100;
+	[Export]
+	public float Speed = 400;
+	
+	[Signal]
+	public delegate void HitEventHandler(int amount, int type);
+	
+	[Signal]
+	public delegate void ScoreUpdateEventHandler(int health, int coins);
+	
+	[Signal]
+	public delegate void DeadEventHandler();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		ScreenSize = GetViewportRect().Size;
-		Character.Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Hide();
+	}
+	public void Start(Vector2 position)
+	{
+		Health = 100;
+		Position = position;
+		Show();
+		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
+		GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Disabled = false;
 	}
 	
 	private Vector2 GetInput()
@@ -50,18 +74,21 @@ public partial class Player : CharacterArea2D
 	{
 		if (velocity.X != 0)
 		{
-			Character.Sprite.Animation = "walk";
-			Character.Sprite.FlipV = false;
+			Sprite.Animation = "Swim";
+			Sprite.FlipV = false;
 			// See the note below about the following boolean assignment.
-			Character.Sprite.FlipH = velocity.X < 0;
+			Sprite.FlipH = velocity.X < 0;
 		}
 		else if (velocity.Y != 0)
 		{
-			Character.Sprite.Animation = "up";
-			Character.Sprite.FlipV = velocity.Y > 0;
+			Sprite.Animation = "Swim";
+			Sprite.FlipV = velocity.Y > 0;
+		} else if (velocity.X == 0 && velocity.Y == 0)
+		{
+			Sprite.Animation = "Default";
 		}
 		
-		if(velocity.Length() > 0) {Character.Sprite.Play();} else{Character.Sprite.Stop();}
+		if(velocity.Length() > 0) {Sprite.Play();} else{Sprite.Stop();}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -71,26 +98,50 @@ public partial class Player : CharacterArea2D
 
 		if (velocity.Length() > 0)
 		{
-			velocity = velocity.Normalized() * Character.Speed;
+			velocity = velocity.Normalized() * Speed;
 		}
 		
 		Position += velocity * (float)delta;
 		
-		Position = new Vector2(
-			x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
-			y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		);
-		
 		Animate(velocity);
 	}
-	
-	public override void OnHit(int damage)
+
+	public void OnBodyEntered(Node2D body)
 	{
-		base.OnHit(damage);
-		if (Character.Health <= 0)
+		if (body is IDamager)
 		{
-			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+			var damage = (body as IDamager).GetDamageAmount();
+			OnHit(damage);
 		}
+	}
+
+	public void OnHit(int damage)
+	{
+		Health -= damage;
+		if (Health <= 0)
+		{
+			Hide();
+			EmitSignal(SignalName.Dead);
+			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+			GetNode<CollisionShape2D>("Area2D/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		}
+		Main.ScoreBoxSpawner.CreateScoreText(-damage, HitEventType.Damage, this.Position);
+		EmitSignal(SignalName.ScoreUpdate, Health, Coins);
+	}
+
+	public void OnItemPickedUp(PickupType pickupType, uint amount)
+	{
+		if(pickupType == PickupType.Health)
+		{
+			this.Health += (int)amount;
+			Main.ScoreBoxSpawner.CreateScoreText((int)amount, HitEventType.Health, this.Position);
+		}
+		else if (pickupType == PickupType.Coin)
+		{
+			Main.ScoreBoxSpawner.CreateScoreText((int)amount, HitEventType.Coins, this.Position);
+			this.Coins += (int)amount;
+		}
+		EmitSignal(SignalName.ScoreUpdate, Health, Coins);
 	}
 
 }

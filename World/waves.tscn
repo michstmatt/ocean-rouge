@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bd64yqk4blrni"]
+
+[ext_resource type="Texture2D" uid="uid://umq75ij033c" path="res://art/Waves.png" id="1_efour"]
+[ext_resource type="Script" path="res://World/Waves.cs" id="2_hy7rs"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vmxn3"]
+texture = ExtResource("1_efour")
+texture_region_size = Vector2i(320, 320)
+0:0/animation_columns = 4
+0:0/animation_speed = 8.0
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
+0:0/animation_frame_3/duration = 1.0
+0:0/animation_frame_4/duration = 1.0
+0:0/animation_frame_5/duration = 1.0
+0:0/animation_frame_6/duration = 1.0
+0:0/animation_frame_7/duration = 1.0
+0:0/animation_frame_8/duration = 1.0
+0:0/animation_frame_9/duration = 1.0
+0:0/animation_frame_10/duration = 1.0
+0:0/animation_frame_11/duration = 1.0
+0:0/animation_frame_12/duration = 1.0
+0:0/animation_frame_13/duration = 1.0
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_rokwi"]
+tile_size = Vector2i(320, 320)
+sources/0 = SubResource("TileSetAtlasSource_vmxn3")
+
+[node name="Waves" type="Node2D"]
+script = ExtResource("2_hy7rs")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_rokwi")

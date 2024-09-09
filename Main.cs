@@ -4,13 +4,15 @@ using System;
 public partial class Main : Node
 {
    	private int _score;
-	
+	public static PickupSpawner PickupSpawner;
+	public static ScoreBoxSpawner ScoreBoxSpawner;
+
 	public override void _Ready()
 	{
-		var mobSpawnLocation = GetNode<PathFollow2D>("MobPath/MobSpawnLocation");
 		var mobSpawner = GetNode<TrackingMobSpawner>("TrackingMobSpawner");
-		mobSpawner.MobSpawnLocation = mobSpawnLocation;
-		
+		var pickupSpawner = GetNode<PickupSpawner>("PickupSpawner");
+		PickupSpawner = pickupSpawner;
+		ScoreBoxSpawner = GetNode<ScoreBoxSpawner>("ScoreBoxSpawner");
 	}
 	
 	public void GameOver()
@@ -30,6 +32,7 @@ public partial class Main : Node
 		hud.ShowMessage("Get Ready!");
 
 		GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
+		GetNode<PickupSpawner>("PickupSpawner").Init();
 		
 		var player = GetNode<Player>("Player");
 		player.AddToGroup(Constants.PlayerGroup);

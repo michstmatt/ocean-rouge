@@ -1,36 +1,60 @@
 using Godot;
 using System;
+using System.Threading;
 
 public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 {
-	public CharacterArea2D Target;
+	public Node2D Target;
 	
-	[Export]
-	public int Health = 10;
+	public EnemyType EnemyType;
 	
-	[Export]
-	public int Damage = 10;
+	[Signal]
+	public delegate void HitEventHandler(int amount, int type);
 
-	public int GetDamageAmount() => Damage;
+	public int GetDamageAmount() => EnemyType.Damage;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		animatedSprite2D.Play("fly");
+		animatedSprite2D.Play(EnemyType.AnimationName);
 	}
 	
 	public void OnHit(int damage)
 	{
-		Health -= damage;
+		EnemyType.Health -= damage;
 
-		if(Health <= 0)
+		Main.ScoreBoxSpawner.CreateScoreText(-damage, HitEventType.Damage, this.Position);
+		EmitSignal(SignalName.Hit, damage, (int)HitEventType.Damage);
+
+		if(EnemyType.Health <= 0)
 		{
-			QueueFree();
+			GetNode<CollisionShape2D>("HitBox/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+			Died();
 		}
 	}
+	
+	public void OnBodyEntered(Node2D node)
+	{
+		if (node is Projectile)
+		{
+			var projectile = (Projectile)node;
+			var damage = projectile.GetDamageAmount();
+			CallDeferred("OnHit", damage);
+			projectile.CallDeferred("Damaged");
+		}
+	}
+	
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public void Died()
+	{
+		if (GD.Randi() % 10 == 0)
+		{
+			Main.PickupSpawner.CallDeferred("SpawnRandomPickup", this.Position);
+		}
+		QueueFree();
+	}
+	
+	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 t;
 		if (Target?.Position == null)
@@ -40,11 +64,22 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		{
 			t = Target.Position;
 		}
-		
+
+		bool isLeftOfPlayer = Position.X < t.X;
+
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.FlipH = isLeftOfPlayer;
+
 		var rotation = this.Position.AngleToPoint(t);
 		Vector2 vectorTo = Vector2.FromAngle(rotation);
+		LinearVelocity = vectorTo * EnemyType.Speed;
 
-		this.Rotation = rotation;
-		LinearVelocity = vectorTo * (float)(50);
+		this.Scale = Vector2.One * EnemyType.Scale;
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+
 	}
 }

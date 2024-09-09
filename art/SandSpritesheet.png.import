@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fuvfi47vnn0g"
-path="res://.godot/imported/BubbleSpritesheet.png-8a5147c3678f17a423859a87e73f5f91.ctex"
+uid="uid://doqmhrm33fer1"
+path="res://.godot/imported/SandSpritesheet.png-aa7a3d7f871fb769b0913c8e2542bbaa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/BubbleSpritesheet.png"
-dest_files=["res://.godot/imported/BubbleSpritesheet.png-8a5147c3678f17a423859a87e73f5f91.ctex"]
+source_file="res://art/SandSpritesheet.png"
+dest_files=["res://.godot/imported/SandSpritesheet.png-aa7a3d7f871fb769b0913c8e2542bbaa.ctex"]
 
 [params]
 

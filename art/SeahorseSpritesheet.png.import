@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fuvfi47vnn0g"
-path="res://.godot/imported/BubbleSpritesheet.png-8a5147c3678f17a423859a87e73f5f91.ctex"
+uid="uid://ovfala62i05t"
+path="res://.godot/imported/SeahorseSpritesheet.png-31c733b9417324cdcb868f0e6b8376b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/BubbleSpritesheet.png"
-dest_files=["res://.godot/imported/BubbleSpritesheet.png-8a5147c3678f17a423859a87e73f5f91.ctex"]
+source_file="res://art/SeahorseSpritesheet.png"
+dest_files=["res://.godot/imported/SeahorseSpritesheet.png-31c733b9417324cdcb868f0e6b8376b5.ctex"]
 
 [params]
 

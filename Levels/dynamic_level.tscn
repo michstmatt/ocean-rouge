@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxtv4h8fitsxw"]
+
+[ext_resource type="Script" path="res://DynamicLevel.cs" id="1_yvud3"]
+[ext_resource type="TileSet" uid="uid://dd7v88d06tyt6" path="res://Levels/level.tres" id="2_50jd4"]
+
+[node name="DynamicLevel" type="Node2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_yvud3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 1654.0
+offset_bottom = 1082.0
+color = Color(0.921569, 0.827451, 0.705882, 1)
+
+[node name="Floor" type="TileMapLayer" parent="."]
+scale = Vector2(2, 2)
+tile_set = ExtResource("2_50jd4")
+rendering_quadrant_size = 32
+
+[node name="Decor" type="TileMapLayer" parent="."]
+scale = Vector2(2, 2)
+tile_set = ExtResource("2_50jd4")
+rendering_quadrant_size = 32

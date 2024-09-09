@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fuvfi47vnn0g"
-path="res://.godot/imported/BubbleSpritesheet.png-8a5147c3678f17a423859a87e73f5f91.ctex"
+uid="uid://b84mv8v1xtjh6"
+path="res://.godot/imported/WhaleSpritesheet.png-957dfc95a432730bc61fa5e3b619215c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/BubbleSpritesheet.png"
-dest_files=["res://.godot/imported/BubbleSpritesheet.png-8a5147c3678f17a423859a87e73f5f91.ctex"]
+source_file="res://art/WhaleSpritesheet.png"
+dest_files=["res://.godot/imported/WhaleSpritesheet.png-957dfc95a432730bc61fa5e3b619215c.ctex"]
 
 [params]
 
