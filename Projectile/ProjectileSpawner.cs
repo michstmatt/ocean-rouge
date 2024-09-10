@@ -1,10 +1,23 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class ProjectileSpawner : Node
 {
-	[Export]
-   	public PackedScene ProjectileScene { get; set; }
+	public Dictionary<WeaponType, PackedScene> WeaponScenes;
+
+	private int GameTime;
+
+	public override void _Ready()
+	{
+		WeaponScenes = new Dictionary<WeaponType, PackedScene>();
+		foreach(var weaponType in WeaponFactory.WeaponTypes)
+		{
+			var scene = WeaponFactory.GetWeaponScene(weaponType);
+			WeaponScenes.Add(weaponType, (PackedScene)ResourceLoader.Load(scene));
+		}
+	}
 
 	public void UpdateTimer(bool start)
 	{
@@ -12,6 +25,7 @@ public partial class ProjectileSpawner : Node
 		if(start)
 		{
 			timer.Start();
+			GameTime = 0;
 		}
 		else
 		{
@@ -21,18 +35,44 @@ public partial class ProjectileSpawner : Node
 	
 	private void FireProjectile()
 	{
-		var parent = GetParent<Player>();
-		Projectile bullet = ProjectileScene.Instantiate<Projectile>();
-		
-		bullet.Position = parent.Position;
-		bullet.Velocity = parent.LastMove;
-		bullet.Rotation = parent.LastMove.Angle() + 0.5f * Mathf.Pi; 
-		
-		//bullet.LinearVelocity = velocity.Rotated(angle);
+		GameTime += 1;
 
-		// Spawn the mob by adding it to the Main scene.
-		AddChild(bullet);
-		
-		bullet.AddToGroup(Constants.ProjectileGroup);
+		var parent = GetParent<Player>();
+
+		Vector2 nearestEnemy = Vector2.Zero;
+		float nearest = float.MaxValue;
+		foreach(Node2D enemy in GetTree().GetNodesInGroup(Constants.MobGroup))
+		{
+			var distance = parent.Position.DistanceTo(enemy.Position);
+			if (distance<nearest)
+			{
+				nearest = distance;
+				nearestEnemy = enemy.Position;
+			}
+		}
+
+		foreach((WeaponType weaponType, PackedScene scene) in WeaponScenes)
+		{
+			var freq = WeaponFactory.GetFireRate(weaponType);
+			if(GameTime % freq != 0)
+			{
+				continue;
+			}
+			Projectile projectile = scene.Instantiate<Projectile>();
+
+			projectile.Position = parent.Position;
+
+			if (projectile.WeaponFireType == WeaponFireType.PlayerMovement)
+			{
+				projectile.Direction = parent.LastMove;
+			} else if(projectile.WeaponFireType == WeaponFireType.Enemy)
+			{
+				projectile.Direction = (nearestEnemy - projectile.Position);
+			}
+
+
+			AddChild(projectile);
+			projectile.AddToGroup(Constants.ProjectileGroup);
+		}
 	}
 }

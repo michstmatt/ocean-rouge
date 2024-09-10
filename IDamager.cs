@@ -2,5 +2,6 @@ using System.Diagnostics.Contracts;
 
 public interface IDamager
 {
-    public int GetDamageAmount();
+    public float GetDamageAmount();
+    public void OnDamaged();
 }

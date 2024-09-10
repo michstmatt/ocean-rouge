@@ -5,8 +5,7 @@ using Godot;
 
 public partial class TrackingMobSpawner : Node
 {
-	[Export]
-   	public PackedScene MobScene { get; set; }
+   	public Dictionary<EnemyType,PackedScene> MobScenes { get; set; }
 	
 	[Export]
 	public int MaxEnemies = 10;
@@ -25,7 +24,17 @@ public partial class TrackingMobSpawner : Node
 	IEnumerable<Player> Players;
 	Timer SpawnTimer;
 
-	EnemyStateManager enemyStateManager = new EnemyStateManager();
+
+	public override void _Ready()
+	{
+		MobScenes = new Dictionary<EnemyType,PackedScene>();
+		foreach(EnemyType type in EnemyFactory.EnemyTypes)
+		{
+			var scene = EnemyFactory.GetEnemyScene(type);
+			MobScenes.Add(type, (PackedScene)ResourceLoader.Load(scene));
+		}
+	}
+
 	void Init()
 	{
 		velocity = 100f;
@@ -75,9 +84,9 @@ public partial class TrackingMobSpawner : Node
 		Players = GetTree().GetNodesInGroup(Constants.PlayerGroup).Select(p => p as Player);
 
 		var selectedPlayer = Players.ElementAt((int)(GD.Randi() % Players.Count()));
-		
-		// Create a new instance of the Mob scene.
-		TrackingMob mob = MobScene.Instantiate<TrackingMob>();
+
+		EnemyType enemyType  = EnemyFactory.GetRandomEnemyType();
+		TrackingMob mob = MobScenes[enemyType].Instantiate<TrackingMob>();
 
 		float angle = GD.Randf() * 2 * Mathf.Pi;
 
@@ -86,13 +95,10 @@ public partial class TrackingMobSpawner : Node
 		mob.Position = selectedPlayer.Position + pos;
 		mob.Target = selectedPlayer;
 
-		EnemyType random = enemyStateManager.GetRandomEnemy();
-
-		mob.EnemyType = random;
-
 		// Spawn the mob by adding it to the Main scene.
 		AddChild(mob);
 		
-		mob.AddToGroup("mobs");
+		mob.AddToGroup(Constants.MobGroup);
+		
 	}
 }

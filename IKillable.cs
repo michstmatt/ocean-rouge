@@ -3,5 +3,5 @@ using System;
 
 public interface IKillable
 {
-	public void OnHit(int damage);
+	public void OnHit(float damage);
 }

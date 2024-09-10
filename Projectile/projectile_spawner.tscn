@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfbcfklat3idu"]
+[gd_scene load_steps=2 format=3 uid="uid://cfbcfklat3idu"]
 
 [ext_resource type="Script" path="res://Projectile/ProjectileSpawner.cs" id="1_cprla"]
-[ext_resource type="PackedScene" uid="uid://d1ejpbysmibm5" path="res://Projectile/projectile.tscn" id="2_48213"]
 
 [node name="ProjectileSpawner" type="Node"]
 script = ExtResource("1_cprla")
-ProjectileScene = ExtResource("2_48213")
 
 [node name="AutoFireTimer" type="Timer" parent="."]
 

@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://d1sp6c6l5bjsu"]
+
+[ext_resource type="Script" path="res://Projectile/Types/Sonar.cs" id="1_mi0xa"]
+[ext_resource type="Texture2D" uid="uid://bpcc1vsxwpjwo" path="res://art/SonarSpritesheet.png" id="2_5otli"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q62k4"]
+radius = 51.0
+height = 102.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyhjq"]
+atlas = ExtResource("2_5otli")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6rkk"]
+atlas = ExtResource("2_5otli")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pvel"]
+atlas = ExtResource("2_5otli")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1y4bf"]
+atlas = ExtResource("2_5otli")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_esmnm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyhjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6rkk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pvel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1y4bf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Sonar" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 20
+script = ExtResource("1_mi0xa")
+WeaponType = 1
+HitCount = 2
+Speed = 400.0
+Damage = 5.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, 0)
+shape = SubResource("CapsuleShape2D_q62k4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_esmnm")

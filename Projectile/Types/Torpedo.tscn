@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://bgeaqa6n82swf"]
+
+[ext_resource type="Script" path="res://Projectile/Projectile.cs" id="1_naqos"]
+[ext_resource type="Texture2D" uid="uid://dea58og27ryvm" path="res://art/torpedo/SpriteSheet.png" id="2_80bt2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrx68"]
+atlas = ExtResource("2_80bt2")
+region = Rect2(0, 0, 324, 324)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw606"]
+atlas = ExtResource("2_80bt2")
+region = Rect2(324, 0, 324, 324)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gl3do"]
+atlas = ExtResource("2_80bt2")
+region = Rect2(0, 324, 324, 324)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlfwn"]
+atlas = ExtResource("2_80bt2")
+region = Rect2(324, 324, 324, 324)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gjsuw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrx68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw606")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gl3do")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlfwn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"explode",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bddsu"]
+size = Vector2(76, 15)
+
+[node name="Torpedo" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 20
+mass = 0.1
+gravity_scale = 0.0
+script = ExtResource("1_naqos")
+WeaponFireType = 1
+HitCount = 1
+Speed = 800.0
+Damage = 5.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
+rotation = 1.5708
+scale = Vector2(0.33, 0.33)
+sprite_frames = SubResource("SpriteFrames_gjsuw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, -1)
+shape = SubResource("RectangleShape2D_bddsu")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

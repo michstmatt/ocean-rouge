@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://eam7f01c6ddi"]
+
+[ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_yvi1j"]
+[ext_resource type="Texture2D" uid="uid://c77ygepfyustc" path="res://art/CrabSpriteSheet.png" id="2_bv57c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tso2o"]
+atlas = ExtResource("2_bv57c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxjp7"]
+atlas = ExtResource("2_bv57c")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w1la2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tso2o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wxjp7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
+radius = 14.0
+height = 68.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
+size = Vector2(79.5, 65.25)
+
+[node name="Crab" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 10
+gravity_scale = 0.0
+script = ExtResource("1_yvi1j")
+EnemyType = 3
+Damage = 1.0
+Health = 5.0
+Speed = 450.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_w1la2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fqoyo")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0.75, -12)
+shape = SubResource("RectangleShape2D_1tpof")
+debug_color = Color(0.985106, 0, 0.337054, 0.42)
+
+[connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

@@ -4,12 +4,13 @@ using System;
 public partial class Mob : RigidBody2D, IDamager, IKillable
 {
 	[Export]
-	public int Health = 10;
+	public float Health = 10;
 
 	[Export]
 	public int Damage = 10;
 
-	public int GetDamageAmount() => Damage;
+	public float GetDamageAmount() => Damage;
+	public void OnDamaged(){}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -28,7 +29,7 @@ public partial class Mob : RigidBody2D, IDamager, IKillable
 		QueueFree();
 	}
 
-	public void OnHit(int damage)
+	public void OnHit(float damage)
 	{
 		Health -= damage;
 

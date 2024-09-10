@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://df2nwcj2sm6ua"]
+
+[ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_niqnt"]
+[ext_resource type="Texture2D" uid="uid://bgedtpivoj1o5" path="res://art/JellyfishSpritesheet.png" id="2_5j648"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lc0j"]
+atlas = ExtResource("2_5j648")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvpqt"]
+atlas = ExtResource("2_5j648")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c7tda"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0lc0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvpqt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
+radius = 22.0
+height = 44.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
+size = Vector2(50, 82.625)
+
+[node name="Jellyfish" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 10
+gravity_scale = 0.0
+script = ExtResource("1_niqnt")
+EnemyType = 5
+Damage = 20.0
+Health = 1.0
+Speed = 400.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_c7tda")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -9)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_fqoyo")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(-3, -3)
+shape = SubResource("RectangleShape2D_1tpof")
+debug_color = Color(0.985106, 0, 0.337054, 0.42)
+
+[connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

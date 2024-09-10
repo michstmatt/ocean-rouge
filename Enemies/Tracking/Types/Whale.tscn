@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://dte8erbiqanmf"]
+
+[ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_fa02d"]
+[ext_resource type="Texture2D" uid="uid://b84mv8v1xtjh6" path="res://art/WhaleSpritesheet.png" id="1_obem3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rk0n"]
+atlas = ExtResource("1_obem3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv86h"]
+atlas = ExtResource("1_obem3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7aaf3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rk0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qv86h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1g8ac"]
+radius = 61.0
+height = 134.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rmug"]
+size = Vector2(229, 135)
+
+[node name="Whale" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 10
+gravity_scale = 0.0
+script = ExtResource("1_fa02d")
+EnemyType = 1
+Health = 100.0
+Speed = 100.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(10, 10)
+sprite_frames = SubResource("SpriteFrames_7aaf3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-41, -2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_1g8ac")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(-19.5, -11.5)
+shape = SubResource("RectangleShape2D_8rmug")
+debug_color = Color(0.984314, 0, 0.337255, 0.419608)
+
+[connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

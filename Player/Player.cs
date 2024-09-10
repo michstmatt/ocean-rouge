@@ -11,7 +11,7 @@ public partial class Player : CharacterBody2D, IKillable
 	public AnimatedSprite2D Sprite;
 
 	[Export]
-	public int Health = 100;
+	public float Health = 100;
 	[Export]
 	public float Speed = 400;
 	
@@ -115,7 +115,7 @@ public partial class Player : CharacterBody2D, IKillable
 		}
 	}
 
-	public void OnHit(int damage)
+	public void OnHit(float damage)
 	{
 		Health -= damage;
 		if (Health <= 0)
@@ -125,7 +125,7 @@ public partial class Player : CharacterBody2D, IKillable
 			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 			GetNode<CollisionShape2D>("Area2D/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 		}
-		Main.ScoreBoxSpawner.CreateScoreText(-damage, HitEventType.Damage, this.Position);
+		Main.ScoreBoxSpawner.CreateScoreText((int)-damage, HitEventType.Damage, this.Position);
 		EmitSignal(SignalName.ScoreUpdate, Health, Coins);
 	}
 
