@@ -7,40 +7,51 @@ public partial class DynamicLevel : Node2D
 {
 	TileMapLayer Floor;
 	TileMapLayer Decor;
+	
+	[Export]
+	public int[] FloorAtlasIndices;
+
+
+	[Export]
+	public int[] DecoreAtlasIndices;
 
 	[Export]
 	public Vector2I Dimensions = new Vector2I(300,300);
-	public Vector2I FloorTileMapSet = new Vector2I(3,3);
-	public Vector2I DecorTileMapSet = new Vector2I(3,3);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Floor = GetNode<TileMapLayer>("Floor");
 		Decor = GetNode<TileMapLayer>("Decor");
 
-		CreateFloor(Floor, new [] {0}, FloorTileMapSet, 1);
-		CreateFloor(Decor, new [] {1,2}, DecorTileMapSet, 2);
+		CreateFloor(Floor, FloorAtlasIndices, 1);
+		CreateFloor(Decor, DecoreAtlasIndices, 4);
 	}
 
-	public void CreateFloor(TileMapLayer tileMap, IEnumerable<int> indices, Vector2I tileMapSet, int rateInX)
+	public void CreateFloor(TileMapLayer tileMap, IEnumerable<int> indices, int rateInX)
 	{
 		Vector2I loc = Vector2I.Zero;
-		Vector2I idx = Vector2I.Zero;
-		TileSet tileSet = tileMap.TileSet;
-		for(int col = -Dimensions.X; col < Dimensions.X; col +=1)
+
+		var availableTiles = new List<(int, Vector2I)>();
+
+		foreach(var sourceId in indices)
 		{
-			loc.X = col;
-			for (int row = -Dimensions.Y ; row < Dimensions.Y; row +=1)
+			var source = tileMap.TileSet.GetSource(sourceId);
+			var sourceLen = source.GetTilesCount();
+			for(int tileId = 0; tileId < sourceLen; tileId++)
 			{
-				loc.Y = row;
-
-				var atlasIdx = indices.ElementAt((int)(GD.Randi() % indices.Count()));
-
+				availableTiles.Add((sourceId, source.GetTileId(tileId)));
+			}
+		}
+		
+		for(loc.X = -Dimensions.X; loc.X < Dimensions.X; loc.X +=1)
+		{
+			for (loc.Y = -Dimensions.Y ; loc.Y < Dimensions.Y; loc.Y +=1)
+			{
 				if ((int)GD.Randi() % rateInX == 0)
 				{
-					idx.X =(int)(GD.Randi() % tileMapSet.X);
-					idx.Y = (int)(GD.Randi() % tileMapSet.Y);
-					tileMap.SetCell(loc, atlasIdx, idx);
+					var (atlasId, randomTileIdx) = availableTiles.ElementAt((int)(GD.Randi() %availableTiles.Count()));
+					tileMap.SetCell(loc, atlasId, randomTileIdx);
 				}
 			}
 		}

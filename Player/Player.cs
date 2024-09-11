@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D, IKillable
 {
@@ -14,6 +15,9 @@ public partial class Player : CharacterBody2D, IKillable
 	public float Health = 100;
 	[Export]
 	public float Speed = 400;
+
+	[Export]
+	public float EnemyBounce = 5000f;
 	
 	[Signal]
 	public delegate void HitEventHandler(int amount, int type);
@@ -23,6 +27,10 @@ public partial class Player : CharacterBody2D, IKillable
 	
 	[Signal]
 	public delegate void DeadEventHandler();
+
+	[Signal]
+	public delegate void WeaponPickupEventHandler();
+
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -62,7 +70,7 @@ public partial class Player : CharacterBody2D, IKillable
 			velocity.Y -= 1;
 		}
 
-		if(Input.IsAnythingPressed())
+		if(velocity.X != 0 || velocity.Y != 0)
 		{
 			LastMove = velocity;
 		}
@@ -112,6 +120,13 @@ public partial class Player : CharacterBody2D, IKillable
 		{
 			var damage = (body as IDamager).GetDamageAmount();
 			OnHit(damage);
+			if(body is TrackingMob)
+			{
+				var rb =(body as TrackingMob);
+				Vector2 oppDirectionToPlayer = (rb.GlobalPosition-GlobalPosition).Normalized();
+				rb.BounceBack = true;
+				rb.ApplyCentralImpulse(oppDirectionToPlayer * EnemyBounce);
+			}
 		}
 	}
 
@@ -143,5 +158,6 @@ public partial class Player : CharacterBody2D, IKillable
 		}
 		EmitSignal(SignalName.ScoreUpdate, Health, Coins);
 	}
+
 
 }

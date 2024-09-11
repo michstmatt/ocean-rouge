@@ -6,6 +6,8 @@
 [node name="DynamicLevel" type="Node2D"]
 scale = Vector2(3, 3)
 script = ExtResource("1_yvud3")
+FloorAtlasIndices = PackedInt32Array(3)
+DecoreAtlasIndices = PackedInt32Array(1, 2)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -22,3 +24,10 @@ rendering_quadrant_size = 32
 scale = Vector2(2, 2)
 tile_set = ExtResource("2_50jd4")
 rendering_quadrant_size = 32
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = -3000.0
+offset_right = 7000.0
+offset_bottom = 7000.0
+color = Color(0, 0, 0, 0.168627)

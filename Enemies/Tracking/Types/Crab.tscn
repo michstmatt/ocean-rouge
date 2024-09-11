@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://eam7f01c6ddi"]
+[gd_scene load_steps=9 format=3 uid="uid://eam7f01c6ddi"]
 
+[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_hwb4e"]
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_yvi1j"]
 [ext_resource type="Texture2D" uid="uid://c77ygepfyustc" path="res://art/CrabSpriteSheet.png" id="2_bv57c"]
 
@@ -35,6 +36,8 @@ size = Vector2(79.5, 65.25)
 [node name="Crab" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
+mass = 0.5
+physics_material_override = ExtResource("1_hwb4e")
 gravity_scale = 0.0
 script = ExtResource("1_yvi1j")
 EnemyType = 3
@@ -62,4 +65,5 @@ position = Vector2(0.75, -12)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
 
+[connection signal="body_entered" from="." to="." method="RigidBodyCollision"]
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

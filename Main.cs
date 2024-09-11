@@ -24,9 +24,13 @@ public partial class Main : Node
 		EmitSignal(SignalName.GameStart, false);
 	}
 
+	[Signal]
+	public delegate void WeaponPickupEventHandler();
+
 	public void NewGame()
 	{
 		_score = 0;
+
 		var hud = GetNode<Hud>("HUD");
 		hud.UpdateScore(_score);
 		hud.ShowMessage("Get Ready!");
@@ -41,6 +45,22 @@ public partial class Main : Node
 
 		GetNode<Timer>("StartTimer").Start();
 		GetNode<AudioStreamPlayer>("Music").Play();
+		EmitSignal(SignalName.WeaponPickup);
+
+	}
+
+	public void PauseGame(bool isPaused)
+	{
+		GetTree().Set("Paused", isPaused);
+		if (isPaused)
+		{
+			GetNode<Timer>("StartTimer").Stop();
+			GetNode<Timer>("ScoreTimer").Stop();
+		}
+		else{
+			GetNode<Timer>("StartTimer").Start();
+			GetNode<Timer>("ScoreTimer").Start();
+		}
 	}
 	
 	[Signal]
@@ -60,6 +80,4 @@ public partial class Main : Node
 		EmitSignal(SignalName.GameStart, true);
 	}
 
-	[Signal]
-	public delegate void SpawnMobEventHandler(PathFollow2D path);
 }

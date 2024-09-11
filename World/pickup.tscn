@@ -1,7 +1,32 @@
-[gd_scene load_steps=18 format=3 uid="uid://sl5im1rltvwr"]
+[gd_scene load_steps=25 format=3 uid="uid://sl5im1rltvwr"]
 
 [ext_resource type="Script" path="res://World/Pickup.cs" id="1_u5o0h"]
 [ext_resource type="Texture2D" uid="uid://dq7irq5js2lg1" path="res://art/Pickups.png" id="1_yuexx"]
+[ext_resource type="Texture2D" uid="uid://pucqlswyuwv7" path="res://art/ChestSpritesheet.png" id="2_61qe4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sh2ey"]
+atlas = ExtResource("2_61qe4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtr1u"]
+atlas = ExtResource("2_61qe4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ks5b"]
+atlas = ExtResource("2_61qe4")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ey2od"]
+atlas = ExtResource("2_61qe4")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbija"]
+atlas = ExtResource("2_61qe4")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hldus"]
+atlas = ExtResource("2_61qe4")
+region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hgswi"]
 atlas = ExtResource("1_yuexx")
@@ -57,6 +82,29 @@ region = Rect2(16, 16, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1vqfj"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sh2ey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtr1u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ks5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ey2od")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbija")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hldus")
+}],
+"loop": true,
+"name": &"Chest",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hgswi")
@@ -118,8 +166,8 @@ script = ExtResource("1_u5o0h")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1vqfj")
-animation = &"Heart"
-frame_progress = 0.994566
+animation = &"Chest"
+frame_progress = 0.10244
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0)

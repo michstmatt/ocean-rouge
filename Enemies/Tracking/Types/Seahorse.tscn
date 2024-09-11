@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://byhp66ov6ek2l"]
+[gd_scene load_steps=9 format=3 uid="uid://byhp66ov6ek2l"]
 
 [ext_resource type="Texture2D" uid="uid://ovfala62i05t" path="res://art/SeahorseSpritesheet.png" id="1_2vlkd"]
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_fjgwq"]
+[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_hr1l7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dpapd"]
 atlas = ExtResource("1_2vlkd")
@@ -35,6 +36,7 @@ size = Vector2(44, 97)
 [node name="Seahorse" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
+physics_material_override = ExtResource("1_hr1l7")
 gravity_scale = 0.0
 script = ExtResource("1_fjgwq")
 
@@ -57,4 +59,5 @@ position = Vector2(-1, -0.5)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
 
+[connection signal="body_entered" from="." to="." method="RigidBodyCollision"]
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

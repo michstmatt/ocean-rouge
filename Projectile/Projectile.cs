@@ -13,7 +13,7 @@ public partial class Projectile : RigidBody2D, IDamager
 	public int HitCount {get; set;}
 
 	[Export]
-	public float Speed {get; set;}
+	public float Speed {get; set;} = 400f;
 
 	[Export]
 	public float Damage{get; set;} = 10;
@@ -23,22 +23,28 @@ public partial class Projectile : RigidBody2D, IDamager
 	[Export]
 	public Vector2 Direction {get; set;} = Vector2.Right;
 
+	bool ShouldDelete = false;
+
 	public float GetDamageAmount() => Damage;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Sprite.Play("default");
+		
+		//Position += Velocity * (float)delta;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Direction = Direction.Normalized() * Speed;
-		
 		Rotation = Direction.Angle();
-		//Position += Velocity * (float)delta;
 		LinearVelocity = Direction;
+		if (ShouldDelete)
+		{
+			QueueFree();
+		}
 	}
 
 	public void OnDamaged()
@@ -46,7 +52,7 @@ public partial class Projectile : RigidBody2D, IDamager
 		HitCount -= 1;
 		if (HitCount <= 0)
 		{
-			QueueFree();
+			ShouldDelete = true;
 		}
 	}
 	private void OnVisibleOnScreenNotifier2DScreenExited()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://fv0pany1gcb0"]
+[gd_scene load_steps=9 format=3 uid="uid://fv0pany1gcb0"]
 
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_djkyn"]
+[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_k4rhd"]
 [ext_resource type="Texture2D" uid="uid://dqryoyy3s3xng" path="res://art/MermaidSpritesheet.png" id="2_huxer"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7c31p"]
@@ -26,26 +27,27 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
-radius = 22.0
-height = 44.0
+radius = 36.0
+height = 72.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
-size = Vector2(50, 82.625)
+size = Vector2(74, 93.625)
 
 [node name="Mermaid" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
+physics_material_override = ExtResource("1_k4rhd")
 gravity_scale = 0.0
 script = ExtResource("1_djkyn")
 EnemyType = 4
 Speed = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(3, 3)
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_ybh6e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, -9)
+position = Vector2(0, -6)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_fqoyo")
 
@@ -56,7 +58,7 @@ collision_layer = 16
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(-5, -3.3125)
+position = Vector2(-2, 2.1875)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
 

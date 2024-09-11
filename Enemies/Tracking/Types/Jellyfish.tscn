@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://df2nwcj2sm6ua"]
+[gd_scene load_steps=9 format=3 uid="uid://df2nwcj2sm6ua"]
 
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_niqnt"]
+[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_p80lh"]
 [ext_resource type="Texture2D" uid="uid://bgedtpivoj1o5" path="res://art/JellyfishSpritesheet.png" id="2_5j648"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0lc0j"]
@@ -35,6 +36,8 @@ size = Vector2(50, 82.625)
 [node name="Jellyfish" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
+mass = 0.1
+physics_material_override = ExtResource("1_p80lh")
 gravity_scale = 0.0
 script = ExtResource("1_niqnt")
 EnemyType = 5
@@ -62,4 +65,5 @@ position = Vector2(-3, -3)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
 
+[connection signal="body_entered" from="." to="." method="RigidBodyCollision"]
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

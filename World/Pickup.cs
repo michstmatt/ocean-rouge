@@ -5,7 +5,8 @@ using System.ComponentModel;
 public enum PickupType
 {
 	Health,
-	Coin
+	Coin,
+	Chest
 }
 
 public partial class Pickup : Area2D
@@ -32,6 +33,11 @@ public partial class Pickup : Area2D
 				animatedSprite2D.Play("Heart");
 				break;
 			case PickupType.Coin:
+				animatedSprite2D.Play("Coin");
+				break;
+			case PickupType.Chest:
+				animatedSprite2D.Play("Chest");
+				break;
 			default:
 				animatedSprite2D.Play("Coin");
 				break;

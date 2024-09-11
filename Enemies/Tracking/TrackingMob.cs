@@ -23,6 +23,8 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 
 	public float GetDamageAmount() => Damage;
 	public void OnDamaged() {}
+
+	public bool BounceBack = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -50,12 +52,17 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		{
 			var projectile = (IDamager)node;
 			var damage = projectile.GetDamageAmount();
+			BounceBack = true;
 			CallDeferred("OnHit", damage);
 			node.CallDeferred("OnDamaged");
 		}
 	}
-	
 
+	public void RigidBodyCollision(Node node)
+	{
+
+	}
+	
 	public void Died()
 	{
 		if (GD.Randi() % 10 == 0)
@@ -64,9 +71,14 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		}
 		QueueFree();
 	}
-	
+
 	public override void _PhysicsProcess(double delta)
 	{
+		if(BounceBack)
+		{
+			BounceBack = false;
+			return;
+		}
 		Vector2 t;
 		if (Target?.Position == null)
 		{
@@ -81,9 +93,10 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		animatedSprite2D.FlipH = isLeftOfPlayer;
 
-		var rotation = this.Position.AngleToPoint(t);
-		Vector2 vectorTo = Vector2.FromAngle(rotation);
+		Vector2 vectorTo = (t - this.Position).Normalized();
+		this.Rotation = 0f;
 		LinearVelocity = vectorTo * Speed;
+		base._PhysicsProcess(delta);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

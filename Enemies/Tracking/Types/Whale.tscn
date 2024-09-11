@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dte8erbiqanmf"]
+[gd_scene load_steps=9 format=3 uid="uid://dte8erbiqanmf"]
 
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_fa02d"]
 [ext_resource type="Texture2D" uid="uid://b84mv8v1xtjh6" path="res://art/WhaleSpritesheet.png" id="1_obem3"]
+[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_x5t11"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1rk0n"]
 atlas = ExtResource("1_obem3")
@@ -35,6 +36,8 @@ size = Vector2(229, 135)
 [node name="Whale" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
+mass = 100.0
+physics_material_override = ExtResource("1_x5t11")
 gravity_scale = 0.0
 script = ExtResource("1_fa02d")
 EnemyType = 1

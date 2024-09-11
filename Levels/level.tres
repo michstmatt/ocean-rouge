@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://dd7v88d06tyt6"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dd7v88d06tyt6"]
 
 [ext_resource type="Texture2D" uid="uid://doqmhrm33fer1" path="res://art/SandSpritesheet.png" id="1_a1iqh"]
-[ext_resource type="Texture2D" uid="uid://d16m813mt31pj" path="res://art/Coral.png" id="2_hfug6"]
+[ext_resource type="Texture2D" uid="uid://da17agijeoqyk" path="res://art/CoralSpritesheet.png" id="2_qyyew"]
 [ext_resource type="Texture2D" uid="uid://fuvfi47vnn0g" path="res://art/BubbleSpritesheet.png" id="3_xcdo3"]
+[ext_resource type="Texture2D" uid="uid://dcexww6a0meca" path="res://art/RocksSpritesheet.png" id="4_y5dhj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_01pbq"]
 texture = ExtResource("1_a1iqh")
@@ -17,8 +18,8 @@ texture_region_size = Vector2i(32, 32)
 1:2/0 = 0
 2:2/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1jrtk"]
-texture = ExtResource("2_hfug6")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2d1xa"]
+texture = ExtResource("2_qyyew")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -28,6 +29,7 @@ texture_region_size = Vector2i(32, 32)
 2:1/0 = 0
 0:2/0 = 0
 1:2/0 = 0
+2:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q67o7"]
 texture = ExtResource("3_xcdo3")
@@ -41,8 +43,20 @@ texture_region_size = Vector2i(32, 32)
 0:0/animation_frame_4/duration = 1.0
 0:0/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q4fsx"]
+texture = ExtResource("4_y5dhj")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+
 [resource]
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_01pbq")
-sources/1 = SubResource("TileSetAtlasSource_1jrtk")
 sources/2 = SubResource("TileSetAtlasSource_q67o7")
+sources/3 = SubResource("TileSetAtlasSource_q4fsx")
+sources/1 = SubResource("TileSetAtlasSource_2d1xa")

@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://d1sp6c6l5bjsu"]
+[gd_scene load_steps=10 format=3 uid="uid://d1sp6c6l5bjsu"]
 
 [ext_resource type="Script" path="res://Projectile/Types/Sonar.cs" id="1_mi0xa"]
 [ext_resource type="Texture2D" uid="uid://bpcc1vsxwpjwo" path="res://art/SonarSpritesheet.png" id="2_5otli"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7qv5v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q62k4"]
 radius = 51.0
@@ -46,10 +48,13 @@ animations = [{
 [node name="Sonar" type="RigidBody2D"]
 collision_layer = 8
 collision_mask = 20
+mass = 1000.0
+physics_material_override = SubResource("PhysicsMaterial_7qv5v")
+gravity_scale = 0.0
 script = ExtResource("1_mi0xa")
 WeaponType = 1
 HitCount = 2
-Speed = 400.0
+Speed = 500.0
 Damage = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -59,3 +64,9 @@ shape = SubResource("CapsuleShape2D_q62k4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_esmnm")
+
+[node name="DisappearTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="DisappearTimer" to="." method="Disappear"]

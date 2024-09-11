@@ -12,8 +12,7 @@ public partial class Sonar : Projectile
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-		base._PhysicsProcess(delta);
-		
+
 		if (MyScale.X < MaxScale)
 		{
 			var fDelta = 2*(float)delta;
@@ -22,5 +21,11 @@ public partial class Sonar : Projectile
 		}
 
 		Scale = MyScale;
+		base._PhysicsProcess(delta);
+	}
+	
+	public void Disappear()
+	{
+		QueueFree();
 	}
 }

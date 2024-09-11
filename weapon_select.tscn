@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcrg0k8jlg78"]
+
+[ext_resource type="Script" path="res://WeaponSelect.cs" id="1_7gv1s"]
+[ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="2_36m84"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_pps66"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_vlyx4"]
+events = [SubResource("InputEventAction_pps66")]
+
+[node name="WeaponSelect" type="CanvasLayer"]
+script = ExtResource("1_7gv1s")
+
+[node name="WeaponList" type="ItemList" parent="."]
+top_level = true
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = 200.0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_36m84")
+theme_override_font_sizes/font_size = 40
+
+[node name="SelectButton" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -96.0
+offset_right = 220.0
+offset_bottom = 4.0
+grow_vertical = 0
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_36m84")
+theme_override_font_sizes/font_size = 64
+shortcut = SubResource("Shortcut_vlyx4")
+text = "Select"
+
+[connection signal="item_selected" from="WeaponList" to="." method="ItemSelected"]
+[connection signal="pressed" from="SelectButton" to="." method="OnSelectButton"]

@@ -8,15 +8,33 @@ public partial class ProjectileSpawner : Node
 	public Dictionary<WeaponType, PackedScene> WeaponScenes;
 
 	private int GameTime;
-
+	public List<WeaponType> Weapons;
 	public override void _Ready()
 	{
+		Weapons = new List<WeaponType>();
 		WeaponScenes = new Dictionary<WeaponType, PackedScene>();
-		foreach(var weaponType in WeaponFactory.WeaponTypes)
+	}
+
+	public void OnGameReset(bool _)
+	{
+		Weapons.Clear();
+	}
+
+	protected void AddWeaponScene(WeaponType weaponType)
+	{
+		if (WeaponScenes.ContainsKey(weaponType))
 		{
-			var scene = WeaponFactory.GetWeaponScene(weaponType);
-			WeaponScenes.Add(weaponType, (PackedScene)ResourceLoader.Load(scene));
+			return;
 		}
+		var scene = WeaponFactory.GetWeaponScene(weaponType);
+		WeaponScenes.Add(weaponType, (PackedScene)ResourceLoader.Load(scene));
+		Weapons.Add(weaponType);
+	}
+
+	public void OnWeaponAdded(int weaponId)
+	{
+		WeaponType type = (WeaponType)weaponId;
+		AddWeaponScene(type);
 	}
 
 	public void UpdateTimer(bool start)
@@ -51,8 +69,9 @@ public partial class ProjectileSpawner : Node
 			}
 		}
 
-		foreach((WeaponType weaponType, PackedScene scene) in WeaponScenes)
+		foreach(WeaponType weaponType in Weapons)
 		{
+			var scene = WeaponScenes.GetValueOrDefault(weaponType);
 			var freq = WeaponFactory.GetFireRate(weaponType);
 			if(GameTime % freq != 0)
 			{
