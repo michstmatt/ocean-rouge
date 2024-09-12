@@ -1,7 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://cyeogkpnbj3i4"]
+[gd_scene load_steps=14 format=3 uid="uid://cyeogkpnbj3i4"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_21rrp"]
 [ext_resource type="Texture2D" uid="uid://cesllxw6wdjtn" path="res://art/PlayerSpritesheet.png" id="2_2pip3"]
+[ext_resource type="Shader" uid="uid://cnxqyy658l8bc" path="res://Player/player_hit_shader.tres" id="2_kxlt7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hk3kj"]
+shader = ExtResource("2_kxlt7")
+shader_parameter/Enabled = false
+shader_parameter/HitColor = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ekygj"]
 atlas = ExtResource("2_2pip3")
@@ -41,12 +47,49 @@ animations = [{
 }],
 "loop": true,
 "name": &"Swim",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qexb0"]
 radius = 14.0
 height = 126.718
+
+[sub_resource type="Animation" id="Animation_gc8dk"]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_srn0a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/Enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vpuv2"]
+_data = {
+"RESET": SubResource("Animation_srn0a"),
+"hit": SubResource("Animation_gc8dk")
+}
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -55,16 +98,20 @@ script = ExtResource("1_21rrp")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_hk3kj")
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_lxtni")
 animation = &"Swim"
+frame_progress = 0.259652
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -8)
 scale = Vector2(1, 0.994332)
 shape = SubResource("CapsuleShape2D_qexb0")
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 4
 
@@ -72,5 +119,10 @@ collision_mask = 4
 position = Vector2(0, -6)
 scale = Vector2(1, 0.994332)
 shape = SubResource("CapsuleShape2D_qexb0")
+
+[node name="HitAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vpuv2")
+}
 
 [connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]

@@ -1,8 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://df2nwcj2sm6ua"]
+[gd_scene load_steps=11 format=3 uid="uid://df2nwcj2sm6ua"]
 
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_niqnt"]
 [ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_p80lh"]
 [ext_resource type="Texture2D" uid="uid://bgedtpivoj1o5" path="res://art/JellyfishSpritesheet.png" id="2_5j648"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q133e"]
+atlas = ExtResource("2_5j648")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byrr2"]
+atlas = ExtResource("2_5j648")
+region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0lc0j"]
 atlas = ExtResource("2_5j648")
@@ -14,6 +22,17 @@ region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_c7tda"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q133e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byrr2")
+}],
+"loop": true,
+"name": &"alt",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0lc0j")
@@ -48,6 +67,7 @@ Speed = 400.0
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_c7tda")
+animation = &"alt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -9)

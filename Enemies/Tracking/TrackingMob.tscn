@@ -1,15 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://eam7f01c6ddi"]
+[gd_scene load_steps=12 format=3 uid="uid://ui6t86r3pdxg"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_hwb4e"]
-[ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_yvi1j"]
-[ext_resource type="Texture2D" uid="uid://c77ygepfyustc" path="res://art/CrabSpriteSheet.png" id="2_bv57c"]
+[ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_tsu8h"]
+[ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="2_ewcc2"]
+[ext_resource type="Texture2D" uid="uid://c77ygepfyustc" path="res://art/CrabSpriteSheet.png" id="3_2hngk"]
+[ext_resource type="Texture2D" uid="uid://b84mv8v1xtjh6" path="res://art/WhaleSpritesheet.png" id="4_xnmci"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tso2o"]
-atlas = ExtResource("2_bv57c")
+atlas = ExtResource("3_2hngk")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wxjp7"]
-atlas = ExtResource("2_bv57c")
+atlas = ExtResource("3_2hngk")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rb2ub"]
+atlas = ExtResource("4_xnmci")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_co8t7"]
+atlas = ExtResource("4_xnmci")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_w1la2"]
@@ -22,7 +31,18 @@ animations = [{
 "texture": SubResource("AtlasTexture_wxjp7")
 }],
 "loop": true,
-"name": &"default",
+"name": &"Crab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rb2ub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_co8t7")
+}],
+"loop": true,
+"name": &"Whale",
 "speed": 5.0
 }]
 
@@ -33,21 +53,22 @@ height = 68.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
 size = Vector2(79.5, 65.25)
 
-[node name="Crab" type="RigidBody2D"]
+[node name="TrackingMob" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
 mass = 0.5
-physics_material_override = ExtResource("1_hwb4e")
+physics_material_override = ExtResource("1_tsu8h")
 gravity_scale = 0.0
-script = ExtResource("1_yvi1j")
+script = ExtResource("2_ewcc2")
 EnemyType = 3
 Damage = 1.0
 Health = 5.0
-Speed = 350.0
+Speed = 450.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_w1la2")
+animation = &"Whale"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -4)

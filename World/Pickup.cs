@@ -16,7 +16,7 @@ public partial class Pickup : Area2D
 
 	[Export]
 	public uint Amount {get;set;} = 1;
-	
+
 	public void Init(PickupType type, uint amount)
 	{
 		this.Type = type;
@@ -36,6 +36,7 @@ public partial class Pickup : Area2D
 				animatedSprite2D.Play("Coin");
 				break;
 			case PickupType.Chest:
+				animatedSprite2D.Scale *= 0.5f;
 				animatedSprite2D.Play("Chest");
 				break;
 			default:
@@ -52,8 +53,7 @@ public partial class Pickup : Area2D
 	{	
 		if(node is Player)
 		{
-			var player = (Player)node;
-			player.OnItemPickedUp(this.Type, this.Amount);
+			SignalManager.Instance.EmitSignal(SignalManager.SignalName.ItemPickup, (int)Type, Amount);
 			QueueFree();
 		}
 		

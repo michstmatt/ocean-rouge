@@ -10,6 +10,7 @@ public partial class Player : CharacterBody2D, IKillable
 	public int Coins = 0;
 
 	public AnimatedSprite2D Sprite;
+	public AnimationPlayer AnimationPlayer;
 
 	[Export]
 	public float Health = 100;
@@ -18,6 +19,9 @@ public partial class Player : CharacterBody2D, IKillable
 
 	[Export]
 	public float EnemyBounce = 5000f;
+
+	[Export]
+	public float CollisionDamage = 5f;
 	
 	[Signal]
 	public delegate void HitEventHandler(int amount, int type);
@@ -31,11 +35,14 @@ public partial class Player : CharacterBody2D, IKillable
 	[Signal]
 	public delegate void WeaponPickupEventHandler();
 
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		AnimationPlayer = GetNode<AnimationPlayer>("HitAnimationPlayer");
+
+		SignalManager.Instance.ItemPickup += OnItemPickedUp;
+
 		Hide();
 	}
 	public void Start(Vector2 position)
@@ -126,12 +133,14 @@ public partial class Player : CharacterBody2D, IKillable
 				Vector2 oppDirectionToPlayer = (rb.GlobalPosition-GlobalPosition).Normalized();
 				rb.BounceBack = true;
 				rb.ApplyCentralImpulse(oppDirectionToPlayer * EnemyBounce);
+				rb.OnHit(CollisionDamage);
 			}
 		}
 	}
 
 	public void OnHit(float damage)
 	{
+		AnimationPlayer.Play("hit");
 		Health -= damage;
 		if (Health <= 0)
 		{

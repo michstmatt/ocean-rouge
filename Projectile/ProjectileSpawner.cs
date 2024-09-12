@@ -15,19 +15,13 @@ public partial class ProjectileSpawner : Node
 		WeaponScenes = new Dictionary<WeaponType, PackedScene>();
 	}
 
-	public void OnGameReset(bool _)
-	{
-		Weapons.Clear();
-	}
-
 	protected void AddWeaponScene(WeaponType weaponType)
 	{
-		if (WeaponScenes.ContainsKey(weaponType))
+		if (!WeaponScenes.ContainsKey(weaponType))
 		{
-			return;
+			var scene = WeaponFactory.GetWeaponScene(weaponType);
+			WeaponScenes.Add(weaponType, (PackedScene)ResourceLoader.Load(scene));
 		}
-		var scene = WeaponFactory.GetWeaponScene(weaponType);
-		WeaponScenes.Add(weaponType, (PackedScene)ResourceLoader.Load(scene));
 		Weapons.Add(weaponType);
 	}
 
@@ -48,6 +42,7 @@ public partial class ProjectileSpawner : Node
 		else
 		{
 			timer.Stop();
+			Weapons.Clear();
 		}
 	}
 	

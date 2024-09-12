@@ -8,7 +8,7 @@ public partial class TrackingMobSpawner : Node
    	public Dictionary<EnemyType,PackedScene> MobScenes { get; set; }
 	
 	[Export]
-	public int MaxEnemies = 10;
+	public int MaxEnemies = 5;
 
 	[Export]
 	float distanceFrom = 500f;
@@ -37,6 +37,7 @@ public partial class TrackingMobSpawner : Node
 
 	void Init()
 	{
+		time = 0;
 		velocity = 100f;
 		SpawnTimer.WaitTime = 1;
 		MaxEnemies = 20;
@@ -60,8 +61,8 @@ public partial class TrackingMobSpawner : Node
 	{
 		if (time % 10 == 0)
 		{
-			velocity += 20;
-			MaxEnemies += 5;
+			velocity += 10;
+			MaxEnemies += 1;
 			if (SpawnTimer.WaitTime > MinSpeed)
 			{
 				SpawnTimer.WaitTime -= .1;

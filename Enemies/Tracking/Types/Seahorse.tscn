@@ -4,22 +4,22 @@
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_fjgwq"]
 [ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_hr1l7"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dpapd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlyd3"]
 atlas = ExtResource("1_2vlkd")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lqxxu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_y15p6"]
 atlas = ExtResource("1_2vlkd")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_w16rd"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_o0lo8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dpapd")
+"texture": SubResource("AtlasTexture_wlyd3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lqxxu")
+"texture": SubResource("AtlasTexture_y15p6")
 }],
 "loop": true,
 "name": &"default",
@@ -27,11 +27,11 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
-radius = 15.0
-height = 82.0
+radius = 26.0
+height = 116.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
-size = Vector2(44, 97)
+size = Vector2(68, 118)
 
 [node name="Seahorse" type="RigidBody2D"]
 collision_layer = 4
@@ -42,7 +42,7 @@ script = ExtResource("1_fjgwq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
-sprite_frames = SubResource("SpriteFrames_w16rd")
+sprite_frames = SubResource("SpriteFrames_o0lo8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-3, -4)
@@ -55,7 +55,7 @@ collision_layer = 16
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(-1, -0.5)
+position = Vector2(-3, -3)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
 

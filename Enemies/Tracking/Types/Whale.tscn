@@ -1,57 +1,56 @@
-[gd_scene load_steps=9 format=3 uid="uid://dte8erbiqanmf"]
+[gd_scene load_steps=9 format=3 uid="uid://ccguy28duc0bk"]
 
 [ext_resource type="Script" path="res://Enemies/Tracking/TrackingMob.cs" id="1_fa02d"]
 [ext_resource type="Texture2D" uid="uid://b84mv8v1xtjh6" path="res://art/WhaleSpritesheet.png" id="1_obem3"]
 [ext_resource type="PhysicsMaterial" uid="uid://bmwlghasf5qj1" path="res://Enemies/Tracking/Types/EnemyPhysics.tres" id="1_x5t11"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1rk0n"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t07da"]
 atlas = ExtResource("1_obem3")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qv86h"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxydq"]
 atlas = ExtResource("1_obem3")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_7aaf3"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_w16rd"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1rk0n")
+"texture": SubResource("AtlasTexture_t07da")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qv86h")
+"texture": SubResource("AtlasTexture_gxydq")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1g8ac"]
-radius = 61.0
-height = 134.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
+radius = 63.0
+height = 216.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rmug"]
-size = Vector2(229, 135)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
+size = Vector2(131, 222)
 
 [node name="Whale" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 10
-mass = 100.0
 physics_material_override = ExtResource("1_x5t11")
 gravity_scale = 0.0
 script = ExtResource("1_fa02d")
 EnemyType = 1
 Health = 100.0
-Speed = 100.0
+Speed = 50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(10, 10)
-sprite_frames = SubResource("SpriteFrames_7aaf3")
+sprite_frames = SubResource("SpriteFrames_w16rd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-41, -2)
+position = Vector2(-20, -15)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_1g8ac")
+shape = SubResource("CapsuleShape2D_fqoyo")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
@@ -60,8 +59,10 @@ collision_layer = 16
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(-19.5, -11.5)
-shape = SubResource("RectangleShape2D_8rmug")
-debug_color = Color(0.984314, 0, 0.337255, 0.419608)
+position = Vector2(-19, -16.5)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_1tpof")
+debug_color = Color(0.985106, 0, 0.337054, 0.42)
 
+[connection signal="body_entered" from="." to="." method="RigidBodyCollision"]
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

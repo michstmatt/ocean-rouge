@@ -6,7 +6,7 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 {
 	public Node2D Target;
 
-	[Export]	
+	[Export]
 	public EnemyType EnemyType;
 
 	[Export]
@@ -25,16 +25,19 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 	public void OnDamaged() {}
 
 	public bool BounceBack = false;
+	public AnimationPlayer AnimationPlayer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		animatedSprite2D.Play("default");
+		string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
+		animatedSprite2D.Play(mobTypes[GD.Randi() % mobTypes.Length]);
 	}
 	
 	public void OnHit(float damage)
 	{
 		Health -= damage;
+		AnimationPlayer?.Play("hit");
 
 		Main.ScoreBoxSpawner.CreateScoreText((int)-damage, HitEventType.Damage, this.Position);
 		EmitSignal(SignalName.Hit, damage, (int)HitEventType.Damage);
@@ -79,6 +82,7 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 			BounceBack = false;
 			return;
 		}
+
 		Vector2 t;
 		if (Target?.Position == null)
 		{

@@ -74,8 +74,11 @@ stream = ExtResource("5_15hdg")
 
 [node name="Pickup" parent="." instance=ExtResource("10_1yqo4")]
 position = Vector2(337, 120)
+Type = 2
 
 [node name="Waves" parent="." instance=ExtResource("7_w1yry")]
+scale = Vector2(5, 5)
+Dimensions = Vector2i(100, 100)
 
 [node name="WeaponSelect" parent="." instance=ExtResource("12_y6jam")]
 layer = 7
