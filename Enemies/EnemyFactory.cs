@@ -22,7 +22,6 @@ public class EnemyFactory
 		{
 			case EnemyType.Seahorse:
 				return "res://Enemies/Tracking/Types/Seahorse.tscn";
-
 			case EnemyType.Whale:
 				return "res://Enemies/Tracking/Types/Whale.tscn";
 			case EnemyType.Fishy:

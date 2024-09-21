@@ -1,35 +1,110 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dd7v88d06tyt6"]
+[gd_resource type="TileSet" load_steps=10 format=3 uid="uid://dd7v88d06tyt6"]
 
-[ext_resource type="Texture2D" uid="uid://doqmhrm33fer1" path="res://art/SandSpritesheet.png" id="1_a1iqh"]
-[ext_resource type="Texture2D" uid="uid://da17agijeoqyk" path="res://art/CoralSpritesheet.png" id="2_qyyew"]
+[ext_resource type="Texture2D" uid="uid://cmmoah7u2lqut" path="res://art/CoralSpritesheet.png" id="2_qyyew"]
 [ext_resource type="Texture2D" uid="uid://fuvfi47vnn0g" path="res://art/BubbleSpritesheet.png" id="3_xcdo3"]
 [ext_resource type="Texture2D" uid="uid://dcexww6a0meca" path="res://art/RocksSpritesheet.png" id="4_y5dhj"]
+[ext_resource type="Texture2D" uid="uid://doqmhrm33fer1" path="res://art/SandSpriteSheet.png" id="5_4ehxa"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_01pbq"]
-texture = ExtResource("1_a1iqh")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bjk6s"]
+texture = ExtResource("5_4ehxa")
 texture_region_size = Vector2i(32, 32)
+0:0/next_alternative_id = 2
 0:0/0 = 0
+1:1/0 = 0
+0:1/0 = 0
 1:0/0 = 0
 2:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
+3:0/0 = 0
 2:1/0 = 0
+3:1/0 = 0
 0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2d1xa"]
 texture = ExtResource("2_qyyew")
 texture_region_size = Vector2i(32, 32)
+0:0/animation_columns = 6
+0:0/animation_speed = 3.0
+0:0/animation_mode = 1
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
+0:0/animation_frame_3/duration = 1.0
+0:0/animation_frame_4/duration = 1.0
+0:0/animation_frame_5/duration = 1.0
 0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
+0:7/animation_columns = 6
+0:7/animation_speed = 3.0
+0:7/animation_mode = 1
+0:7/animation_frame_0/duration = 1.0
+0:7/animation_frame_1/duration = 1.0
+0:7/animation_frame_2/duration = 1.0
+0:7/animation_frame_3/duration = 1.0
+0:7/animation_frame_4/duration = 1.0
+0:7/animation_frame_5/duration = 1.0
+0:7/0 = 0
+0:1/animation_speed = 3.0
+0:1/animation_mode = 1
+0:1/animation_frame_0/duration = 1.0
+0:1/animation_frame_1/duration = 1.0
+0:1/animation_frame_2/duration = 1.0
+0:1/animation_frame_3/duration = 1.0
+0:1/animation_frame_4/duration = 1.0
+0:1/animation_frame_5/duration = 1.0
 0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
+0:2/animation_speed = 3.0
+0:2/animation_mode = 1
+0:2/animation_frame_0/duration = 1.0
+0:2/animation_frame_1/duration = 1.0
+0:2/animation_frame_2/duration = 1.0
+0:2/animation_frame_3/duration = 1.0
+0:2/animation_frame_4/duration = 1.0
+0:2/animation_frame_5/duration = 1.0
 0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
+0:3/animation_speed = 3.0
+0:3/animation_mode = 1
+0:3/animation_frame_0/duration = 1.0
+0:3/animation_frame_1/duration = 1.0
+0:3/animation_frame_2/duration = 1.0
+0:3/animation_frame_3/duration = 1.0
+0:3/animation_frame_4/duration = 1.0
+0:3/animation_frame_5/duration = 1.0
+0:3/0 = 0
+0:4/animation_speed = 3.0
+0:4/animation_mode = 1
+0:4/animation_frame_0/duration = 1.0
+0:4/animation_frame_1/duration = 1.0
+0:4/animation_frame_2/duration = 1.0
+0:4/animation_frame_3/duration = 1.0
+0:4/animation_frame_4/duration = 1.0
+0:4/animation_frame_5/duration = 1.0
+0:4/0 = 0
+0:5/animation_speed = 3.0
+0:5/animation_mode = 1
+0:5/animation_frame_0/duration = 1.0
+0:5/animation_frame_1/duration = 1.0
+0:5/animation_frame_2/duration = 1.0
+0:5/animation_frame_3/duration = 1.0
+0:5/animation_frame_4/duration = 1.0
+0:5/animation_frame_5/duration = 1.0
+0:5/0 = 0
+0:6/animation_speed = 3.0
+0:6/animation_mode = 1
+0:6/animation_frame_0/duration = 1.0
+0:6/animation_frame_1/duration = 1.0
+0:6/animation_frame_2/duration = 1.0
+0:6/animation_frame_3/duration = 1.0
+0:6/animation_frame_4/duration = 1.0
+0:6/animation_frame_5/duration = 1.0
+0:6/0 = 0
+0:8/animation_speed = 3.0
+0:8/animation_mode = 1
+0:8/animation_frame_0/duration = 1.0
+0:8/animation_frame_1/duration = 1.0
+0:8/animation_frame_2/duration = 1.0
+0:8/animation_frame_3/duration = 1.0
+0:8/animation_frame_4/duration = 1.0
+0:8/animation_frame_5/duration = 1.0
+0:8/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q67o7"]
 texture = ExtResource("3_xcdo3")
@@ -54,9 +129,18 @@ texture_region_size = Vector2i(32, 32)
 2:1/0 = 0
 0:2/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rwc13"]
+texture = ExtResource("5_4ehxa")
+texture_region_size = Vector2i(32, 32)
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+
 [resource]
 tile_size = Vector2i(32, 32)
-sources/0 = SubResource("TileSetAtlasSource_01pbq")
 sources/2 = SubResource("TileSetAtlasSource_q67o7")
 sources/3 = SubResource("TileSetAtlasSource_q4fsx")
 sources/1 = SubResource("TileSetAtlasSource_2d1xa")
+sources/0 = SubResource("TileSetAtlasSource_bjk6s")
+sources/6 = SubResource("TileSetAtlasSource_rwc13")

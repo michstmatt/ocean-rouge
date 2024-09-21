@@ -7,25 +7,35 @@ public partial class Main : Node
 	public static PickupSpawner PickupSpawner;
 	public static ScoreBoxSpawner ScoreBoxSpawner;
 
+	public bool IsPaused = false;
+
 	public override void _Ready()
 	{
+		ProcessMode = Node.ProcessModeEnum.Always;
 		var mobSpawner = GetNode<TrackingMobSpawner>("TrackingMobSpawner");
 		var pickupSpawner = GetNode<PickupSpawner>("PickupSpawner");
 		PickupSpawner = pickupSpawner;
 		ScoreBoxSpawner = GetNode<ScoreBoxSpawner>("ScoreBoxSpawner");
+
+		SignalManager.Instance.PauseGame += PauseGame;
 	}
-	
+
+	public override void _Process(double delta)
+	{
+		if(Input.IsActionPressed("pause"))
+		{
+			SignalManager.Instance.EmitSignal(SignalManager.SignalName.PauseGame, !IsPaused);
+		}
+	}
+
 	public void GameOver()
 	{
 		GetNode<Timer>("ScoreTimer").Stop();
 		GetNode<Hud>("HUD").ShowGameOver();
 		GetNode<AudioStreamPlayer>("Music").Stop();
 		GetNode<AudioStreamPlayer>("DeathSound").Play();
-		EmitSignal(SignalName.GameStart, false);
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.GameOver, true);
 	}
-
-	[Signal]
-	public delegate void WeaponPickupEventHandler();
 
 	public void NewGame()
 	{
@@ -35,6 +45,7 @@ public partial class Main : Node
 		hud.UpdateScore(_score);
 		hud.ShowMessage("Get Ready!");
 
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.GameOver, false);
 		GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
 		GetNode<PickupSpawner>("PickupSpawner").Init();
 		
@@ -45,13 +56,12 @@ public partial class Main : Node
 
 		GetNode<Timer>("StartTimer").Start();
 		GetNode<AudioStreamPlayer>("Music").Play();
-		EmitSignal(SignalName.WeaponPickup);
-
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.NewWeaponAvailable);
 	}
 
 	public void PauseGame(bool isPaused)
 	{
-		GetTree().Set("Paused", isPaused);
+		GetTree().Paused = isPaused;
 		if (isPaused)
 		{
 			GetNode<Timer>("StartTimer").Stop();
@@ -61,6 +71,8 @@ public partial class Main : Node
 			GetNode<Timer>("StartTimer").Start();
 			GetNode<Timer>("ScoreTimer").Start();
 		}
+
+		IsPaused = isPaused;
 	}
 	
 	[Signal]

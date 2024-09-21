@@ -41,7 +41,7 @@ gravity_scale = 0.0
 script = ExtResource("1_fa02d")
 EnemyType = 1
 Health = 100.0
-Speed = 50.0
+Speed = 0.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(10, 10)
@@ -64,5 +64,9 @@ rotation = 1.5708
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
 
+[node name="CollisionTimer" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="body_entered" from="." to="." method="RigidBodyCollision"]
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]
+[connection signal="timeout" from="CollisionTimer" to="." method="CollisionTimeout"]

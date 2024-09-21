@@ -62,7 +62,7 @@ script = ExtResource("1_niqnt")
 EnemyType = 5
 Damage = 20.0
 Health = 1.0
-Speed = 400.0
+Speed = 4.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3, 3)
@@ -84,6 +84,9 @@ collision_mask = 8
 position = Vector2(-3, -3)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
+
+[node name="CollisionTimer" type="Timer" parent="."]
+wait_time = 0.5
 
 [connection signal="body_entered" from="." to="." method="RigidBodyCollision"]
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

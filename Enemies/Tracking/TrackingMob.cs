@@ -24,7 +24,11 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 	public float GetDamageAmount() => Damage;
 	public void OnDamaged() {}
 
-	public bool BounceBack = false;
+	public bool IsDead = false;
+	public double DieAnimationTime = 0.5;
+
+	private Vector2 InternalScale = Vector2.One;
+
 	public AnimationPlayer AnimationPlayer;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -45,7 +49,8 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		if(Health <= 0)
 		{
 			GetNode<CollisionShape2D>("HitBox/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-			Died();
+			CallDeferred("Died");
+			//Died();
 		}
 	}
 	
@@ -55,7 +60,6 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		{
 			var projectile = (IDamager)node;
 			var damage = projectile.GetDamageAmount();
-			BounceBack = true;
 			CallDeferred("OnHit", damage);
 			node.CallDeferred("OnDamaged");
 		}
@@ -66,23 +70,32 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 
 	}
 	
-	public void Died()
+	public async void Died()
 	{
+		if(IsDead)
+		{
+			return;
+		}
+		IsDead = true;
+
+		// stop colliding
+		GetNode<CollisionShape2D>("CollisionShape2D")?.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		GetNode<CollisionShape2D>("HitBox/CollisionShape2D")?.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+
+		Speed = 0;
+
+		await ToSignal(GetTree().CreateTimer(DieAnimationTime), "timeout");
+		QueueFree();
+		
 		if (GD.Randi() % 10 == 0)
 		{
 			Main.PickupSpawner.CallDeferred("SpawnRandomPickup", this.Position);
+			SignalManager.Instance.EmitSignal(SignalManager.SignalName.EnemyDied, (int)this.EnemyType);
 		}
-		QueueFree();
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void _IntegrateForces(PhysicsDirectBodyState2D state)
 	{
-		if(BounceBack)
-		{
-			BounceBack = false;
-			return;
-		}
-
 		Vector2 t;
 		if (Target?.Position == null)
 		{
@@ -99,13 +112,20 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 
 		Vector2 vectorTo = (t - this.Position).Normalized();
 		this.Rotation = 0f;
-		LinearVelocity = vectorTo * Speed;
-		base._PhysicsProcess(delta);
+		state.LinearVelocity = vectorTo * Speed / state.Step;
+		//ApplyForce(vectorTo * Speed);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
-
+		if(IsDead)
+		{
+			if (InternalScale.Length() > 0.1f)
+			{
+				InternalScale -= new Vector2(0.1f,0.1f);
+			}
+			this.Scale = InternalScale;
+		}
 	}
 }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doqmhrm33fer1"
-path="res://.godot/imported/SandSpriteSheet.png-885e35b2ec20defe1a80ffb1818782d9.ctex"
+uid="uid://boqrf4buujgli"
+path="res://.godot/imported/TorpedoSmallSpritesheet.png-7c904a9b3ebc49c66c4da6faecf1b3e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/SandSpriteSheet.png"
-dest_files=["res://.godot/imported/SandSpriteSheet.png-885e35b2ec20defe1a80ffb1818782d9.ctex"]
+source_file="res://art/TorpedoSmallSpritesheet.png"
+dest_files=["res://.godot/imported/TorpedoSmallSpritesheet.png-7c904a9b3ebc49c66c4da6faecf1b3e2.ctex"]
 
 [params]
 

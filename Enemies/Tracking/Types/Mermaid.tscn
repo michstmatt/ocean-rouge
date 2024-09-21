@@ -40,7 +40,7 @@ physics_material_override = ExtResource("1_k4rhd")
 gravity_scale = 0.0
 script = ExtResource("1_djkyn")
 EnemyType = 4
-Speed = 100.0
+Speed = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
@@ -61,5 +61,8 @@ collision_mask = 8
 position = Vector2(-2, 2.1875)
 shape = SubResource("RectangleShape2D_1tpof")
 debug_color = Color(0.985106, 0, 0.337054, 0.42)
+
+[node name="CollisionTimer" type="Timer" parent="."]
+wait_time = 0.5
 
 [connection signal="body_entered" from="HitBox" to="." method="OnBodyEntered"]

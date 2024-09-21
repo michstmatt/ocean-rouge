@@ -55,7 +55,7 @@ gravity_scale = 0.0
 script = ExtResource("1_naqos")
 WeaponFireType = 1
 HitCount = 1
-Speed = 800.0
+Speed = 600.0
 Damage = 5.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

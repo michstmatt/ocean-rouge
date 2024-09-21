@@ -6,3 +6,9 @@
 [node name="PickupSpawner" type="Node"]
 script = ExtResource("1_78oy3")
 PickupScene = ExtResource("2_jemqy")
+
+[node name="RandomPlacementTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="RandomPlacementTimer" to="." method="RandomTimerTimeout"]

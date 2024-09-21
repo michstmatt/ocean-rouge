@@ -54,6 +54,10 @@ public partial class Pickup : Area2D
 		if(node is Player)
 		{
 			SignalManager.Instance.EmitSignal(SignalManager.SignalName.ItemPickup, (int)Type, Amount);
+			if (Type == PickupType.Chest)
+			{
+				SignalManager.Instance.EmitSignal(SignalManager.SignalName.NewWeaponAvailable);
+			}
 			QueueFree();
 		}
 		

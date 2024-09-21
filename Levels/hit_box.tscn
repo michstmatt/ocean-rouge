@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b7rbm3t25v0kg"]
 
-[ext_resource type="Script" path="res://HitBox.cs" id="1_kgfug"]
+[ext_resource type="Script" path="res://Levels/HitBox.cs" id="1_kgfug"]
 [ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="2_d74f4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3i18n"]

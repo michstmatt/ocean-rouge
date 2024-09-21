@@ -14,28 +14,37 @@ public partial class WeaponSelect : CanvasLayer
 	[Signal]
 	public delegate void MenuShowEventHandler(bool menuShowing);
 
-	protected WeaponType[] Weapons;
+	protected List<WeaponType> Weapons;
 	protected int SelectedIndex = 0;
 	public override void _Ready()
 	{
+		ProcessMode = Node.ProcessModeEnum.Always;
 		WeaponList = GetNode<ItemList>("WeaponList");
-		Weapons = Enum.GetValues<WeaponType>();
-		CreateList();
+
+		SignalManager.Instance.NewWeaponAvailable += ShowMenu;
+		SignalManager.Instance.GameOver += (isOver) =>
+		{
+			if (isOver == false)
+			{
+				CreateList();
+			}
+		};
 	}
 
 	public void ShowMenu()
 	{
 		Visible = true;
-		EmitSignal(SignalName.MenuShow, true);
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.PauseGame, true);
 	}
 
 	public void CreateList()
 	{
+		Weapons = Enum.GetValues<WeaponType>().ToList();
 		WeaponList.Clear();
-
 		foreach(var weaponType in Weapons)
 		{
-			WeaponList.AddItem(weaponType.ToString(), selectable: true);
+			var t2d = GetNode<AnimatedSprite2D>("Art")?.SpriteFrames.GetFrameTexture(weaponType.ToString(), 0);
+			WeaponList.AddItem(weaponType.ToString(), selectable: true, icon: t2d);
 		}
 	}
 
@@ -45,8 +54,11 @@ public partial class WeaponSelect : CanvasLayer
 	}
 	public void OnSelectButton()
 	{
-		EmitSignal(SignalName.MenuShow, false);
-		EmitSignal(SignalName.WeaponSelected,(int)Weapons[SelectedIndex]);
+		var weapon = Weapons[SelectedIndex];
+		EmitSignal(SignalName.WeaponSelected,(int)weapon);
+		Weapons.RemoveAt(SelectedIndex);
+		WeaponList.RemoveItem(SelectedIndex);
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.PauseGame, false);
 		Visible = false;
 	}
 

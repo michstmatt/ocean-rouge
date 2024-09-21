@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doqmhrm33fer1"
-path="res://.godot/imported/SandSpriteSheet.png-885e35b2ec20defe1a80ffb1818782d9.ctex"
+uid="uid://bmv007bxg5uyk"
+path="res://.godot/imported/SeashellSpritesheet.png-e157b745943e7a16756cac59b8d087d2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/SandSpriteSheet.png"
-dest_files=["res://.godot/imported/SandSpriteSheet.png-885e35b2ec20defe1a80ffb1818782d9.ctex"]
+source_file="res://art/SeashellSpritesheet.png"
+dest_files=["res://.godot/imported/SeashellSpritesheet.png-e157b745943e7a16756cac59b8d087d2.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c3c53jgagoo5e"]
+[gd_scene load_steps=14 format=3 uid="uid://c3c53jgagoo5e"]
 
 [ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="1_e8df0"]
 [ext_resource type="Script" path="res://Hud.cs" id="1_rdo82"]
@@ -9,56 +9,6 @@ action = &"start_game"
 
 [sub_resource type="Shortcut" id="Shortcut_5pgf4"]
 events = [SubResource("InputEventAction_pps66")]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c84xg"]
-atlas = ExtResource("3_e15rp")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v685q"]
-atlas = ExtResource("3_e15rp")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ocuo"]
-atlas = ExtResource("3_e15rp")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6die1"]
-atlas = ExtResource("3_e15rp")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b62tc"]
-atlas = ExtResource("3_e15rp")
-region = Rect2(0, 16, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jnjxx"]
-atlas = ExtResource("3_e15rp")
-region = Rect2(16, 16, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_nv3wm"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c84xg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v685q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0ocuo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6die1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b62tc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jnjxx")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u0twa"]
 atlas = ExtResource("3_e15rp")
@@ -169,23 +119,6 @@ shortcut = SubResource("Shortcut_5pgf4")
 text = "Start"
 
 [node name="MessageTimer" type="Timer" parent="."]
-
-[node name="Health" type="Node2D" parent="."]
-
-[node name="HealthIcon" type="AnimatedSprite2D" parent="Health"]
-position = Vector2(60, 45)
-scale = Vector2(6, 6)
-sprite_frames = SubResource("SpriteFrames_nv3wm")
-
-[node name="HealthLabel" type="Label" parent="Health"]
-offset_left = 99.0
-offset_top = 1.0
-offset_right = 259.0
-offset_bottom = 79.0
-theme_override_fonts/font = ExtResource("1_e8df0")
-theme_override_font_sizes/font_size = 64
-text = "100"
-autowrap_mode = 2
 
 [node name="Coins" type="Node2D" parent="."]
 position = Vector2(944, 56)

@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcrg0k8jlg78"]
+[gd_scene load_steps=25 format=3 uid="uid://bcrg0k8jlg78"]
 
 [ext_resource type="Script" path="res://WeaponSelect.cs" id="1_7gv1s"]
 [ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="2_36m84"]
+[ext_resource type="Texture2D" uid="uid://dyax5ity68jr6" path="res://art/AnchorSpritesheet.png" id="3_btfhe"]
+[ext_resource type="Texture2D" uid="uid://bpcc1vsxwpjwo" path="res://art/SonarSpritesheet.png" id="3_gc2fw"]
+[ext_resource type="Texture2D" uid="uid://bmv007bxg5uyk" path="res://art/SeashellSpritesheet.png" id="4_h0peu"]
+[ext_resource type="Texture2D" uid="uid://boqrf4buujgli" path="res://art/TorpedoSmallSpritesheet.png" id="5_tnjkv"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_pps66"]
 action = &"start_game"
@@ -9,28 +13,148 @@ action = &"start_game"
 [sub_resource type="Shortcut" id="Shortcut_vlyx4"]
 events = [SubResource("InputEventAction_pps66")]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcc7p"]
+atlas = ExtResource("3_btfhe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lk41"]
+atlas = ExtResource("4_h0peu")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5c6n"]
+atlas = ExtResource("4_h0peu")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3261"]
+atlas = ExtResource("4_h0peu")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgnjt"]
+atlas = ExtResource("4_h0peu")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7th4y"]
+atlas = ExtResource("4_h0peu")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_js3tr"]
+atlas = ExtResource("4_h0peu")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sp8qk"]
+atlas = ExtResource("3_gc2fw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2bcx"]
+atlas = ExtResource("3_gc2fw")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfwvk"]
+atlas = ExtResource("3_gc2fw")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ctsm"]
+atlas = ExtResource("3_gc2fw")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41hcd"]
+atlas = ExtResource("5_tnjkv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jif01"]
+atlas = ExtResource("5_tnjkv")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg0yu"]
+atlas = ExtResource("5_tnjkv")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a4pl"]
+atlas = ExtResource("5_tnjkv")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8f4d7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcc7p")
+}],
+"loop": true,
+"name": &"Anchor",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lk41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5c6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3261")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgnjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7th4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_js3tr")
+}],
+"loop": true,
+"name": &"Seashell",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sp8qk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2bcx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfwvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ctsm")
+}],
+"loop": true,
+"name": &"Sonar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41hcd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jif01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fg0yu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7a4pl")
+}],
+"loop": true,
+"name": &"Torpedo",
+"speed": 5.0
+}]
+
 [node name="WeaponSelect" type="CanvasLayer"]
 script = ExtResource("1_7gv1s")
 
-[node name="WeaponList" type="ItemList" parent="."]
-top_level = true
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -200.0
-offset_right = 400.0
-offset_bottom = 200.0
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_36m84")
-theme_override_font_sizes/font_size = 40
-
 [node name="SelectButton" type="Button" parent="."]
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_top = -96.0
-offset_right = 220.0
-offset_bottom = 4.0
+offset_left = -104.0
+offset_top = -120.0
+offset_right = 116.0
+offset_bottom = -20.0
+grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_36m84")
@@ -38,5 +162,26 @@ theme_override_font_sizes/font_size = 64
 shortcut = SubResource("Shortcut_vlyx4")
 text = "Select"
 
-[connection signal="item_selected" from="WeaponList" to="." method="ItemSelected"]
+[node name="WeaponList" type="ItemList" parent="."]
+top_level = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -204.0
+offset_right = 200.0
+offset_bottom = 196.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_36m84")
+theme_override_font_sizes/font_size = 40
+
+[node name="Art" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_8f4d7")
+animation = &"Seashell"
+
 [connection signal="pressed" from="SelectButton" to="." method="OnSelectButton"]
+[connection signal="item_selected" from="WeaponList" to="." method="ItemSelected"]

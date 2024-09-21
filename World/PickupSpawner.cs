@@ -5,6 +5,9 @@ public partial class PickupSpawner : Node
 {
 	[Export]
    	public PackedScene PickupScene { get; set; }
+	public PickupType[] PickupTypes = new PickupType[] {PickupType.Coin, PickupType.Health}; 
+	public PickupType[] RarePickupTypes = new PickupType[] {PickupType.Chest};
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -27,8 +30,25 @@ public partial class PickupSpawner : Node
 
 	public void SpawnRandomPickup(Vector2 position)
 	{
-		PickupType type = GD.Randi() % 2 == 0 ? PickupType.Health : PickupType.Coin;
+		PickupType type;
+		if (GD.Randi() % 25 == 0)
+		{
+			type = RarePickupTypes[(int)GD.Randi() % RarePickupTypes.Length];
+		}
+		else
+		{
+			type = PickupTypes[Random.Shared.Next(PickupTypes.Length)];
+		}
 		uint amount = (GD.Randi() % 5) + 1;
 		this.SpawnNewPickup(type, amount, position);
+	}
+
+	public void RandomTimerTimeout()
+	{
+		var players = GetTree().GetNodesInGroup(Constants.PlayerGroup);
+		var selected = (Player)players[(int)(GD.Randi() % players.Count)];
+
+		var placement = selected.Position + new Vector2(400-GD.Randf() * 800, 400-GD.Randf() * 800);
+		SpawnRandomPickup(placement);
 	}
 }

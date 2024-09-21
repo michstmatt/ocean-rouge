@@ -5,7 +5,21 @@ public partial class Hud : CanvasLayer
 {
 	[Signal]
 	public delegate void StartGameEventHandler();
-	
+
+	public uint Coins = 0;
+
+	public override void _Ready()
+	{
+		SignalManager.Instance.ItemPickup += (PickupType t, uint amount) =>
+		{
+			if (t == PickupType.Coin)
+			{
+				Coins += amount;
+				UpdateCoins((int)Coins);
+			}
+		};
+	}
+
 	public void ShowMessage(string text)
 	{
 		var message = GetNode<Label>("Message");
@@ -28,6 +42,8 @@ public partial class Hud : CanvasLayer
 
 		await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
 		GetNode<Button>("StartButton").Show();
+		Coins = 0;
+		UpdateCoins(0);
 	}
 	
 		
@@ -36,9 +52,8 @@ public partial class Hud : CanvasLayer
 		GetNode<Label>("ScoreLabel").Text = score.ToString();
 	}
 	
-	public void UpdateHealthAndCoins(int health, int coins)
+	public void UpdateCoins(int coins)
 	{
-		GetNode<Label>("Health/HealthLabel").Text = health.ToString();
 		GetNode<Label>("Coins/CoinLabel").Text = coins.ToString();
 	}
 	

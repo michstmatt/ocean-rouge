@@ -74,7 +74,7 @@ public partial class ProjectileSpawner : Node
 			}
 			Projectile projectile = scene.Instantiate<Projectile>();
 
-			projectile.Position = parent.Position;
+			projectile.Position = parent.Position + new Vector2(10*GD.Randf() - 5, 10 * GD.Randf() - 5);
 
 			if (projectile.WeaponFireType == WeaponFireType.PlayerMovement)
 			{

@@ -12,7 +12,8 @@ public enum WeaponType
 {
     Torpedo,
     Sonar,
-	Anchor
+	Anchor,
+	Seashell
 }
 
 
@@ -24,7 +25,8 @@ public class WeaponFactory
 		{
 			case WeaponType.Anchor: return 4;
 			case WeaponType.Torpedo: return 6;
-			case WeaponType.Sonar: return 1;
+			case WeaponType.Sonar: return 2;
+			case WeaponType.Seashell: return 1;
 			default: return 10;
 		}
 	}
@@ -41,6 +43,9 @@ public class WeaponFactory
 
 			case WeaponType.Anchor:
 				return "res://Projectile/Types/Anchor.tscn";
+
+			case WeaponType.Seashell:
+				return "res://Projectile/Types/Seashell.tscn";
 			default:
 				throw new ArgumentOutOfRangeException(nameof(weaponType), weaponType, "Unsupported enemy type");
 		}
