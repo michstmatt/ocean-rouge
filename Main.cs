@@ -11,6 +11,7 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
+		base._Ready();
 		ProcessMode = Node.ProcessModeEnum.Always;
 		var mobSpawner = GetNode<TrackingMobSpawner>("TrackingMobSpawner");
 		var pickupSpawner = GetNode<PickupSpawner>("PickupSpawner");
@@ -22,6 +23,7 @@ public partial class Main : Node
 
 	public override void _Process(double delta)
 	{
+		base._Process(delta);
 		if(Input.IsActionPressed("pause"))
 		{
 			SignalManager.Instance.EmitSignal(SignalManager.SignalName.PauseGame, !IsPaused);

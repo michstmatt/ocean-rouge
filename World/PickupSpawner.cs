@@ -12,6 +12,11 @@ public partial class PickupSpawner : Node
 	public override void _Ready()
 	{
 		Init();
+		SignalManager.Instance.PauseGame += (bool isPaused) =>
+		{
+			var timer = GetNode<Timer>("RandomPlacementTimer");
+			timer.Paused = isPaused;
+		};
 	}
 
 	public void Init()

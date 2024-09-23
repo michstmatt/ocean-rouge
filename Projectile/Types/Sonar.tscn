@@ -1,44 +1,41 @@
-[gd_scene load_steps=10 format=3 uid="uid://d1sp6c6l5bjsu"]
+[gd_scene load_steps=9 format=3 uid="uid://d1sp6c6l5bjsu"]
 
 [ext_resource type="Script" path="res://Projectile/Types/Sonar.cs" id="1_mi0xa"]
 [ext_resource type="Texture2D" uid="uid://bpcc1vsxwpjwo" path="res://art/SonarSpritesheet.png" id="2_5otli"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7qv5v"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2lapi"]
+radius = 11.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q62k4"]
-radius = 51.0
-height = 102.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gyhjq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dlmd3"]
 atlas = ExtResource("2_5otli")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w6rkk"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_lds4h"]
 atlas = ExtResource("2_5otli")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3pvel"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqh43"]
 atlas = ExtResource("2_5otli")
 region = Rect2(0, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1y4bf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcpvv"]
 atlas = ExtResource("2_5otli")
 region = Rect2(32, 32, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_esmnm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_5rh0v"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gyhjq")
+"texture": SubResource("AtlasTexture_dlmd3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_w6rkk")
+"texture": SubResource("AtlasTexture_lds4h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3pvel")
+"texture": SubResource("AtlasTexture_fqh43")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1y4bf")
+"texture": SubResource("AtlasTexture_mcpvv")
 }],
 "loop": true,
 "name": &"default",
@@ -48,25 +45,19 @@ animations = [{
 [node name="Sonar" type="RigidBody2D"]
 collision_layer = 8
 collision_mask = 20
-mass = 1000.0
-physics_material_override = SubResource("PhysicsMaterial_7qv5v")
+mass = 1e+07
 gravity_scale = 0.0
 script = ExtResource("1_mi0xa")
 WeaponType = 1
-HitCount = 2
-Speed = 500.0
+WeaponFireType = 2
+HitCount = 10
+Speed = 1.0
 Damage = 5.0
+Direction = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5, 0)
-shape = SubResource("CapsuleShape2D_q62k4")
+shape = SubResource("CircleShape2D_2lapi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(4, 4)
-sprite_frames = SubResource("SpriteFrames_esmnm")
-
-[node name="DisappearTimer" type="Timer" parent="."]
-wait_time = 3.0
-autostart = true
-
-[connection signal="timeout" from="DisappearTimer" to="." method="Disappear"]
+modulate = Color(1, 1, 1, 0.498039)
+sprite_frames = SubResource("SpriteFrames_5rh0v")

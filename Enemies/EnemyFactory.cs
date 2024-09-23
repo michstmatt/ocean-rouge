@@ -8,7 +8,8 @@ public enum EnemyType
 	Fishy,
 	Crab,
 	Mermaid,
-	Jellyfish
+	Jellyfish,
+	Starfish
 }
 
 
@@ -32,6 +33,8 @@ public class EnemyFactory
 				return "res://Enemies/Tracking/Types/Mermaid.tscn";
 			case EnemyType.Jellyfish:
 				return "res://Enemies/Tracking/Types/Jellyfish.tscn";
+			case EnemyType.Starfish:
+				return "res://Enemies/Tracking/Types/Starfish.tscn";
 
 			default:
 				throw new ArgumentOutOfRangeException(nameof(enemyType), enemyType, "Unsupported enemy type");

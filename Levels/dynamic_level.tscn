@@ -6,7 +6,7 @@
 [sub_resource type="Gradient" id="Gradient_8c6vd"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2boax"]
-frequency = 0.0183
+frequency = 0.0432
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sg8tl"]
 width = 300

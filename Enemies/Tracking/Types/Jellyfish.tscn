@@ -65,6 +65,7 @@ Health = 1.0
 Speed = 4.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.490196)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_c7tda")
 animation = &"alt"

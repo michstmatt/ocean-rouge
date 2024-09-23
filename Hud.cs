@@ -40,7 +40,7 @@ public partial class Hud : CanvasLayer
 		message.Text = "Dodge the Creeps!";
 		message.Show();
 
-		await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
+		//await this.CreateAsyncTimer(1.0f);
 		GetNode<Button>("StartButton").Show();
 		Coins = 0;
 		UpdateCoins(0);

@@ -1,0 +1,123 @@
+[gd_scene load_steps=17 format=3 uid="uid://dcc0hbnvmytj5"]
+
+[ext_resource type="Script" path="res://Projectile/Projectile.cs" id="1_txxm0"]
+[ext_resource type="Texture2D" uid="uid://b1sy710ye5rlu" path="res://art/TridentSpritesheet.png" id="2_mnq5e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5u71"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xt13j"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6glg"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmote"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3fug"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phor5"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j20cl"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fgvo"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_furtm"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm7qe"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6rrg"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fd41l"]
+atlas = ExtResource("2_mnq5e")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yb36j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5u71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xt13j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6glg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmote")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3fug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_phor5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j20cl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fgvo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_furtm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm7qe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6rrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fd41l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bddsu"]
+size = Vector2(124, 60)
+
+[node name="Trident" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 20
+mass = 100.0
+gravity_scale = 0.0
+script = ExtResource("1_txxm0")
+WeaponType = 4
+WeaponFireType = 1
+HitCount = 10
+Speed = 550.0
+Damage = 5.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
+rotation = 1.5708
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_yb36j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, -2)
+shape = SubResource("RectangleShape2D_bddsu")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

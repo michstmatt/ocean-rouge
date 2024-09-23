@@ -27,6 +27,7 @@ public partial class TrackingMobSpawner : Node
 
 	public override void _Ready()
 	{
+		base._Ready();
 		MobScenes = new Dictionary<EnemyType,PackedScene>();
 		foreach(EnemyType type in EnemyFactory.EnemyTypes)
 		{

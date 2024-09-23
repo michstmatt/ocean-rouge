@@ -7,4 +7,4 @@ script = ExtResource("1_cprla")
 
 [node name="AutoFireTimer" type="Timer" parent="."]
 
-[connection signal="timeout" from="AutoFireTimer" to="." method="FireProjectile"]
+[connection signal="timeout" from="AutoFireTimer" to="." method="FireWeaponTypes"]

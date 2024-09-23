@@ -27,7 +27,7 @@ loop = true
 script = ExtResource("1_2tfk1")
 
 [node name="DynamicLevel" parent="." instance=ExtResource("2_c7etp")]
-FloorAtlasIndices = PackedInt32Array(0)
+scale = Vector2(2, 2)
 
 [node name="Player" parent="." instance=ExtResource("2_82ew5")]
 
@@ -89,7 +89,6 @@ visible = false
 
 [node name="Pausable" type="Node" parent="."]
 
-[connection signal="GameStart" from="." to="Player/ProjectileSpawner" method="UpdateTimer"]
 [connection signal="GameStart" from="." to="TrackingMobSpawner" method="UpdateTimer"]
 [connection signal="Dead" from="Player" to="." method="GameOver"]
 [connection signal="timeout" from="ScoreTimer" to="." method="OnScoreTimerTimeout"]

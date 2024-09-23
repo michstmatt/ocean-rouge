@@ -14,7 +14,7 @@ public partial class DynamicLevel : Node2D
 	public int[] FloorAtlasIndices;
 
 	[Export]
-	public Vector2 FloorSpawnHeight = new Vector2(-1, 0.5f);
+	public Vector2 FloorSpawnHeight = new Vector2(-1, 0.3f);
 
 	[Export]
 	public int[] DecoreAtlasIndices;
@@ -23,7 +23,7 @@ public partial class DynamicLevel : Node2D
 	public int[] ObstacleAtalasIndices;
 
 	[Export]
-	public Vector2 ObstacleSpawnHeight = new Vector2(0.5f, 1f);
+	public Vector2 ObstacleSpawnHeight = new Vector2(0.3f, 1f);
 
 	[Export]
 	public Vector2I Dimensions = new Vector2I(300,300);

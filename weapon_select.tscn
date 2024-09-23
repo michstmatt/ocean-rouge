@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bcrg0k8jlg78"]
+[gd_scene load_steps=32 format=3 uid="uid://bcrg0k8jlg78"]
 
 [ext_resource type="Script" path="res://WeaponSelect.cs" id="1_7gv1s"]
 [ext_resource type="FontFile" uid="uid://oolmns7boaqi" path="res://fonts/Xolonium-Regular.ttf" id="2_36m84"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bpcc1vsxwpjwo" path="res://art/SonarSpritesheet.png" id="3_gc2fw"]
 [ext_resource type="Texture2D" uid="uid://bmv007bxg5uyk" path="res://art/SeashellSpritesheet.png" id="4_h0peu"]
 [ext_resource type="Texture2D" uid="uid://boqrf4buujgli" path="res://art/TorpedoSmallSpritesheet.png" id="5_tnjkv"]
+[ext_resource type="Texture2D" uid="uid://b1sy710ye5rlu" path="res://art/TridentSpritesheet.png" id="7_l6773"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_pps66"]
 action = &"start_game"
@@ -73,6 +74,30 @@ region = Rect2(0, 32, 32, 32)
 atlas = ExtResource("5_tnjkv")
 region = Rect2(32, 32, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_cl5uj"]
+atlas = ExtResource("7_l6773")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e67xd"]
+atlas = ExtResource("7_l6773")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s46g6"]
+atlas = ExtResource("7_l6773")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrsmk"]
+atlas = ExtResource("7_l6773")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwuxn"]
+atlas = ExtResource("7_l6773")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rldoh"]
+atlas = ExtResource("7_l6773")
+region = Rect2(32, 64, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_8f4d7"]
 animations = [{
 "frames": [{
@@ -139,6 +164,29 @@ animations = [{
 "loop": true,
 "name": &"Torpedo",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cl5uj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e67xd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s46g6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrsmk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwuxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rldoh")
+}],
+"loop": true,
+"name": &"Trident",
+"speed": 5.0
 }]
 
 [node name="WeaponSelect" type="CanvasLayer"]
@@ -181,7 +229,7 @@ theme_override_font_sizes/font_size = 40
 [node name="Art" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = SubResource("SpriteFrames_8f4d7")
-animation = &"Seashell"
+animation = &"Trident"
 
 [connection signal="pressed" from="SelectButton" to="." method="OnSelectButton"]
 [connection signal="item_selected" from="WeaponList" to="." method="ItemSelected"]

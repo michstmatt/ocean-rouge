@@ -23,12 +23,13 @@ public partial class Projectile : RigidBody2D, IDamager
 	[Export]
 	public Vector2 Direction {get; set;} = Vector2.Right;
 
-	bool ShouldDelete = false;
+	protected bool ShouldDelete = false;
 
 	public float GetDamageAmount() => Damage;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		base._Ready();
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Sprite.Play("default");
 		
@@ -38,6 +39,7 @@ public partial class Projectile : RigidBody2D, IDamager
 
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
 		Direction = Direction.Normalized() * Speed;
 		Rotation = Direction.Angle();
 		LinearVelocity = Direction;

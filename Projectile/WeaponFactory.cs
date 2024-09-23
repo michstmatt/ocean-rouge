@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Godot;
 
 public enum WeaponFireType
@@ -10,45 +12,120 @@ public enum WeaponFireType
 
 public enum WeaponType
 {
-    Torpedo,
-    Sonar,
+	Torpedo,
+	Sonar,
 	Anchor,
-	Seashell
+	Seashell,
+	Trident
+}
+
+public class WeaponMetadata
+{
+	public float FireRate { get; set; }
+	public float CoolDown { get; set; }
+	public string WeaponScene { get; set; }
+	public int WeaponLevel { get; set; } = 1;
+	public int WeaponCount { get; set; } = 1;
+}
+
+public enum WeaponFireState
+{
+	Fire,
+	Delay,
+	Cooldown,
+}
+public class WeaponState
+{
+	public WeaponFireState FireState;
+	public int ProjectileCount;
+	public double NextFireTime;
+
+	public readonly WeaponMetadata Metadata;
+	public readonly WeaponType Type;
+
+	public WeaponState(WeaponType type, WeaponMetadata weaponMetadata)
+	{
+		FireState = WeaponFireState.Delay;
+		NextFireTime = -1;
+		ProjectileCount = 0;
+		Type = type;
+		Metadata = weaponMetadata;
+	}
+
+	public WeaponFireState UpdateState(double time)
+	{
+		if(FireState == WeaponFireState.Fire)
+		{
+			ProjectileCount++;
+			if(ProjectileCount == Metadata.WeaponCount)
+			{
+				ProjectileCount = 0;
+				NextFireTime = time + Metadata.CoolDown;
+				FireState = WeaponFireState.Cooldown;
+			}
+			else
+			{
+				NextFireTime = time + Metadata.FireRate;
+				FireState = WeaponFireState.Delay;
+			}
+		}
+		else if (FireState == WeaponFireState.Delay)
+		{
+			if(time >= NextFireTime)
+			{
+				FireState = WeaponFireState.Fire;
+			}
+		}
+		else if (FireState == WeaponFireState.Cooldown)
+		{
+			if(time >= NextFireTime)
+			{
+				FireState = WeaponFireState.Fire;
+			}
+		}
+		return FireState;
+	}
 }
 
 
 public class WeaponFactory
 {
-	public static int GetFireRate(WeaponType type)
-	{
-		switch(type)
-		{
-			case WeaponType.Anchor: return 4;
-			case WeaponType.Torpedo: return 6;
-			case WeaponType.Sonar: return 2;
-			case WeaponType.Seashell: return 1;
-			default: return 10;
-		}
-	}
 	public static WeaponType[] WeaponTypes = Enum.GetValues<WeaponType>();
-	public static string GetWeaponScene(WeaponType weaponType)
+
+	private static Dictionary<WeaponType, WeaponMetadata> WeaponsMetadata = new Dictionary<WeaponType, WeaponMetadata>()
 	{
-		switch(weaponType)
+		{ WeaponType.Anchor, new WeaponMetadata()
 		{
-			case WeaponType.Torpedo:
-				return "res://Projectile/Types/Torpedo.tscn";
+			CoolDown=4,
+			WeaponScene = "res://Projectile/Types/Anchor.tscn"
+		}},
+		{ WeaponType.Seashell, new WeaponMetadata()
+		{
+			CoolDown=1,
+			WeaponScene = "res://Projectile/Types/Seashell.tscn",
+			WeaponCount=2,
+			FireRate=0.1f,
+		}},
+		{ WeaponType.Sonar, new WeaponMetadata()
+		{
+			CoolDown=2,
+			WeaponScene = "res://Projectile/Types/Sonar.tscn"
+		}},
+		{ WeaponType.Torpedo, new WeaponMetadata()
+		{
+			CoolDown=6,
+			WeaponScene = "res://Projectile/Types/Torpedo.tscn"
+		}},
+		{ WeaponType.Trident, new WeaponMetadata()
+		{
+			CoolDown=6,
+			WeaponScene = "res://Projectile/Types/Trident.tscn"
+		}}
+	};
 
-			case WeaponType.Sonar:
-				return "res://Projectile/Types/Sonar.tscn";
-
-			case WeaponType.Anchor:
-				return "res://Projectile/Types/Anchor.tscn";
-
-			case WeaponType.Seashell:
-				return "res://Projectile/Types/Seashell.tscn";
-			default:
-				throw new ArgumentOutOfRangeException(nameof(weaponType), weaponType, "Unsupported enemy type");
-		}
+	public static WeaponMetadata GetWeaponMetadata(WeaponType weaponType)
+	{
+		return WeaponsMetadata[weaponType];
 	}
 }
 

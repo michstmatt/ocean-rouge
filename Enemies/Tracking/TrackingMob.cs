@@ -10,34 +10,38 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 	public EnemyType EnemyType;
 
 	[Export]
-	public float Damage {get; set;} = 10f;
+	public float Damage { get; set; } = 10f;
 
 	[Export]
-	public float Health {get; set;} = 10f;
+	public float Health { get; set; } = 10f;
 
 	[Export]
-	public float Speed {get; set;} = 200f;
+	public float Speed { get; set; } = 200f;
 
 	[Signal]
 	public delegate void HitEventHandler(int amount, int type);
 
 	public float GetDamageAmount() => Damage;
-	public void OnDamaged() {}
+	public void OnDamaged() { }
 
 	public bool IsDead = false;
-	public double DieAnimationTime = 0.5;
+	public float DieAnimationTime = 0.5f;
+	public double DieEndTime = double.NegativeInfinity;
 
 	private Vector2 InternalScale = Vector2.One;
 
 	public AnimationPlayer AnimationPlayer;
+	public double GameTime;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		base._Ready();
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
 		animatedSprite2D.Play(mobTypes[GD.Randi() % mobTypes.Length]);
+		GameTime = 0;
 	}
-	
+
 	public void OnHit(float damage)
 	{
 		Health -= damage;
@@ -46,14 +50,14 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		Main.ScoreBoxSpawner.CreateScoreText((int)-damage, HitEventType.Damage, this.Position);
 		EmitSignal(SignalName.Hit, damage, (int)HitEventType.Damage);
 
-		if(Health <= 0)
+		if (Health <= 0)
 		{
 			GetNode<CollisionShape2D>("HitBox/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 			CallDeferred("Died");
 			//Died();
 		}
 	}
-	
+
 	public void OnBodyEntered(Node2D node)
 	{
 		if (node is IDamager)
@@ -69,10 +73,10 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 	{
 
 	}
-	
-	public async void Died()
+
+	public void Died()
 	{
-		if(IsDead)
+		if (IsDead)
 		{
 			return;
 		}
@@ -83,24 +87,17 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		GetNode<CollisionShape2D>("HitBox/CollisionShape2D")?.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 
 		Speed = 0;
-
-		await ToSignal(GetTree().CreateTimer(DieAnimationTime), "timeout");
-		QueueFree();
-		
-		if (GD.Randi() % 10 == 0)
-		{
-			Main.PickupSpawner.CallDeferred("SpawnRandomPickup", this.Position);
-			SignalManager.Instance.EmitSignal(SignalManager.SignalName.EnemyDied, (int)this.EnemyType);
-		}
 	}
 
 	public override void _IntegrateForces(PhysicsDirectBodyState2D state)
 	{
+		base._IntegrateForces(state);
 		Vector2 t;
 		if (Target?.Position == null)
 		{
 			t = Vector2.Zero;
-		}else
+		}
+		else
 		{
 			t = Target.Position;
 		}
@@ -119,13 +116,29 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-		if(IsDead)
+		base._PhysicsProcess(delta);
+		GameTime += delta;
+		if (IsDead)
 		{
+			if(DieEndTime == double.NegativeInfinity)
+			{
+				DieEndTime = GameTime + DieAnimationTime;
+			}
 			if (InternalScale.Length() > 0.1f)
 			{
-				InternalScale -= new Vector2(0.1f,0.1f);
+				InternalScale -= new Vector2(0.1f, 0.1f);
 			}
-			this.Scale = InternalScale;
+			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Scale = InternalScale;
+			if (GameTime >= DieEndTime)
+			{
+				QueueFree();
+
+				if (GD.Randi() % 10 == 0)
+				{
+					Main.PickupSpawner.CallDeferred("SpawnRandomPickup", this.Position);
+					SignalManager.Instance.EmitSignal(SignalManager.SignalName.EnemyDied, (int)this.EnemyType);
+				}
+			}
 		}
 	}
 }

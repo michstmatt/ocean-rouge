@@ -27,11 +27,11 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
-radius = 14.0
-height = 68.0
+radius = 39.0
+height = 92.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
-size = Vector2(79.5, 65.25)
+size = Vector2(79.5, 87.625)
 
 [node name="Crab" type="RigidBody2D"]
 collision_layer = 4

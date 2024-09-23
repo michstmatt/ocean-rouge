@@ -32,4 +32,5 @@ sources/0 = SubResource("TileSetAtlasSource_vmxn3")
 script = ExtResource("2_hy7rs")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+modulate = Color(1, 1, 1, 0.14902)
 tile_set = SubResource("TileSet_rokwi")
