@@ -18,6 +18,8 @@ public partial class Main : Node
 		PickupSpawner = pickupSpawner;
 		ScoreBoxSpawner = GetNode<ScoreBoxSpawner>("ScoreBoxSpawner");
 
+		GetTree().DebugCollisionsHint = true;
+
 		SignalManager.Instance.PauseGame += PauseGame;
 	}
 

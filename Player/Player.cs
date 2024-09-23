@@ -89,8 +89,11 @@ public partial class Player : CharacterBody2D, IKillable
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+
+
+	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
 		var velocity = GetInput();
 
 		if (velocity.Length() > 0)
@@ -98,7 +101,9 @@ public partial class Player : CharacterBody2D, IKillable
 			velocity = velocity.Normalized() * Speed;
 		}
 		
-		Position += velocity * (float)delta;
+		//Position += velocity * (float)delta;
+		Velocity = velocity;
+		MoveAndSlide();
 		
 		Animate(velocity);
 	}

@@ -53,7 +53,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qexb0"]
 radius = 14.0
-height = 126.718
+height = 114.0
 
 [sub_resource type="Animation" id="Animation_srn0a"]
 length = 0.001
@@ -94,7 +94,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 22
+collision_mask = 23
 script = ExtResource("1_21rrp")
 metadata/_edit_group_ = true
 
@@ -106,9 +106,7 @@ animation = &"Swim"
 frame_progress = 0.259652
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, -8)
-scale = Vector2(1, 0.994332)
+scale = Vector2(1.006, 1)
 shape = SubResource("CapsuleShape2D_qexb0")
 
 [node name="Area2D" type="Area2D" parent="."]

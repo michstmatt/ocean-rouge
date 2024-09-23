@@ -27,8 +27,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fqoyo"]
-radius = 8.0
-height = 52.0
+radius = 26.0
+height = 84.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1tpof"]
 size = Vector2(89, 65.25)
@@ -46,7 +46,7 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_x6xo8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, -4)
+position = Vector2(-2, -8)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_fqoyo")
 

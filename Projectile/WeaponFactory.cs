@@ -87,6 +87,19 @@ public class WeaponState
 	}
 }
 
+public class WeaponLevelUp
+{
+	public enum WeaponLevelUpType
+	{
+		AnotherProjectile,
+		CooldownReduction,
+		FireRateReduction
+	}
+	public WeaponLevelUpType Type;
+	public float Amount;
+
+}
+
 
 public class WeaponFactory
 {

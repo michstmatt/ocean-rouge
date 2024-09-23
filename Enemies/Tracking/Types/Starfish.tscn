@@ -221,14 +221,12 @@ animation = &"Orange"
 frame_progress = 0.382234
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(1, -2)
 shape = SubResource("CapsuleShape2D_fqoyo")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="HitBox" type="Area2D" parent="."]
-visible = false
 collision_layer = 16
 collision_mask = 8
 
