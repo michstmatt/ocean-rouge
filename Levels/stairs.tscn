@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b48ugncnbtbjr"]
+
+[ext_resource type="Texture2D" uid="uid://dh6vohdbxkbj1" path="res://art/StairsSpritesheet.png" id="1_ihoj6"]
+[ext_resource type="Script" path="res://Levels/Stairs.cs" id="1_ndtev"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdd3s"]
+atlas = ExtResource("1_ihoj6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gf5ds"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdd3s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqf1r"]
+size = Vector2(32, 32)
+
+[node name="Stairs" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_ndtev")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gf5ds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wqf1r")

@@ -32,8 +32,14 @@ public partial class Projectile : RigidBody2D, IDamager
 		base._Ready();
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		Sprite.Play("default");
-		
+
+		GetNode<Area2D>("HitBox").BodyEntered += OnWallHit;		
 		//Position += Velocity * (float)delta;
+	}
+
+	public void OnWallHit(Node2D wall)
+	{
+		QueueFree();
 	}
 
 

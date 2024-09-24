@@ -73,7 +73,7 @@ public partial class TrackingMobSpawner : Node
 
 	public void SpawnMob()
 	{
-		
+		return;
 		UpdateFrequency(time++);
 
 		var enemyCount = GetTree().GetNodesInGroup(Constants.MobGroup).Count;

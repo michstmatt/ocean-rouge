@@ -18,9 +18,10 @@ public partial class Main : Node
 		PickupSpawner = pickupSpawner;
 		ScoreBoxSpawner = GetNode<ScoreBoxSpawner>("ScoreBoxSpawner");
 
-		GetTree().DebugCollisionsHint = true;
+		//GetTree().DebugCollisionsHint = true;
 
 		SignalManager.Instance.PauseGame += PauseGame;
+		SignalManager.Instance.OnStairsEntered += OnNextLevel;
 	}
 
 	public override void _Process(double delta)
@@ -94,6 +95,13 @@ public partial class Main : Node
 	{
 		GetNode<Timer>("ScoreTimer").Start();
 		EmitSignal(SignalName.GameStart, true);
+	}
+
+	public void OnNextLevel()
+	{
+		GetNode<DynamicFloor>("DynamicFloor").Setup();
+		var startPosition = GetNode<Marker2D>("StartPosition");
+		GetNode<Player>("Player").Position = startPosition.Position;
 	}
 
 }

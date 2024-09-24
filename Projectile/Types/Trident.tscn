@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcc0hbnvmytj5"]
+[gd_scene load_steps=18 format=3 uid="uid://dcc0hbnvmytj5"]
 
 [ext_resource type="Script" path="res://Projectile/Projectile.cs" id="1_txxm0"]
 [ext_resource type="Texture2D" uid="uid://b1sy710ye5rlu" path="res://art/TridentSpritesheet.png" id="2_mnq5e"]
@@ -98,6 +98,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bddsu"]
 size = Vector2(124, 60)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdmb8"]
+size = Vector2(80.5, 81)
+
 [node name="Trident" type="RigidBody2D"]
 collision_layer = 8
 collision_mask = 21
@@ -119,5 +122,13 @@ sprite_frames = SubResource("SpriteFrames_yb36j")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, -2)
 shape = SubResource("RectangleShape2D_bddsu")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(34.25, -2.5)
+shape = SubResource("RectangleShape2D_qdmb8")
+debug_color = Color(1, 0.6, 0.701961, 0.419608)
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]

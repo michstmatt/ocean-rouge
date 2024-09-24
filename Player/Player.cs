@@ -101,11 +101,14 @@ public partial class Player : CharacterBody2D, IKillable
 			velocity = velocity.Normalized() * Speed;
 		}
 		
-		//Position += velocity * (float)delta;
 		Velocity = velocity;
 		MoveAndSlide();
-		
-		Animate(velocity);
+	}
+
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
+		Animate(Velocity);
 	}
 
 	public void OnBodyEntered(Node2D body)

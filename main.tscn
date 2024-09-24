@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Main.cs" id="1_2tfk1"]
 [ext_resource type="PackedScene" uid="uid://cyeogkpnbj3i4" path="res://Player/player.tscn" id="2_82ew5"]
-[ext_resource type="PackedScene" uid="uid://dxtv4h8fitsxw" path="res://Levels/dynamic_level.tscn" id="2_c7etp"]
+[ext_resource type="PackedScene" uid="uid://bjd1uyqvimpb0" path="res://Levels/dynamic_floor.tscn" id="2_qyy4u"]
 [ext_resource type="PackedScene" uid="uid://cfbcfklat3idu" path="res://Projectile/projectile_spawner.tscn" id="4_nwcrd"]
 [ext_resource type="PackedScene" uid="uid://c3c53jgagoo5e" path="res://hud.tscn" id="4_vtvkl"]
 [ext_resource type="AudioStream" uid="uid://86peh4ll5lty" path="res://art/gameover.wav" id="5_15hdg"]
@@ -26,8 +26,7 @@ loop = true
 [node name="Main" type="Node"]
 script = ExtResource("1_2tfk1")
 
-[node name="DynamicLevel" parent="." instance=ExtResource("2_c7etp")]
-scale = Vector2(2, 2)
+[node name="DynamicFloor" parent="." instance=ExtResource("2_qyy4u")]
 
 [node name="Player" parent="." instance=ExtResource("2_82ew5")]
 

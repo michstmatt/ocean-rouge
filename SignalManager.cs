@@ -20,6 +20,9 @@ public partial class SignalManager : Node
 	[Signal]
 	public delegate void NewWeaponAvailableEventHandler();
 
+	[Signal]
+	public delegate void OnStairsEnteredEventHandler();
+
 	public static SignalManager Instance {get; private set;}
 
 	public override void _Ready()
