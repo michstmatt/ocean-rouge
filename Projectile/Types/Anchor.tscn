@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1sh8m23a1kqy"]
+[gd_scene load_steps=7 format=3 uid="uid://b1sh8m23a1kqy"]
 
 [ext_resource type="Script" path="res://Projectile/Projectile.cs" id="1_ixnne"]
 [ext_resource type="Texture2D" uid="uid://dyax5ity68jr6" path="res://art/AnchorSpritesheet.png" id="2_1mhe0"]
@@ -20,6 +20,9 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bddsu"]
 size = Vector2(110, 116)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rnse7"]
+size = Vector2(53, 113)
 
 [node name="Anchor" type="RigidBody2D"]
 collision_layer = 8
@@ -43,5 +46,13 @@ sprite_frames = SubResource("SpriteFrames_xpp32")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(26, 3)
 shape = SubResource("RectangleShape2D_bddsu")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(60, 2.5)
+shape = SubResource("RectangleShape2D_rnse7")
+debug_color = Color(1, 0.6, 0.701961, 0.419608)
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
