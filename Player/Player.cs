@@ -98,11 +98,12 @@ public partial class Player : CharacterBody2D, IKillable
 
 		if (velocity.Length() > 0)
 		{
-			velocity = velocity.Normalized() * Speed;
+			velocity = velocity.Normalized() * Speed * (float)delta;
 		}
 		
 		Velocity = velocity;
-		MoveAndSlide();
+		MoveAndCollide(Velocity);
+		//MoveAndSlide();
 	}
 
 	public override void _Process(double delta)
@@ -124,6 +125,7 @@ public partial class Player : CharacterBody2D, IKillable
 				
 				rb.ApplyCentralImpulse(oppDirectionToPlayer * EnemyBounce);
 				rb.OnHit(CollisionDamage);
+				this.Velocity = -1000 * oppDirectionToPlayer;
 			}
 		}
 	}

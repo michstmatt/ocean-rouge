@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2vrkqnmxbfb2"]
+
+[ext_resource type="Script" path="res://World/MiniMap.cs" id="1_08it7"]
+
+[node name="MiniMap" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_08it7")
+
+[node name="Redraw" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="Redraw" to="Control" method="Redraw"]

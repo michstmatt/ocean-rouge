@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b48ugncnbtbjr" path="res://Levels/stairs.tscn" id="3_q5ic3"]
 
 [node name="DynamicFloor" type="Node2D"]
-scale = Vector2(5, 5)
+scale = Vector2(6, 6)
 script = ExtResource("1_fy6s1")
 FloorAtlasIndices = PackedInt32Array(0)
 WallAtlasIndices = PackedInt32Array(6)
@@ -13,11 +13,9 @@ DecorAtlasIndices = PackedInt32Array(1, 2)
 
 [node name="Outside" type="TileMapLayer" parent="."]
 modulate = Color(0.784314, 0.784314, 0.784314, 1)
-scale = Vector2(1, 1)
 tile_set = ExtResource("1_2gn86")
 
 [node name="Decor" type="TileMapLayer" parent="."]
-scale = Vector2(1, 1)
 tile_set = ExtResource("1_2gn86")
 
 [node name="Floor" type="TileMapLayer" parent="."]

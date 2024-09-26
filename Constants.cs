@@ -7,4 +7,5 @@ public static class Constants
 	public const string PlayerGroup = "players";
 	public const string OnHitMethod = "OnHit";
 	public const string PickupGroup = "pickups";
+	public const string DynamicFloor = "dynamicfloors";
 }

@@ -35,17 +35,29 @@ public partial class DynamicFloor : Node2D
 
 	public TileMapLayer Floor;
 
-	public List<(int, Vector2I)> FloorTiles;
-	public List<(int, Vector2I)> WallTiles;
+	public List<TileData> FloorTiles;
+	public List<TileData> WallTiles;
 
 	protected Random rng = new Random();
 
 	public Vector2I[] Directions = new Vector2I[] { Vector2I.Down, Vector2I.Left, Vector2I.Up, Vector2I.Right };
 
+	public class TileData
+	{
+		public int AtlasId {get;}
+		public Vector2I TileCoordinate {get;}
+
+		public TileData(int atlasId, Vector2I tile)
+		{
+			AtlasId = atlasId;
+			TileCoordinate = tile;
+		}
+	}
+
 	public override void _Ready()
 	{
 		base._Ready();
-
+		AddToGroup(Constants.DynamicFloor);
 		Floor = GetNode<TileMapLayer>("Floor");
 		FloorTiles = GetAvailableTiles(Floor.TileSet, FloorAtlasIndices);
 		WallTiles = GetAvailableTiles(Floor.TileSet, WallAtlasIndices);
@@ -80,9 +92,9 @@ public partial class DynamicFloor : Node2D
 		return Math.Abs(res);
 	}
 
-	public List<(int, Vector2I)> GetAvailableTiles(TileSet tileSet, IEnumerable<int> indices)
+	public List<TileData> GetAvailableTiles(TileSet tileSet, IEnumerable<int> indices)
 	{
-		var availableTiles = new List<(int, Vector2I)>();
+		var availableTiles = new List<TileData>();
 
 		foreach (var sourceId in indices)
 		{
@@ -90,7 +102,7 @@ public partial class DynamicFloor : Node2D
 			var sourceLen = source.GetTilesCount();
 			for (int tileId = 0; tileId < sourceLen; tileId++)
 			{
-				availableTiles.Add((sourceId, source.GetTileId(tileId)));
+				availableTiles.Add(new TileData(sourceId, source.GetTileId(tileId)));
 			}
 		}
 
@@ -121,8 +133,8 @@ public partial class DynamicFloor : Node2D
 			{
 				if ((int)GD.Randi() % rateInX == 0)
 				{
-					var (atlasId, randomTileIdx) = availableTiles.ElementAt((int)(GD.Randi() % availableTiles.Count()));
-					tileMap.SetCell(loc, atlasId, randomTileIdx);
+					var tileData = availableTiles.ElementAt((int)(GD.Randi() % availableTiles.Count()));
+					tileMap.SetCell(loc, tileData.AtlasId, tileData.TileCoordinate);
 				}
 			}
 		}
@@ -136,30 +148,49 @@ public partial class DynamicFloor : Node2D
 		MakeRoom(Vector2I.Zero);
 
 		var direction = Vector2I.Zero;
-
 		for (int room = 1; room <= numRooms; room++)
 		{
 			direction = getNewDirection(direction);
-			location = MakeHallway(direction, location);
-			MakeRoom(location);
+			var length = rng.Next(MinRoomDistance, MaxRoomDistance + 1);
+			var newLocation = location + (direction * length);
+			MakeRoom(newLocation);
+			location = MakeHallway(direction, location, length);
 		}
 	}
 
-	protected void setEmptyCellItem(Vector2I coords, (int, Vector2I) tileData, int alt = 0)
+	protected void setEmptyCellItem(Vector2I coords, TileData tileData, int alt = 0)
 	{
-		var data = Floor.GetCellAtlasCoords(coords);
-		var isSet = Floor.GetCellSourceId(coords);
-		if (FloorAtlasIndices.Contains(isSet))
+		if(FloorAtlasIndices.Contains(tileData.AtlasId))
 		{
+			setFloorCell(coords, tileData, alt);
+		}
+		else if (WallAtlasIndices.Contains(tileData.AtlasId))
+		{
+			setWallCell(coords, tileData, alt);
+		}
+	}
+
+	// takes precedence over walls
+	protected void setFloorCell(Vector2I coords, TileData tileData, int altTile = 0)
+	{
+		var tileAtlas = Floor.GetCellSourceId(coords);
+		if(FloorAtlasIndices.Contains(tileAtlas))
+		{
+			// floor already here, do nothing
 			return;
 		}
-		else if (WallAtlasIndices.Contains(isSet))
+		// this is either an empty space or wall, draw over it
+		Floor.SetCell(coords, tileData.AtlasId, tileData.TileCoordinate, altTile);
+	}
+
+	protected void setWallCell(Vector2I coords, TileData tileData, int altTile = 0)
+	{
+		var tileAtlas = Floor.GetCellSourceId(coords);
+		if(tileAtlas == -1)
 		{
-			var data2 = FloorTiles[0];
-			Floor.SetCell(coords, data2.Item1, data2.Item2);
-			return;
+			// nothing here, draw wall
+			Floor.SetCell(coords, tileData.AtlasId, tileData.TileCoordinate, altTile);
 		}
-		Floor.SetCell(coords, tileData.Item1, tileData.Item2, alt);
 	}
 
 	protected Vector2I getNewDirection(Vector2I current)
@@ -174,13 +205,18 @@ public partial class DynamicFloor : Node2D
 		return newDirection;
 	}
 
+	protected void setStairs(Vector2I location)
+	{
+		var stairs = GetNode<Stairs>("Stairs");
+		var pos = Floor.MapToLocal(location);
+		stairs.Position = pos;
+	}
 	protected void MakeRoom(Vector2I location)
 	{
 		var width = rng.Next(MinRoomSize, MaxRoomSize + 1) / 2 + 1;
 		var height = rng.Next(MinRoomSize, MaxRoomSize + 1) / 2 + 1;
 
-		var stairs = GetNode<Stairs>("Stairs");
-		stairs.Position = (location * 32) - new Vector2I(16,16);
+		setStairs(location);
 
 		Vector2I current;
 
@@ -245,9 +281,8 @@ public partial class DynamicFloor : Node2D
 
 	}
 
-	protected Vector2I MakeHallway(Vector2I direction, Vector2I location)
+	protected Vector2I MakeHallway(Vector2I direction, Vector2I location, int length)
 	{
-		var length = rng.Next(MinRoomDistance, MaxRoomDistance + 1);
 		var wall = WallTiles[0];
 
 		var offset = new Vector2I(direction.Y, direction.X);

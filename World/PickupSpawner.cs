@@ -8,6 +8,9 @@ public partial class PickupSpawner : Node
 	public PickupType[] PickupTypes = new PickupType[] {PickupType.Coin, PickupType.Health}; 
 	public PickupType[] RarePickupTypes = new PickupType[] {PickupType.Chest};
 
+	[Export]
+	public DynamicFloor DynamicFloor {get; set;}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -33,8 +36,10 @@ public partial class PickupSpawner : Node
 		pickup.AddToGroup(Constants.PickupGroup);
 	}
 
-	public void SpawnRandomPickup(Vector2 position)
+	public void SpawnRandomPickup()
 	{
+		Vector2I randTile = DynamicFloor.Floor.GetUsedCells().PickRandom();
+		var position = DynamicFloor.Floor.MapToLocal(randTile);
 		PickupType type;
 		if (GD.Randi() % 25 == 0)
 		{
@@ -50,10 +55,6 @@ public partial class PickupSpawner : Node
 
 	public void RandomTimerTimeout()
 	{
-		var players = GetTree().GetNodesInGroup(Constants.PlayerGroup);
-		var selected = (Player)players[(int)(GD.Randi() % players.Count)];
-
-		var placement = selected.Position + new Vector2(400-GD.Randf() * 800, 400-GD.Randf() * 800);
-		SpawnRandomPickup(placement);
+		SpawnRandomPickup();
 	}
 }

@@ -55,63 +55,6 @@ public partial class ProjectileSpawner : Node
 			//Weapons.Clear();
 		}
 	}
-	/*
-		private async void FireWeaponTypes()
-		{
-			GameTime += 1;
-
-			var parent = GetParent<Player>();
-
-			Vector2 nearestEnemy = Vector2.Zero;
-			float nearest = float.MaxValue;
-			foreach (Node2D enemy in GetTree().GetNodesInGroup(Constants.MobGroup))
-			{
-				var distance = parent.Position.DistanceTo(enemy.Position);
-				if (distance < nearest)
-				{
-					nearest = distance;
-					nearestEnemy = enemy.Position;
-				}
-			}
-
-			foreach (WeaponType weaponType in Weapons)
-			{
-				var scene = WeaponScenes.GetValueOrDefault(weaponType);
-				var weaponMetadata = WeaponFactory.GetWeaponMetadata(weaponType);
-				if (GameTime % weaponMetadata.CoolDown != 0)
-				{
-					continue;
-				}
-				await FireWeapon(weaponMetadata, scene, parent, nearestEnemy);
-			}
-		}
-
-		public async Task FireWeapon(WeaponMetadata weaponMetadata, PackedScene scene, Player parent, Vector2 nearestEnemy)
-		{
-
-			for (int projectileCount = 0; projectileCount < weaponMetadata.WeaponCount; projectileCount++)
-			{
-				Projectile projectile = scene.Instantiate<Projectile>();
-
-				projectile.Position = parent.Position + new Vector2(50 * GD.Randf() - 25, 50 * GD.Randf() - 25);
-
-				if (projectile.WeaponFireType == WeaponFireType.PlayerMovement)
-				{
-					projectile.Direction = parent.LastMove;
-				}
-				else if (projectile.WeaponFireType == WeaponFireType.Enemy)
-				{
-					projectile.Direction = (nearestEnemy - projectile.Position);
-				}
-				AddChild(projectile);
-				projectile.AddToGroup(Constants.ProjectileGroup);
-
-				await ToSignal(GetTree().CreateTimer(weaponMetadata.FireRate), "timeout");
-
-			}
-				await ToSignal(GetTree().CreateTimer(weaponMetadata.CoolDown), "timeout");
-		}
-	*/
 
 	public override void _Process(double delta)
 	{
