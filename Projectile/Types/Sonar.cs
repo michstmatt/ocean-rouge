@@ -36,7 +36,10 @@ public partial class Sonar : Projectile
 			CurrentScale += fDelta;
 			this.Damage = Math.Max(StartDamage * (1 - (CurrentScale/MaxScale)), 1f);
 			Sprite.Scale = new Vector2(CurrentScale, CurrentScale);
-			CircleShape.Radius = StartRadius * CurrentScale;
+			if (CircleShape != null)
+			{
+				CircleShape.Radius = StartRadius * CurrentScale;
+			}
 		}
 		else
 		{

@@ -11,9 +11,12 @@ public partial class Seashell : Projectile
 	public override void _Ready()
 	{
 		base._Ready();
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
-		animatedSprite2D.Play(mobTypes[GD.Randi() % mobTypes.Length]);
+	}
+	
+	protected override void PlaySprite()
+	{
+		string[] mobTypes = Sprite.SpriteFrames.GetAnimationNames();
+		Sprite.Play(mobTypes[GD.Randi() % mobTypes.Length]);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -12,7 +12,7 @@ public partial class StatsManager : Node
 		SignalManager.Instance.EnemyDied += OnEnemyKilled;
 	}
 
-	public void OnEnemyKilled(EnemyType t)
+	public void OnEnemyKilled(EnemyType t, Vector2 _)
 	{
 		EnemiesKilled += 1;
 	}

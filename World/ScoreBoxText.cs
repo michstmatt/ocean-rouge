@@ -6,6 +6,8 @@ public partial class ScoreBoxText : Node2D
 	public int Amount {get; set;}
 	public HitEventType HitEventType { get; set; }
 
+	public Vector2 ShrinkRate {get; set;} = new Vector2(0.5f, 0.5f);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -33,7 +35,8 @@ public partial class ScoreBoxText : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		base._Process(delta);
+		this.Scale -= ShrinkRate * (float)delta;
 	}
 
 	public void OnTimerTimeout()

@@ -21,6 +21,9 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 	[Signal]
 	public delegate void HitEventHandler(int amount, int type);
 
+	[Export]
+	public int LootDropRate1InN = 2;
+
 	public float GetDamageAmount() => Damage;
 	public void OnDamaged() { }
 
@@ -131,13 +134,11 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 			GetNode<AnimatedSprite2D>("AnimatedSprite2D").Scale = InternalScale;
 			if (GameTime >= DieEndTime)
 			{
-				QueueFree();
-
-				if (GD.Randi() % 10 == 0)
+				if (GD.Randi() % LootDropRate1InN == 0)
 				{
-					Main.PickupSpawner.CallDeferred("SpawnRandomPickup", this.Position);
-					SignalManager.Instance.EmitSignal(SignalManager.SignalName.EnemyDied, (int)this.EnemyType);
+					SignalManager.Instance.EmitSignal(SignalManager.SignalName.EnemyDied, (int)this.EnemyType, this.Position);
 				}
+				QueueFree();
 			}
 		}
 	}

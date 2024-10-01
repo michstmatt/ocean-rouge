@@ -12,6 +12,7 @@ public partial class ProjectileSpawner : Node
 
 	public double TotalTime;
 
+	public bool IsPaused = false;
 	private int GameTime;
 	//public List<WeaponType> Weapons;
 	public override void _Ready()
@@ -20,7 +21,18 @@ public partial class ProjectileSpawner : Node
 		Weapons = new List<WeaponState>();
 		WeaponScenes = new Dictionary<WeaponType, PackedScene>();
 		SignalManager.Instance.PauseGame += UpdateTimer;
+		SignalManager.Instance.GameOver += Reset;
+
 		TotalTime = 0;
+	}
+
+	protected void Reset(bool isOver)
+	{
+		if (isOver)
+		{
+			TotalTime = 0;
+			Weapons.Clear();
+		}
 	}
 
 	protected void AddWeaponScene(WeaponType weaponType)
@@ -44,6 +56,7 @@ public partial class ProjectileSpawner : Node
 	public void UpdateTimer(bool pause)
 	{
 		var timer = GetNode<Timer>("AutoFireTimer");
+		IsPaused = pause;
 		if (pause == false)
 		{
 			timer.Start();
@@ -52,13 +65,16 @@ public partial class ProjectileSpawner : Node
 		else
 		{
 			timer.Stop();
-			//Weapons.Clear();
 		}
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
-		base._Process(delta);
+		base._PhysicsProcess(delta);
+		if (IsPaused)
+		{
+			return;
+		}
 		TotalTime += delta;
 		if (TotalTime > double.MaxValue)
 		{

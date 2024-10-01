@@ -36,6 +36,8 @@ public partial class Player : CharacterBody2D, IKillable
 	[Signal]
 	public delegate void WeaponPickupEventHandler();
 
+	private bool IsPaused = false;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -43,6 +45,7 @@ public partial class Player : CharacterBody2D, IKillable
 		AnimationPlayer = GetNode<AnimationPlayer>("HitAnimationPlayer");
 
 		SignalManager.Instance.ItemPickup += OnItemPickedUp;
+		SignalManager.Instance.PauseGame += (isPaused) => IsPaused = isPaused;
 
 		Hide();
 	}
@@ -57,6 +60,10 @@ public partial class Player : CharacterBody2D, IKillable
 	
 	private Vector2 GetInput()
 	{
+		if(IsPaused)
+		{
+			return Vector2.Zero;
+		}
 		var velocity = Input.GetVector("move_left", "move_right", "move_up", "move_down");
 
 		if(velocity.X != 0 || velocity.Y != 0)

@@ -34,30 +34,32 @@ public partial class WeaponSelect : CanvasLayer
 	public void ShowMenu()
 	{
 		Visible = true;
+		CreateList();
 		SignalManager.Instance.EmitSignal(SignalManager.SignalName.PauseGame, true);
 	}
 
 	public void CreateList()
 	{
-		Weapons = Enum.GetValues<WeaponType>().ToList();
+		Weapons = new List<WeaponType>();
 		WeaponList.Clear();
-		foreach(var weaponType in Weapons)
+		foreach(var (weaponType, weapon) in WeaponFactory.WeaponsMetadata)
 		{
 			var t2d = GetNode<AnimatedSprite2D>("Art")?.SpriteFrames.GetFrameTexture(weaponType.ToString(), 0);
-			WeaponList.AddItem(weaponType.ToString(), selectable: true, icon: t2d);
+			string text = $"{weaponType} Level: {weapon.WeaponLevel + 1}";
+			WeaponList.AddItem(text, selectable: true, icon: t2d);
+			Weapons.Add(weaponType);
 		}
 	}
-
 	public void ItemSelected(int index)
 	{
 		SelectedIndex = index;
 	}
 	public void OnSelectButton()
 	{
-		var weapon = Weapons[SelectedIndex];
-		EmitSignal(SignalName.WeaponSelected,(int)weapon);
-		Weapons.RemoveAt(SelectedIndex);
-		WeaponList.RemoveItem(SelectedIndex);
+		var weaponType = Weapons[SelectedIndex];
+		var weapon = WeaponFactory.GetWeaponMetadata(weaponType);
+		weapon.LevelUp();
+		EmitSignal(SignalName.WeaponSelected, (int)weaponType);
 		SignalManager.Instance.EmitSignal(SignalManager.SignalName.PauseGame, false);
 		Visible = false;
 	}

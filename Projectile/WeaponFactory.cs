@@ -19,13 +19,193 @@ public enum WeaponType
 	Trident
 }
 
-public class WeaponMetadata
+public abstract class WeaponMetadata
 {
 	public float FireRate { get; set; }
 	public float CoolDown { get; set; }
 	public string WeaponScene { get; set; }
-	public int WeaponLevel { get; set; } = 1;
+	public int WeaponLevel { get; set; } = 0;
 	public int WeaponCount { get; set; } = 1;
+
+	public List<WeaponLevelUp> WeaponLevelUps {get; set;} = new List<WeaponLevelUp>()
+	{
+		new WeaponLevelUp(){ Type= WeaponLevelUp.WeaponLevelUpType.Noop}
+	};
+	private void HandleLevelUp(WeaponLevelUp weaponLevelUp)
+	{
+		switch (weaponLevelUp.Type)
+		{
+			case WeaponLevelUp.WeaponLevelUpType.AnotherProjectile:
+				this.WeaponCount++;
+				break;
+			case WeaponLevelUp.WeaponLevelUpType.CooldownReduction:
+				this.CoolDown -= weaponLevelUp.Amount;
+				break;
+			case WeaponLevelUp.WeaponLevelUpType.FireRateReduction:
+				this.FireRate -= weaponLevelUp.Amount;
+				break;
+			default:
+				return;
+		}
+	}
+
+	public void LevelUp()
+	{
+		this.WeaponLevel++;
+		if (WeaponLevel >= this.WeaponLevelUps.Count)
+		{
+			this.WeaponLevel--;
+			return;
+		}
+		var levelUpType = this.WeaponLevelUps[WeaponLevel];
+		HandleLevelUp(levelUpType);
+	}
+
+	public class Sonar : WeaponMetadata 
+	{
+		public Sonar()
+		{
+			CoolDown = 2;
+			WeaponScene = "res://Projectile/Types/Sonar.tscn";
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+		}
+	}
+
+	public class Anchor : WeaponMetadata
+	{
+		public Anchor()
+		{
+			CoolDown=4;
+			WeaponScene = "res://Projectile/Types/Anchor.tscn";
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+		}
+	}
+	
+	public class Seashell : WeaponMetadata
+	{
+		public Seashell() {
+			CoolDown=1;
+			WeaponScene = "res://Projectile/Types/Seashell.tscn";
+			WeaponCount=2;
+			FireRate=0.1f;
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+		}
+	}
+	
+	public class Torpedo : WeaponMetadata
+	{
+		public Torpedo()
+		{
+			CoolDown=6;
+			WeaponScene = "res://Projectile/Types/Torpedo.tscn";
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+		}
+	}
+
+	public class Trident : WeaponMetadata
+	{
+		public Trident()
+		{
+			CoolDown = 6;
+			WeaponScene = "res://Projectile/Types/Trident.tscn";
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+				Amount = 0.1f
+			});
+			WeaponLevelUps.Add(new WeaponLevelUp()
+			{
+				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+				Amount = 1
+			});
+		}
+	}
 }
 
 public enum WeaponFireState
@@ -93,52 +273,31 @@ public class WeaponLevelUp
 	{
 		AnotherProjectile,
 		CooldownReduction,
-		FireRateReduction
+		FireRateReduction,
+		Noop
 	}
 	public WeaponLevelUpType Type;
 	public float Amount;
-
 }
-
 
 public class WeaponFactory
 {
-	public static WeaponType[] WeaponTypes = Enum.GetValues<WeaponType>();
-
-	private static Dictionary<WeaponType, WeaponMetadata> WeaponsMetadata = new Dictionary<WeaponType, WeaponMetadata>()
+	public static void Reinit()
 	{
-		{ WeaponType.Anchor, new WeaponMetadata()
+		WeaponsMetadata=  new Dictionary<WeaponType, WeaponMetadata>()
 		{
-			CoolDown=4,
-			WeaponScene = "res://Projectile/Types/Anchor.tscn"
-		}},
-		{ WeaponType.Seashell, new WeaponMetadata()
-		{
-			CoolDown=1,
-			WeaponScene = "res://Projectile/Types/Seashell.tscn",
-			WeaponCount=2,
-			FireRate=0.1f,
-		}},
-		{ WeaponType.Sonar, new WeaponMetadata()
-		{
-			CoolDown=2,
-			WeaponScene = "res://Projectile/Types/Sonar.tscn"
-		}},
-		{ WeaponType.Torpedo, new WeaponMetadata()
-		{
-			CoolDown=6,
-			WeaponScene = "res://Projectile/Types/Torpedo.tscn"
-		}},
-		{ WeaponType.Trident, new WeaponMetadata()
-		{
-			CoolDown=6,
-			WeaponScene = "res://Projectile/Types/Trident.tscn"
-		}}
-	};
+			{WeaponType.Anchor, new WeaponMetadata.Anchor()},
+			{WeaponType.Seashell, new WeaponMetadata.Seashell()},
+			{WeaponType.Sonar, new WeaponMetadata.Sonar()},
+			{WeaponType.Torpedo, new WeaponMetadata.Torpedo()},
+			{WeaponType.Trident, new WeaponMetadata.Trident()}
+		};
+	}
+	public static Dictionary<WeaponType, WeaponMetadata> WeaponsMetadata {get; private set;} 
 
 	public static WeaponMetadata GetWeaponMetadata(WeaponType weaponType)
 	{
 		return WeaponsMetadata[weaponType];
 	}
-}
 
+}

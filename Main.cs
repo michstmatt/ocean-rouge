@@ -46,6 +46,8 @@ public partial class Main : Node
 	{
 		_score = 0;
 
+		WeaponFactory.Reinit();
+
 		var hud = GetNode<Hud>("HUD");
 		hud.UpdateScore(_score);
 		hud.ShowMessage("Get Ready!");

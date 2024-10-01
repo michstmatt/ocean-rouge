@@ -34,6 +34,19 @@ public partial class TrackingMobSpawner : Node
 			var scene = EnemyFactory.GetEnemyScene(type);
 			MobScenes.Add(type, (PackedScene)ResourceLoader.Load(scene));
 		}
+
+		SignalManager.Instance.GameOver += Reset;
+		SignalManager.Instance.PauseGame += (isPaused) => UpdateTimer(!isPaused);
+	}
+
+	void Reset(bool gameOver)
+	{
+		if(gameOver)
+		{
+			GetTree().CallGroup(Constants.MobGroup, "QueueFree");
+			Init();
+		}
+		UpdateTimer(!gameOver);
 	}
 
 	void Init()
@@ -49,8 +62,8 @@ public partial class TrackingMobSpawner : Node
 		SpawnTimer = GetNode<Timer>("SpawnTimer");
 		if(start)
 		{
-			Init();
 			SpawnTimer.Start();
+			Init();
 		}
 		else
 		{

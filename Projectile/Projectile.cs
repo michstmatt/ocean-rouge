@@ -31,17 +31,24 @@ public partial class Projectile : RigidBody2D, IDamager
 	{
 		base._Ready();
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		Sprite.Play("default");
+		PlaySprite();
 
-		GetNode<Area2D>("HitBox").BodyEntered += OnWallHit;		
-		//Position += Velocity * (float)delta;
+		var hitbox = GetNode<Area2D>("HitBox");
+		if (hitbox != null)
+		{
+			hitbox.BodyEntered += OnWallHit;
+		}
+	}
+	
+	protected virtual void PlaySprite()
+	{
+		Sprite.Play("default");
 	}
 
 	public void OnWallHit(Node2D wall)
 	{
-		QueueFree();
+		ShouldDelete = true;
 	}
-
 
 	public override void _PhysicsProcess(double delta)
 	{

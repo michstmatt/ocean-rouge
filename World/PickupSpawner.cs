@@ -20,6 +20,11 @@ public partial class PickupSpawner : Node
 			var timer = GetNode<Timer>("RandomPlacementTimer");
 			timer.Paused = isPaused;
 		};
+		SignalManager.Instance.EnemyDied += (EnemyType _, Vector2 pos) =>
+		{
+			GD.Print("HERE");
+			SpawnNewPickup(PickupType.Chest, 1, pos);
+		};
 	}
 
 	public void Init()

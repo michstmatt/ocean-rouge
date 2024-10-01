@@ -110,14 +110,13 @@ scale = Vector2(1.006, 1)
 shape = SubResource("CapsuleShape2D_qexb0")
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 collision_layer = 2
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -6)
-scale = Vector2(1, 0.994332)
+scale = Vector2(1.5, 1.1)
 shape = SubResource("CapsuleShape2D_qexb0")
+debug_color = Color(0.966723, 0.0709021, 0.427808, 0.42)
 
 [node name="HitAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

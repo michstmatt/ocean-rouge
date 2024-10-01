@@ -12,7 +12,7 @@ public partial class SignalManager : Node
 	public delegate void GameOverEventHandler(bool isOver);
 
 	[Signal]
-	public delegate void EnemyDiedEventHandler(EnemyType type);
+	public delegate void EnemyDiedEventHandler(EnemyType type, Vector2 location);
 
 	[Signal]
 	public delegate void PauseGameEventHandler(bool pause);
