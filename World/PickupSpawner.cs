@@ -22,8 +22,7 @@ public partial class PickupSpawner : Node
 		};
 		SignalManager.Instance.EnemyDied += (EnemyType _, Vector2 pos) =>
 		{
-			GD.Print("HERE");
-			SpawnNewPickup(PickupType.Chest, 1, pos);
+			SpawnRandomPickup(pos);
 		};
 	}
 
@@ -41,10 +40,13 @@ public partial class PickupSpawner : Node
 		pickup.AddToGroup(Constants.PickupGroup);
 	}
 
-	public void SpawnRandomPickup()
+	public void SpawnRandomPickupRandomLocation()
 	{
 		Vector2I randTile = DynamicFloor.Floor.GetUsedCells().PickRandom();
 		var position = DynamicFloor.Floor.MapToLocal(randTile);
+	}
+	public void SpawnRandomPickup(Vector2 position)
+	{
 		PickupType type;
 		if (GD.Randi() % 25 == 0)
 		{
@@ -60,6 +62,6 @@ public partial class PickupSpawner : Node
 
 	public void RandomTimerTimeout()
 	{
-		SpawnRandomPickup();
+		SpawnRandomPickupRandomLocation();
 	}
 }

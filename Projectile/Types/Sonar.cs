@@ -19,7 +19,7 @@ public partial class Sonar : Projectile
 	{
 		base._Ready();
 		CurrentScale = 1f;
-		StartDamage = Damage;
+		StartDamage = Metadata.DamageAmount;
 		StartRadius = 11f;
 		CircleShape = GetNode<CollisionShape2D>("CollisionShape2D").Shape as CircleShape2D;
 		CircleShape.Radius = StartRadius;
@@ -34,7 +34,7 @@ public partial class Sonar : Projectile
 		{
 			var fDelta = ScaleRate * (float)delta;
 			CurrentScale += fDelta;
-			this.Damage = Math.Max(StartDamage * (1 - (CurrentScale/MaxScale)), 1f);
+			Metadata.DamageAmount = Math.Max(StartDamage * (1 - (CurrentScale/MaxScale)), 1f);
 			Sprite.Scale = new Vector2(CurrentScale, CurrentScale);
 			if (CircleShape != null)
 			{

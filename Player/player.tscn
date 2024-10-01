@@ -127,4 +127,7 @@ libraries = {
 position = Vector2(-29, -68)
 scale = Vector2(0.6, 0.6)
 
+[node name="CollisionTimer" type="Timer" parent="."]
+wait_time = 0.2
+
 [connection signal="body_entered" from="Area2D" to="." method="OnBodyEntered"]

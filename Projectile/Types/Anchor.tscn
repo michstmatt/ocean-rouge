@@ -32,9 +32,6 @@ gravity_scale = 0.0
 script = ExtResource("1_ixnne")
 WeaponType = 2
 WeaponFireType = 2
-HitCount = 10000000
-Speed = 800.0
-Damage = 5.0
 Direction = Vector2(0, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

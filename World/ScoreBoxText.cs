@@ -8,6 +8,15 @@ public partial class ScoreBoxText : Node2D
 
 	public Vector2 ShrinkRate {get; set;} = new Vector2(0.5f, 0.5f);
 
+	[Export]
+	Color Damage {get; set;}
+
+	[Export]
+	Color Health {get; set;}
+
+	[Export]
+	Color Coins {get; set;}
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -17,13 +26,13 @@ public partial class ScoreBoxText : Node2D
 		switch (HitEventType)
 		{
 			case HitEventType.Damage:
-				color = new Color(255,0,0);
+				color = Damage;
 				break;
 			case HitEventType.Health:
-				color = new Color(0,255,0);
+				color = Health;
 				break;
 			case HitEventType.Coins:
-				color = new Color(255,167,11);
+			 	color = Coins;
 				break;
 			default:
 				color = new Color(255,255,255);

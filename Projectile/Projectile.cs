@@ -9,14 +9,7 @@ public partial class Projectile : RigidBody2D, IDamager
 	[Export]
 	public WeaponFireType WeaponFireType;
 
-	[Export]
-	public int HitCount {get; set;}
-
-	[Export]
-	public float Speed {get; set;} = 400f;
-
-	[Export]
-	public float Damage{get; set;} = 10;
+	public WeaponMetadata Metadata;
 
 	public AnimatedSprite2D Sprite;
 
@@ -25,11 +18,13 @@ public partial class Projectile : RigidBody2D, IDamager
 
 	protected bool ShouldDelete = false;
 
-	public float GetDamageAmount() => Damage;
+	public float GetDamageAmount() => Metadata.DamageAmount;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		base._Ready();
+		Metadata = WeaponFactory.GetWeaponMetadata(WeaponType).Instantiate();
+
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		PlaySprite();
 
@@ -53,7 +48,7 @@ public partial class Projectile : RigidBody2D, IDamager
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
-		Direction = Direction.Normalized() * Speed;
+		Direction = Direction.Normalized() * Metadata.Speed;
 		Rotation = Direction.Angle();
 		LinearVelocity = Direction;
 		if (ShouldDelete)
@@ -64,8 +59,8 @@ public partial class Projectile : RigidBody2D, IDamager
 
 	public void OnDamaged()
 	{
-		HitCount -= 1;
-		if (HitCount <= 0)
+		Metadata.HitCount -= 1;
+		if (Metadata.HitCount <= 0)
 		{
 			ShouldDelete = true;
 		}

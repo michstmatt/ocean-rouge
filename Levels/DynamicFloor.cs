@@ -10,16 +10,16 @@ public partial class DynamicFloor : Node2D
 	public Vector2I Dimensions = new Vector2I(100, 100);
 
 	[Export]
-	int MinRoomSize = 4;
+	int MinRoomSize = 5;
 
 	[Export]
-	int MaxRoomSize = 10;
+	int MaxRoomSize = 12;
 
 	[Export]
-	public int MinRoomDistance = 12;
+	public int MinRoomDistance = 15;
 
 	[Export]
-	public int MaxRoomDistance = 24;
+	public int MaxRoomDistance = 30;
 
 	[Export]
 	public int NumRooms = 5;

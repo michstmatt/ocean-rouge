@@ -5,6 +5,9 @@
 
 [node name="ScoreBoxText" type="Node2D"]
 script = ExtResource("1_l6owg")
+Damage = Color(1, 0, 0, 1)
+Health = Color(0, 1, 0, 1)
+Coins = Color(1, 0.894118, 0, 1)
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0

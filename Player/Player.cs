@@ -47,6 +47,8 @@ public partial class Player : CharacterBody2D, IKillable
 		SignalManager.Instance.ItemPickup += OnItemPickedUp;
 		SignalManager.Instance.PauseGame += (isPaused) => IsPaused = isPaused;
 
+		GetNode<Timer>("CollisionTimer").Timeout += () => DisableCollision(false);
+
 		Hide();
 	}
 	public void Start(Vector2 position)
@@ -54,8 +56,7 @@ public partial class Player : CharacterBody2D, IKillable
 		Health = 100;
 		Position = position;
 		Show();
-		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
-		GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Disabled = false;
+		DisableCollision(false);
 	}
 	
 	private Vector2 GetInput()
@@ -96,8 +97,6 @@ public partial class Player : CharacterBody2D, IKillable
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-
-
 	public override void _PhysicsProcess(double delta)
 	{
 		base._PhysicsProcess(delta);
@@ -129,12 +128,19 @@ public partial class Player : CharacterBody2D, IKillable
 			{
 				var rb =(body as TrackingMob);
 				Vector2 oppDirectionToPlayer = (rb.GlobalPosition-GlobalPosition).Normalized();
+				rb.MoveAndCollide(oppDirectionToPlayer * EnemyBounce);
 				
-				rb.ApplyCentralImpulse(oppDirectionToPlayer * EnemyBounce);
+				//rb.ApplyCentralImpulse(oppDirectionToPlayer * EnemyBounce);
 				rb.OnHit(CollisionDamage);
-				this.Velocity = -1000 * oppDirectionToPlayer;
+				MoveAndCollide( -EnemyBounce * oppDirectionToPlayer);
 			}
 		}
+	}
+
+	public void DisableCollision(bool disabled = true)
+	{
+		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, disabled);
+		GetNode<CollisionShape2D>("Area2D/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, disabled);
 	}
 
 	public void OnHit(float damage)
@@ -145,8 +151,12 @@ public partial class Player : CharacterBody2D, IKillable
 		{
 			Hide();
 			EmitSignal(SignalName.Dead);
-			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-			GetNode<CollisionShape2D>("Area2D/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+			DisableCollision(true);
+		}
+		else
+		{
+			DisableCollision(true);
+			GetNode<Timer>("CollisionTimer").Start();
 		}
 		Main.ScoreBoxSpawner.CreateScoreText((int)-damage, HitEventType.Damage, this.Position);
 	}

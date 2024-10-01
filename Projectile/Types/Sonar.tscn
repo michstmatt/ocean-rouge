@@ -50,9 +50,6 @@ gravity_scale = 0.0
 script = ExtResource("1_mi0xa")
 WeaponType = 1
 WeaponFireType = 2
-HitCount = 10
-Speed = 1.0
-Damage = 5.0
 Direction = Vector2(0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

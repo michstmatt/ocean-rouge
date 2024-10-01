@@ -26,8 +26,16 @@ public abstract class WeaponMetadata
 	public string WeaponScene { get; set; }
 	public int WeaponLevel { get; set; } = 0;
 	public int WeaponCount { get; set; } = 1;
+	public float DamageAmount { get; set; } = 1;
+	public float Speed {get; set;}
+	public int HitCount {get; set;} = 1;
 
-	public List<WeaponLevelUp> WeaponLevelUps {get; set;} = new List<WeaponLevelUp>()
+	public WeaponMetadata Instantiate()
+	{
+		return this.MemberwiseClone() as WeaponMetadata;
+	}
+
+	public List<WeaponLevelUp> WeaponLevelUps { get; set; } = new List<WeaponLevelUp>()
 	{
 		new WeaponLevelUp(){ Type= WeaponLevelUp.WeaponLevelUpType.Noop}
 	};
@@ -39,10 +47,12 @@ public abstract class WeaponMetadata
 				this.WeaponCount++;
 				break;
 			case WeaponLevelUp.WeaponLevelUpType.CooldownReduction:
-				this.CoolDown -= weaponLevelUp.Amount;
+				if (this.CoolDown > weaponLevelUp.Amount)
+					this.CoolDown -= weaponLevelUp.Amount;
 				break;
 			case WeaponLevelUp.WeaponLevelUpType.FireRateReduction:
-				this.FireRate -= weaponLevelUp.Amount;
+				if (this.FireRate > weaponLevelUp.Amount)
+					this.FireRate -= weaponLevelUp.Amount;
 				break;
 			default:
 				return;
@@ -61,11 +71,14 @@ public abstract class WeaponMetadata
 		HandleLevelUp(levelUpType);
 	}
 
-	public class Sonar : WeaponMetadata 
+	public class Sonar : WeaponMetadata
 	{
 		public Sonar()
 		{
 			CoolDown = 2;
+			DamageAmount = 5;
+			Speed = 1;
+			HitCount = 10;
 			WeaponScene = "res://Projectile/Types/Sonar.tscn";
 			WeaponLevelUps.Add(new WeaponLevelUp()
 			{
@@ -94,7 +107,10 @@ public abstract class WeaponMetadata
 	{
 		public Anchor()
 		{
-			CoolDown=4;
+			CoolDown = 4;
+			DamageAmount = 5;
+			HitCount = int.MaxValue;
+			Speed = 800;
 			WeaponScene = "res://Projectile/Types/Anchor.tscn";
 			WeaponLevelUps.Add(new WeaponLevelUp()
 			{
@@ -118,14 +134,17 @@ public abstract class WeaponMetadata
 			});
 		}
 	}
-	
+
 	public class Seashell : WeaponMetadata
 	{
-		public Seashell() {
-			CoolDown=1;
+		public Seashell()
+		{
+			CoolDown = 4;
+			DamageAmount = 5;
+			Speed = 600;
 			WeaponScene = "res://Projectile/Types/Seashell.tscn";
-			WeaponCount=2;
-			FireRate=0.1f;
+			WeaponCount = 2;
+			FireRate = 0.1f;
 			WeaponLevelUps.Add(new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
@@ -148,12 +167,14 @@ public abstract class WeaponMetadata
 			});
 		}
 	}
-	
+
 	public class Torpedo : WeaponMetadata
 	{
 		public Torpedo()
 		{
-			CoolDown=6;
+			CoolDown = 6;
+			DamageAmount = 10;
+			Speed = 600;
 			WeaponScene = "res://Projectile/Types/Torpedo.tscn";
 			WeaponLevelUps.Add(new WeaponLevelUp()
 			{
@@ -178,6 +199,9 @@ public abstract class WeaponMetadata
 		public Trident()
 		{
 			CoolDown = 6;
+			DamageAmount = 5;
+			Speed = 550;
+			HitCount = 10;
 			WeaponScene = "res://Projectile/Types/Trident.tscn";
 			WeaponLevelUps.Add(new WeaponLevelUp()
 			{
@@ -213,6 +237,7 @@ public enum WeaponFireState
 	Fire,
 	Delay,
 	Cooldown,
+	DamageIncrease
 }
 public class WeaponState
 {
@@ -234,10 +259,10 @@ public class WeaponState
 
 	public WeaponFireState UpdateState(double time)
 	{
-		if(FireState == WeaponFireState.Fire)
+		if (FireState == WeaponFireState.Fire)
 		{
 			ProjectileCount++;
-			if(ProjectileCount == Metadata.WeaponCount)
+			if (ProjectileCount == Metadata.WeaponCount)
 			{
 				ProjectileCount = 0;
 				NextFireTime = time + Metadata.CoolDown;
@@ -251,14 +276,14 @@ public class WeaponState
 		}
 		else if (FireState == WeaponFireState.Delay)
 		{
-			if(time >= NextFireTime)
+			if (time >= NextFireTime)
 			{
 				FireState = WeaponFireState.Fire;
 			}
 		}
 		else if (FireState == WeaponFireState.Cooldown)
 		{
-			if(time >= NextFireTime)
+			if (time >= NextFireTime)
 			{
 				FireState = WeaponFireState.Fire;
 			}
@@ -284,7 +309,7 @@ public class WeaponFactory
 {
 	public static void Reinit()
 	{
-		WeaponsMetadata=  new Dictionary<WeaponType, WeaponMetadata>()
+		WeaponsMetadata = new Dictionary<WeaponType, WeaponMetadata>()
 		{
 			{WeaponType.Anchor, new WeaponMetadata.Anchor()},
 			{WeaponType.Seashell, new WeaponMetadata.Seashell()},
@@ -293,7 +318,7 @@ public class WeaponFactory
 			{WeaponType.Trident, new WeaponMetadata.Trident()}
 		};
 	}
-	public static Dictionary<WeaponType, WeaponMetadata> WeaponsMetadata {get; private set;} 
+	public static Dictionary<WeaponType, WeaponMetadata> WeaponsMetadata { get; private set; }
 
 	public static WeaponMetadata GetWeaponMetadata(WeaponType weaponType)
 	{
