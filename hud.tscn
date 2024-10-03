@@ -137,5 +137,28 @@ theme_override_font_sizes/font_size = 64
 text = "0"
 autowrap_mode = 2
 
+[node name="EnemiesContainer" type="GridContainer" parent="."]
+layout_direction = 2
+offset_right = 328.0
+offset_bottom = 78.0
+columns = 2
+
+[node name="KilledLabel" type="Label" parent="EnemiesContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_e8df0")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TotalKilledLabel" type="Label" parent="EnemiesContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("1_e8df0")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="StartButton" to="." method="OnStartButtonPressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="OnMessageTimerTimeout"]

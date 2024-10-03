@@ -35,6 +35,8 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 
 	public AnimationPlayer AnimationPlayer;
 	public double GameTime;
+
+	public bool EnteredScreen = false;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -43,6 +45,12 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 		string[] mobTypes = animatedSprite2D.SpriteFrames.GetAnimationNames();
 		animatedSprite2D.Play(mobTypes[GD.Randi() % mobTypes.Length]);
 		GameTime = 0;
+		EnteredScreen = false;
+
+		var screenNotifier = GetNode<VisibleOnScreenNotifier2D>("VisibleOnScreenNotifier2D");
+
+		screenNotifier.ScreenEntered += () => EnteredScreen = true;
+		screenNotifier.ScreenExited += OffScreen;
 	}
 
 	public void OnHit(float damage)
@@ -58,6 +66,14 @@ public partial class TrackingMob : RigidBody2D, IDamager, IKillable
 			GetNode<CollisionShape2D>("HitBox/CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 			CallDeferred("Died");
 			//Died();
+		}
+	}
+
+	public void OffScreen()
+	{
+		if (EnteredScreen)
+		{
+			QueueFree();
 		}
 	}
 

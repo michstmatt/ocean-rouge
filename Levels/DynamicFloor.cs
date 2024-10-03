@@ -16,10 +16,10 @@ public partial class DynamicFloor : Node2D
 	int MaxRoomSize = 12;
 
 	[Export]
-	public int MinRoomDistance = 15;
+	public int MinRoomDistance = 5;
 
 	[Export]
-	public int MaxRoomDistance = 30;
+	public int MaxRoomDistance = 20;
 
 	[Export]
 	public int NumRooms = 5;
@@ -61,11 +61,14 @@ public partial class DynamicFloor : Node2D
 		Floor = GetNode<TileMapLayer>("Floor");
 		FloorTiles = GetAvailableTiles(Floor.TileSet, FloorAtlasIndices);
 		WallTiles = GetAvailableTiles(Floor.TileSet, WallAtlasIndices);
-		Setup();
+		SignalManager.Instance.NextLevel += Setup;
 	}
 
 	public void Setup()
 	{
+		var levelState = LevelManager.Instance.GetCurrentLevel();
+		NumRooms = levelState.NumRooms;
+
 		var decor = GetNode<TileMapLayer>("Decor");
 		var outside = GetNode<TileMapLayer>("Outside");
 

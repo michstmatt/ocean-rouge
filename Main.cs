@@ -101,7 +101,6 @@ public partial class Main : Node
 
 	public void OnNextLevel()
 	{
-		GetNode<DynamicFloor>("DynamicFloor").Setup();
 		var startPosition = GetNode<Marker2D>("StartPosition");
 		GetNode<Player>("Player").Position = startPosition.Position;
 	}

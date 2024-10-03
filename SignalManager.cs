@@ -23,6 +23,9 @@ public partial class SignalManager : Node
 	[Signal]
 	public delegate void OnStairsEnteredEventHandler();
 
+	[Signal]
+	public delegate void NextLevelEventHandler();
+
 	public static SignalManager Instance {get; private set;}
 
 	public override void _Ready()

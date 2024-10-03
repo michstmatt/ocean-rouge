@@ -45,7 +45,11 @@ public partial class Hud : CanvasLayer
 		Coins = 0;
 		UpdateCoins(0);
 	}
-	
+
+	public void UpdateEnemeiesKilled(int enemies)
+	{
+		GetNode<Label>("EnemiesContainer/KilledLabel").Text = enemies.ToString();
+	}
 		
 	public void UpdateScore(int score)
 	{
