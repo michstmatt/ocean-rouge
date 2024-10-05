@@ -38,6 +38,8 @@ public partial class Player : CharacterBody2D, IKillable
 
 	private bool IsPaused = false;
 
+	public int raycastIndex = 0;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -109,6 +111,8 @@ public partial class Player : CharacterBody2D, IKillable
 		
 		Velocity = velocity;
 		MoveAndCollide(Velocity);
+
+		HandleRayCast();
 		//MoveAndSlide();
 	}
 
@@ -117,7 +121,23 @@ public partial class Player : CharacterBody2D, IKillable
 		base._Process(delta);
 		Animate(Velocity);
 	}
+	
+	public void HandleRayCast()
+	{
+		var raycast = GetNode<RayCast2D>("RayCast2D");
+		var rays = 36;
+		float angle = 0;
+		float distance = 1200;
 
+		angle = raycastIndex * (Mathf.Pi * 2.0f /rays);
+		raycast.TargetPosition = Vector2.FromAngle(angle) * distance;
+		if (raycast.IsColliding())
+		{
+			SignalManager.Instance.EmitSignal(SignalManager.SignalName.OnTileSeen, raycast.GetCollisionPoint());
+		}
+		raycastIndex += 1;
+		raycastIndex %= rays;
+	}
 	public void OnBodyEntered(Node2D body)
 	{
 		if (body is IDamager)
@@ -175,6 +195,5 @@ public partial class Player : CharacterBody2D, IKillable
 			this.Coins += (int)amount;
 		}
 	}
-
 
 }

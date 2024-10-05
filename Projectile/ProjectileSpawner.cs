@@ -80,35 +80,35 @@ public partial class ProjectileSpawner : Node
 		{
 			TotalTime = 0;
 		}
-		var (player, nearestEnemy) = GetInformation();
-		FireWeapons(player, nearestEnemy);
+		var (player, enemeies) = GetInformation();
+		FireWeapons(player,enemeies);
 	}
 
-	public (Player, Vector2) GetInformation()
+	public (Player, List<Vector2>) GetInformation()
 	{
 		var parent = GetParent<Player>();
-		Vector2 nearestEnemy = Vector2.Zero;
-		float nearest = float.MaxValue;
-		foreach (Node2D enemy in GetTree().GetNodesInGroup(Constants.MobGroup))
-		{
-			var distance = parent.Position.DistanceTo(enemy.Position);
-			if (distance < nearest)
+		var sorted = GetTree().GetNodesInGroup(Constants.MobGroup)
+			.Select(n => 
 			{
-				nearest = distance;
-				nearestEnemy = enemy.Position;
-			}
-		}
+				var enemyPos = (n as Node2D).Position;
+				var distance = parent.Position.DistanceTo(enemyPos);
+				return (enemyPos, distance);
+			})
+			.OrderBy(item => item.distance)
+			.Select(item => item.enemyPos);
+			
 
-		return (parent, nearestEnemy);
+		return (parent, sorted.ToList());
 	}
 
-	public void FireWeapons(Player player, Vector2 nearestEnemy)
+	public void FireWeapons(Player player, List<Vector2> nearestEnemies)
 	{
 		foreach (var weaponState in Weapons)
 		{
 			var currentState = weaponState.UpdateState(TotalTime);
 			if (currentState == WeaponFireState.Fire)
 			{
+				var nearestEnemy = nearestEnemies[weaponState.ProjectileCount];
 				// fire
 				FireWeapon(weaponState, player, nearestEnemy);
 			}

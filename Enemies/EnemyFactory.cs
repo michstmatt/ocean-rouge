@@ -15,19 +15,24 @@ public enum EnemyType
 
 public abstract class EnemyMetadata
 {
-	public string Scene {get; private set;}
-	public float Speed {get; private set;}
-	public float Damage {get; private set;}
-	public float Health {get; private set;}
-	public int MinSpawnLevel {get; private set;}
+	public string Scene {get; set;}
+	public float Speed {get; set;}
+	public float Damage {get; set;}
+	public float Health {get; set;}
+	public int MinSpawnLevel {get; set;}
 
-	public  EnemyMetadata(string scene, float speed, float damage, float health, int minSpawnLevel)
+	public EnemyMetadata(string scene, float speed, float damage, float health, int minSpawnLevel)
 	{
 		Scene = scene;
 		Speed = speed;
 		Damage = damage;
 		Health = health;
 		MinSpawnLevel = minSpawnLevel;
+	}
+
+	public EnemyMetadata Instantiate()
+	{
+		return (EnemyMetadata)this.MemberwiseClone();
 	}
 
 	public class Seahorse : EnemyMetadata

@@ -25,7 +25,6 @@ public partial class TrackingMobSpawner : Node
 	IEnumerable<Player> Players;
 	Timer SpawnTimer;
 
-
 	public override void _Ready()
 	{
 		base._Ready();
@@ -69,6 +68,7 @@ public partial class TrackingMobSpawner : Node
 	{
 		LevelData = LevelManager.Instance.GetCurrentLevel();
 		SpawnTimer.WaitTime = LevelData.EnemySpawnRate;
+		SpawnTimer.Start();
 		DeadEnemyCount = 0;
 		EnemyFactory.OnNextLevel(level);
 	}
@@ -102,7 +102,8 @@ public partial class TrackingMobSpawner : Node
 	{
 		if (DeadEnemyCount >= LevelData.NumEnemies)
 		{
-			return;
+			SignalManager.Instance.EmitSignal(SignalManager.SignalName.AllEnemiesDead);
+			SpawnTimer.Stop();
 		}
 
 		UpdateFrequency(time++);

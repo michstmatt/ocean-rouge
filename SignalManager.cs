@@ -26,6 +26,12 @@ public partial class SignalManager : Node
 	[Signal]
 	public delegate void NextLevelEventHandler(int currentLevel);
 
+	[Signal]
+	public delegate void OnTileSeenEventHandler(Vector2 pos);
+
+	[Signal]
+	public delegate void AllEnemiesDeadEventHandler();
+
 	public static SignalManager Instance {get; private set;}
 
 	public override void _Ready()

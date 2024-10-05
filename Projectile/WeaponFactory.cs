@@ -57,22 +57,22 @@ public abstract class WeaponMetadata
 
 	private void HandleLevelUp(WeaponLevelUp weaponLevelUp)
 	{
+		GD.Print($"Weapon Level Up {WeaponCount}");
 		switch (weaponLevelUp.Type)
 		{
 			case WeaponLevelUp.WeaponLevelUpType.AnotherProjectile:
 				this.WeaponCount++;
 				break;
 			case WeaponLevelUp.WeaponLevelUpType.CooldownReduction:
-				if (this.CoolDown > weaponLevelUp.Amount)
-					this.CoolDown -= weaponLevelUp.Amount;
+				this.CoolDown *= 1-weaponLevelUp.Amount;
 				break;
 			case WeaponLevelUp.WeaponLevelUpType.FireRateReduction:
-				if (this.FireRate > weaponLevelUp.Amount)
-					this.FireRate -= weaponLevelUp.Amount;
+				this.FireRate *= 1-weaponLevelUp.Amount;
 				break;
 			default:
 				return;
 		}
+		GD.Print($"Weapon Level Up {WeaponCount}");
 	}
 
 	public void LevelUp()
@@ -101,17 +101,17 @@ public abstract class WeaponMetadata
 			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-				Amount = 0.1f
+				Amount = 0.05f
 			},
 			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-				Amount = 0.1f
+				Amount = 0.05f
 			},
 			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-				Amount = 0.1f
+				Amount = 0.05f
 			},
 			new WeaponLevelUp()
 			{
@@ -175,7 +175,7 @@ public abstract class WeaponMetadata
 			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-				Amount = 0.1f
+				Amount = 0.05f
 			},
 			new WeaponLevelUp()
 			{
@@ -185,14 +185,15 @@ public abstract class WeaponMetadata
 			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-				Amount = 0.1f
+				Amount = 0.05f
 			},
 			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
 				Amount = 1
 			}
-			}
+			},
+			weaponCount: 2
 		)
 		{ }
 	}
@@ -215,7 +216,7 @@ public abstract class WeaponMetadata
 		new WeaponLevelUp()
 		{
 			Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-			Amount = 0.1f
+			Amount = 0.05f
 		},
 		new WeaponLevelUp()
 		{
@@ -241,7 +242,7 @@ public abstract class WeaponMetadata
 		new WeaponLevelUp()
 		{
 			Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-			Amount = 0.1f
+			Amount = 0.05f
 		},
 		new WeaponLevelUp()
 		{
@@ -251,12 +252,12 @@ public abstract class WeaponMetadata
 		new WeaponLevelUp()
 		{
 			Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-			Amount = 0.1f
+			Amount = 0.05f
 		},
 		new WeaponLevelUp()
 		{
 			Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-			Amount = 0.1f
+			Amount = 0.05f
 		},
 		new WeaponLevelUp()
 		{
@@ -336,6 +337,7 @@ public class WeaponLevelUp
 		AnotherProjectile,
 		CooldownReduction,
 		FireRateReduction,
+		DamageIncrease,
 		Noop
 	}
 	public WeaponLevelUpType Type;

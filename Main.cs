@@ -22,6 +22,8 @@ public partial class Main : Node
 
 		SignalManager.Instance.PauseGame += PauseGame;
 		SignalManager.Instance.OnStairsEntered += OnNextLevel;
+
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.NextLevel, 0);
 	}
 
 	public override void _Process(double delta)

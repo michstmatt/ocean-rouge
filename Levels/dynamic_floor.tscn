@@ -22,3 +22,4 @@ tile_set = ExtResource("1_2gn86")
 tile_set = ExtResource("1_2gn86")
 
 [node name="Stairs" parent="." instance=ExtResource("3_q5ic3")]
+position = Vector2(-1000, -1000)

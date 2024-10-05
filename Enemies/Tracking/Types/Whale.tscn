@@ -40,8 +40,6 @@ physics_material_override = ExtResource("1_x5t11")
 gravity_scale = 0.0
 script = ExtResource("1_fa02d")
 EnemyType = 1
-Health = 100.0
-Speed = 0.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(10, 10)

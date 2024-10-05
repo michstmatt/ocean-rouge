@@ -66,6 +66,7 @@ public partial class DynamicFloor : Node2D
 
 	public void Setup(int level)
 	{
+		GD.Print("here");
 		var levelState = LevelManager.Instance.GetCurrentLevel();
 		NumRooms = levelState.NumRooms;
 

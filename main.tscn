@@ -76,7 +76,7 @@ DynamicFloor = NodePath("../DynamicFloor")
 
 [node name="Pickup" parent="." instance=ExtResource("10_1yqo4")]
 position = Vector2(337, 120)
-Type = 1
+Type = 2
 
 [node name="Waves" parent="." instance=ExtResource("7_w1yry")]
 scale = Vector2(5, 5)

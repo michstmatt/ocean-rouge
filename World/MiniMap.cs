@@ -20,9 +20,13 @@ public partial class MiniMap : Control
 
 	public List<Player> Players;
 
+	public HashSet<Vector2I> SeenTiles = new HashSet<Vector2I>();
+
 	public override void _Ready()
 	{
 		base._Ready();
+		SignalManager.Instance.OnTileSeen += TileSeen;
+		SignalManager.Instance.NextLevel += (_) => SeenTiles.Clear();
 	}
 
 	public override void _Draw()
@@ -34,6 +38,13 @@ public partial class MiniMap : Control
 	public void Redraw()
 	{
 		QueueRedraw();
+	}
+
+	public void TileSeen(Vector2 position)
+	{
+		var tileLocation = Level.Floor.LocalToMap(position) / (int)Level.Scale.X;
+
+		SeenTiles.Add(tileLocation);
 	}
 
 	public void DrawMap()
@@ -55,7 +66,7 @@ public partial class MiniMap : Control
 		var offset = new Vector2(Math.Abs(minX), Math.Abs(minY)) * TileSize;
 
 		var pos = Vector2.Zero;
-		foreach (var cell in usedCells)
+		foreach (var cell in SeenTiles)
 		{
 			pos = offset + new Vector2(cell.X, cell.Y) * TileSize;
 			DrawRect(new Rect2(pos, new Vector2(TileSize, TileSize)), TileColor);
