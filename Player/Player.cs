@@ -134,7 +134,7 @@ public partial class Player : CharacterBody2D, IKillable
 				rb.OnHit(CollisionDamage);
 				MoveAndCollide( -EnemyBounce * oppDirectionToPlayer);
 			}
-		}
+		} 
 	}
 
 	public void DisableCollision(bool disabled = true)

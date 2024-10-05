@@ -21,24 +21,40 @@ public enum WeaponType
 
 public abstract class WeaponMetadata
 {
-	public float FireRate { get; set; }
-	public float CoolDown { get; set; }
-	public string WeaponScene { get; set; }
-	public int WeaponLevel { get; set; } = 0;
-	public int WeaponCount { get; set; } = 1;
-	public float DamageAmount { get; set; } = 1;
-	public float Speed {get; set;}
-	public int HitCount {get; set;} = 1;
+	public float FireRate { get; private set; }
+	public float CoolDown { get; private set; }
+	public string WeaponScene { get; private set; }
+	public int WeaponLevel { get; private set; }
+	public int WeaponCount { get; private set; }
+	public float DamageAmount { get; set; }
+	public float Speed { get; private set; }
+	public int HitCount { get; set; }
+	public WeaponFireType FireType { get; set; } = WeaponFireType.Direction;
+	public List<WeaponLevelUp> WeaponLevelUps { get; set; }
+
+	public WeaponMetadata(float fireRate, float coolDown, string weaponScene, float speed, float damageAmount, WeaponFireType fireType, WeaponLevelUp[] levelUps, int weaponLevel = 0, int weaponCount = 1, int hitCount = 1)
+	{
+		FireRate = fireRate;
+		CoolDown = coolDown;
+		WeaponScene = weaponScene;
+		Speed = speed;
+		FireType = fireType;
+		WeaponLevel = weaponLevel;
+		WeaponCount = weaponCount;
+		DamageAmount = damageAmount;
+		HitCount = hitCount;
+		WeaponLevelUps = new List<WeaponLevelUp>(){
+			new WeaponLevelUp(){ Type= WeaponLevelUp.WeaponLevelUpType.Noop}
+		};
+		WeaponLevelUps.AddRange(levelUps);
+	}
 
 	public WeaponMetadata Instantiate()
 	{
 		return this.MemberwiseClone() as WeaponMetadata;
 	}
 
-	public List<WeaponLevelUp> WeaponLevelUps { get; set; } = new List<WeaponLevelUp>()
-	{
-		new WeaponLevelUp(){ Type= WeaponLevelUp.WeaponLevelUpType.Noop}
-	};
+
 	private void HandleLevelUp(WeaponLevelUp weaponLevelUp)
 	{
 		switch (weaponLevelUp.Type)
@@ -73,162 +89,183 @@ public abstract class WeaponMetadata
 
 	public class Sonar : WeaponMetadata
 	{
-		public Sonar()
-		{
-			CoolDown = 2;
-			DamageAmount = 5;
-			Speed = 1;
-			HitCount = 10;
-			WeaponScene = "res://Projectile/Types/Sonar.tscn";
-			WeaponLevelUps.Add(new WeaponLevelUp()
+		public Sonar() : base(
+			fireRate: 5,
+			coolDown: 2,
+			weaponScene: "res://Projectile/Types/Sonar.tscn",
+			speed: 1,
+			damageAmount: 5,
+			fireType: WeaponFireType.Direction,
+			levelUps: new WeaponLevelUp[]
+			{
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
 				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
+			},
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
 				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
+			},
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
 				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
+			},
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
 				Amount = 1
-			});
-		}
+			}
+			},
+			hitCount: 10
+		)
+		{ }
+
 	}
 
 	public class Anchor : WeaponMetadata
 	{
-		public Anchor()
+		public Anchor() : base
+		(
+			fireRate: 1,
+			coolDown: 4,
+			weaponScene: "res://Projectile/Types/Anchor.tscn",
+			speed: 800,
+			damageAmount: 5,
+			fireType: WeaponFireType.Direction,
+			levelUps: new WeaponLevelUp[]{
+		new WeaponLevelUp()
 		{
-			CoolDown = 4;
-			DamageAmount = 5;
-			HitCount = int.MaxValue;
-			Speed = 800;
-			WeaponScene = "res://Projectile/Types/Anchor.tscn";
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
-				Amount = 1
-			});
+			Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+			Amount = 1
 		}
+			}
+		)
+		{ }
 	}
 
 	public class Seashell : WeaponMetadata
 	{
-		public Seashell()
-		{
-			CoolDown = 4;
-			DamageAmount = 5;
-			Speed = 600;
-			WeaponScene = "res://Projectile/Types/Seashell.tscn";
-			WeaponCount = 2;
-			FireRate = 0.1f;
-			WeaponLevelUps.Add(new WeaponLevelUp()
+		public Seashell() : base(
+			fireRate: 0.1f,
+			coolDown: 4,
+			weaponScene: "res://Projectile/Types/Seashell.tscn",
+			speed: 600,
+			damageAmount: 5,
+			fireType: WeaponFireType.PlayerMovement,
+			levelUps: new WeaponLevelUp[]
+			{
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
 				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
+			},
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
 				Amount = 1
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
+			},
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
 				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
+			},
+			new WeaponLevelUp()
 			{
 				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
 				Amount = 1
-			});
-		}
+			}
+			}
+		)
+		{ }
 	}
 
 	public class Torpedo : WeaponMetadata
 	{
-		public Torpedo()
+		public Torpedo() : base(
+			fireRate: 1f,
+			coolDown: 6,
+			weaponScene: "res://Projectile/Types/Torpedo.tscn",
+			speed: 600,
+			damageAmount: 10,
+			fireType: WeaponFireType.Enemy,
+			levelUps: new WeaponLevelUp[]{
+		new WeaponLevelUp()
 		{
-			CoolDown = 6;
-			DamageAmount = 10;
-			Speed = 600;
-			WeaponScene = "res://Projectile/Types/Torpedo.tscn";
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
-				Amount = 1
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
-				Amount = 1
-			});
+			Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+			Amount = 1
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+			Amount = 1
 		}
+			}
+		)
+		{ }
 	}
 
 	public class Trident : WeaponMetadata
 	{
-		public Trident()
+		public Trident() : base
+		(
+			fireRate: 1f,
+			coolDown: 6,
+			weaponScene: "res://Projectile/Types/Trident.tscn",
+			speed: 550,
+			damageAmount: 5,
+			fireType: WeaponFireType.Enemy,
+			levelUps: new WeaponLevelUp[] {
+		new WeaponLevelUp()
 		{
-			CoolDown = 6;
-			DamageAmount = 5;
-			Speed = 550;
-			HitCount = 10;
-			WeaponScene = "res://Projectile/Types/Trident.tscn";
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
-				Amount = 1
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
-				Amount = 0.1f
-			});
-			WeaponLevelUps.Add(new WeaponLevelUp()
-			{
-				Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
-				Amount = 1
-			});
+			Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+			Amount = 1
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.CooldownReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.FireRateReduction,
+			Amount = 0.1f
+		},
+		new WeaponLevelUp()
+		{
+			Type = WeaponLevelUp.WeaponLevelUpType.AnotherProjectile,
+			Amount = 1
 		}
+			}
+		)
+		{ }
 	}
 }
 

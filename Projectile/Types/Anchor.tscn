@@ -31,7 +31,6 @@ mass = 10000.0
 gravity_scale = 0.0
 script = ExtResource("1_ixnne")
 WeaponType = 2
-WeaponFireType = 2
 Direction = Vector2(0, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -30,9 +30,10 @@ public partial class TrackingMobSpawner : Node
 	{
 		base._Ready();
 		MobScenes = new Dictionary<EnemyType, PackedScene>();
+		EnemyFactory.Reinit();
 		foreach (EnemyType type in EnemyFactory.EnemyTypes)
 		{
-			var scene = EnemyFactory.GetEnemyScene(type);
+			var scene = EnemyFactory.GetEnemyMetadata(type).Scene;
 			MobScenes.Add(type, (PackedScene)ResourceLoader.Load(scene));
 		}
 		SpawnTimer = GetNode<Timer>("SpawnTimer");
@@ -61,13 +62,15 @@ public partial class TrackingMobSpawner : Node
 		velocity = 100f;
 		SpawnTimer.WaitTime = 1;
 		DeadEnemyCount = 0;
+		EnemyFactory.Reinit();
 	}
 
-	void NextLevel()
+	void NextLevel(int level)
 	{
 		LevelData = LevelManager.Instance.GetCurrentLevel();
 		SpawnTimer.WaitTime = LevelData.EnemySpawnRate;
 		DeadEnemyCount = 0;
+		EnemyFactory.OnNextLevel(level);
 	}
 
 	public void UpdateTimer(bool start)

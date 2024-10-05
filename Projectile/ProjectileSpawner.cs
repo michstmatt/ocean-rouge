@@ -125,11 +125,13 @@ public partial class ProjectileSpawner : Node
 
 		projectile.Position = parent.Position + new Vector2(50 * GD.Randf() - 25, 50 * GD.Randf() - 25);
 
-		if (projectile.WeaponFireType == WeaponFireType.PlayerMovement)
+		var metadata = WeaponFactory.WeaponsMetadata[projectile.WeaponType];
+
+		if (metadata.FireType == WeaponFireType.PlayerMovement)
 		{
 			projectile.Direction = parent.LastMove;
 		}
-		else if (projectile.WeaponFireType == WeaponFireType.Enemy)
+		else if (metadata.FireType == WeaponFireType.Enemy)
 		{
 			projectile.Direction = (nearestEnemy - projectile.Position);
 		}

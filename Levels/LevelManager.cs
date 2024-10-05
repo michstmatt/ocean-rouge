@@ -28,7 +28,6 @@ public partial class LevelManager : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		GD.Print("HERE");
 		LevelManager.Instance = this;
 		Init();
 	}
@@ -68,7 +67,7 @@ public partial class LevelManager : Node
 	public void OnNextLevel()
 	{
 		CurrentLevel++;
-		SignalManager.Instance.EmitSignal(SignalManager.SignalName.NextLevel);
+		SignalManager.Instance.EmitSignal(SignalManager.SignalName.NextLevel, CurrentLevel);
 	}
 	public LevelState GetCurrentLevel()
 	{

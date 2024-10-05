@@ -25,9 +25,9 @@ public partial class PickupSpawner : Node
 			SpawnRandomPickup(pos);
 		};
 
-		SignalManager.Instance.NextLevel += () =>
+		SignalManager.Instance.NextLevel += (_) =>
 		{
-			GetTree().CallGroup(Constants.PickupGroup, "QueueFree");
+			Init();
 		};
 	}
 

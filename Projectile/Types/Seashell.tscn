@@ -212,8 +212,6 @@ gravity_scale = 0.0
 script = ExtResource("1_mnoyp")
 RotationSpeed = 10.0
 WeaponType = 3
-HitCount = 1
-Speed = 600.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)

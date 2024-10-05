@@ -64,7 +64,7 @@ public partial class DynamicFloor : Node2D
 		SignalManager.Instance.NextLevel += Setup;
 	}
 
-	public void Setup()
+	public void Setup(int level)
 	{
 		var levelState = LevelManager.Instance.GetCurrentLevel();
 		NumRooms = levelState.NumRooms;

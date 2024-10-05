@@ -39,6 +39,7 @@ collision_mask = 10
 physics_material_override = ExtResource("1_hq8wm")
 gravity_scale = 0.0
 script = ExtResource("1_olh06")
+EnemyType = 2
 Speed = 2.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,13 +1,11 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Projectile : RigidBody2D, IDamager
 {
 	[Export]
 	public WeaponType WeaponType;
-
-	[Export]
-	public WeaponFireType WeaponFireType;
 
 	public WeaponMetadata Metadata;
 
@@ -19,11 +17,15 @@ public partial class Projectile : RigidBody2D, IDamager
 	protected bool ShouldDelete = false;
 
 	public float GetDamageAmount() => Metadata.DamageAmount;
+
+	public Projectile()
+	{
+ 		Metadata = WeaponFactory.GetWeaponMetadata(WeaponType).Instantiate();
+	}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		base._Ready();
-		Metadata = WeaponFactory.GetWeaponMetadata(WeaponType).Instantiate();
 
 		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		PlaySprite();

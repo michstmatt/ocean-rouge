@@ -46,6 +46,10 @@ public partial class MiniMap : Control
 		}
 
 		var usedCells = Level.Floor.GetUsedCellsById(Level.WallAtlasIndices[0]);
+		if (usedCells.Count == 0)
+		{
+			return;
+		}
 		var minX = usedCells.Select(v => v.X).Min();
 		var minY = usedCells.Select(v => v.Y).Min();
 		var offset = new Vector2(Math.Abs(minX), Math.Abs(minY)) * TileSize;
